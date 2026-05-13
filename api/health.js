@@ -37,5 +37,6 @@ export async function GET() {
       storage: 'vercel-blob',
       error: error?.message || 'Erro interno.',
     }, 500);
+    
   }
 }
