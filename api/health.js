@@ -1,7 +1,7 @@
 import { list } from '@vercel/blob';
 
 const STATE_PATH = process.env.FUT_STATE_PATH || 'fut-manager/state.json';
-const BLOB_ACCESS = process.env.FUT_BLOB_ACCESS || process.env.BLOB_ACCESS || 'public';
+const BLOB_ACCESS = process.env.FUT_BLOB_ACCESS || process.env.BLOB_ACCESS || 'private';
 
 function json(body, status = 200) {
   return Response.json(body, {
