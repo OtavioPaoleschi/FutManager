@@ -1208,9 +1208,10 @@
 
       document.addEventListener("DOMContentLoaded", iniciarApp);
 
-      function iniciarApp() {
+      async function iniciarApp() {
         gerarCardsTimes();
-        carregarLocalStorage();
+        await carregarCloudStorage();
+        if (!state.__cloudLoaded) carregarLocalStorage();
         preencherCamposIniciais();
         conectarEventos();
         renderizarTudo();
@@ -2738,9 +2739,73 @@
 
       function atualizarStatusLocal() {
         const totalAvaliacoes = state.avaliacoes.length;
+        const origem = state.__cloudLoaded ? " • banco online" : " • cache local";
         byId("statusLocal").textContent = state.historico.length || totalAvaliacoes
-          ? `${state.historico.length} linha(s) de jogo • ${totalAvaliacoes} avaliação(ões)`
-          : "Banco vazio";
+          ? `${state.historico.length} linha(s) de jogo • ${totalAvaliacoes} avaliação(ões)${origem}`
+          : `Banco vazio${origem}`;
+      }
+
+      function criarSnapshotPersistencia() {
+        state.config = {
+          data: byId("dataJogo")?.value || state.config.data || "",
+          nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+        };
+
+        return {
+          historico: state.historico,
+          avaliacoes: state.avaliacoes,
+          jogadores: getJogadoresBancoOrdenados(),
+          escalacao: state.escalacao,
+          timesAtivos: state.timesAtivos,
+          golsDaPartida: state.golsDaPartida,
+          avaliacaoRascunho: state.avaliacaoRascunho,
+          config: state.config
+        };
+      }
+
+      async function carregarCloudStorage() {
+        try {
+          const resposta = await fetch("/api/state", {
+            method: "GET",
+            headers: { "Accept": "application/json" },
+            cache: "no-store"
+          });
+
+          if (resposta.status === 404) return;
+          if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+
+          const payload = await resposta.json();
+          if (!payload || !payload.data) return;
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
+          carregarLocalStorage();
+          state.__cloudLoaded = true;
+        } catch (erro) {
+          console.warn("Banco online indisponível; usando cache local.", erro);
+        }
+      }
+
+      let salvarCloudStorageTimer = null;
+
+      function salvarCloudStorageDebounced() {
+        window.clearTimeout(salvarCloudStorageTimer);
+        salvarCloudStorageTimer = window.setTimeout(salvarCloudStorageAgora, 900);
+      }
+
+      async function salvarCloudStorageAgora() {
+        try {
+          const resposta = await fetch("/api/state", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data: criarSnapshotPersistencia() })
+          });
+
+          if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+          state.__cloudLoaded = true;
+          atualizarStatusLocal();
+        } catch (erro) {
+          console.warn("Falha ao sincronizar com banco online; os dados continuam no cache local.", erro);
+        }
       }
 
       function carregarLocalStorage() {
@@ -2869,16 +2934,8 @@
             nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
           };
 
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            historico: state.historico,
-            avaliacoes: state.avaliacoes,
-            jogadores: getJogadoresBancoOrdenados(),
-            escalacao: state.escalacao,
-            timesAtivos: state.timesAtivos,
-            golsDaPartida: state.golsDaPartida,
-            avaliacaoRascunho: state.avaliacaoRascunho,
-            config: state.config
-          }));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          salvarCloudStorageDebounced();
           atualizarStatusLocal();
         } catch (erro) {
           console.warn("Falha ao salvar no navegador", erro);

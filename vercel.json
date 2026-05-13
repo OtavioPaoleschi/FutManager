@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/state.js": {
+      "maxDuration": 10
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    }
+  }
+}
