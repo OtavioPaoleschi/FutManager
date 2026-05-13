@@ -2,7 +2,7 @@ import { get, put } from '@vercel/blob';
 
 const MAX_BODY_BYTES = Number(process.env.MAX_STATE_BYTES || 5 * 1024 * 1024);
 const STATE_PATH = process.env.FUT_STATE_PATH || 'fut-manager/state.json';
-const BLOB_ACCESS = process.env.FUT_BLOB_ACCESS || process.env.BLOB_ACCESS || 'public';
+const BLOB_ACCESS = process.env.FUT_BLOB_ACCESS || process.env.BLOB_ACCESS || 'private';
 
 function json(body, status = 200) {
   return Response.json(body, {
