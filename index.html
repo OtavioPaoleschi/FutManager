@@ -1824,12 +1824,12 @@
             nome.value = nomePadraoFutPorData(byId("dataJogo").value);
             nome.dataset.auto = "true";
           }
-          salvarLocalStorage();
+          salvarLocalSomente();
         });
 
         byId("nomeFutDia").addEventListener("input", () => {
           byId("nomeFutDia").dataset.auto = "false";
-          salvarLocalStorage();
+          salvarLocalSomente();
         });
 
         TEAM_IDS.forEach((id) => {
@@ -1877,7 +1877,7 @@
         });
 
         ["gols1","gols2","tempo"].forEach((id) => {
-          byId(id).addEventListener("input", () => { salvarLocalStorage(); });
+          byId(id).addEventListener("input", () => { salvarLocalSomente(); });
         });
 
         byId("timeGol").addEventListener("change", atualizarSeletoresGol);
@@ -1986,7 +1986,7 @@
             jogadores: getJogadoresTimeFormulario(id)
           };
         });
-        salvarLocalStorage();
+        salvarLocalSomente();
       }
 
       function cadastrarNovoJogador() {
@@ -2005,7 +2005,7 @@
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
         atualizarResumoTopo();
-        salvarLocalStorage();
+        salvarComCloud();
         mostrarToast(`${nome} entrou no banco de jogadores.`);
       }
 
@@ -2061,7 +2061,7 @@
 
         byId("editNameModal").hidden = true;
         renderizarTudo();
-        salvarLocalStorage();
+        salvarComCloud();
         mostrarToast(`Nome alterado para "${nomeNovo}".`);
       }
 
@@ -2075,6 +2075,7 @@
           ta.value = ta.value.split(/\r?\n/).filter((l) => !mesmoNome(l, jogador)).join("\n");
         });
         salvarRascunhoEscalacao();
+        salvarComCloud();
         renderizarTudo();
         mostrarToast(`${jogador} removido do cadastro.`);
       }
@@ -2096,7 +2097,6 @@
         renderizarChipsDosTimes();
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
-        salvarLocalStorage();
         mostrarToast(`${jogadorBanco} adicionado ao ${getNomeTimeFormulario(id)}.`);
       }
 
@@ -2108,7 +2108,6 @@
         renderizarChipsDosTimes();
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
-        salvarLocalStorage();
       }
 
       function confirmarEscalacaoDaNoite() {
@@ -2126,7 +2125,7 @@
         state.escalacao = escalacao;
         state.timesAtivos = ativos;
         renderizarTudo();
-        salvarLocalStorage();
+        salvarComCloud();
         if (ativos.length < 2) { mostrarToast("Preencha pelo menos 2 times para anotar um jogo.", "warn"); return; }
         mostrarToast("Escalação travada. Os times já aparecem no jogo.");
         ativarAba("jogo");
@@ -2144,7 +2143,7 @@
         byId("gols1").value = 0;
         byId("gols2").value = 0;
         renderizarTudo();
-        salvarLocalStorage();
+        salvarComCloud();
         mostrarToast("Escalações limpas.");
       }
 
@@ -2254,7 +2253,7 @@
         if (isAssistenciaValida(assist)) state.jogadores.add(assist);
         if (time === byId("time1").value) byId("gols1").value = Math.max(0, parseInt(byId("gols1").value,10)||0)+1;
         else if (time === byId("time2").value) byId("gols2").value = Math.max(0, parseInt(byId("gols2").value,10)||0)+1;
-        renderizarJogadores(); renderizarBancoNosTimes(); renderizarGolsPartida(); atualizarResumoTopo(); salvarLocalStorage();
+        renderizarJogadores(); renderizarBancoNosTimes(); renderizarGolsPartida(); atualizarResumoTopo(); salvarLocalSomente();
         mostrarToast("Gol adicionado ao jogo atual.");
       }
 
@@ -2262,7 +2261,7 @@
         if (!state.golsDaPartida.length) { mostrarToast("Nenhum gol para desfazer.", "warn"); return; }
         const r = state.golsDaPartida.pop();
         ajustarPlacarPorGolRemovido(r);
-        renderizarGolsPartida(); salvarLocalStorage();
+        renderizarGolsPartida(); salvarLocalSomente();
         mostrarToast("Último gol removido.");
       }
 
@@ -2275,7 +2274,7 @@
         if (i < 0 || i >= state.golsDaPartida.length) return;
         const [r] = state.golsDaPartida.splice(i,1);
         ajustarPlacarPorGolRemovido(r);
-        renderizarGolsPartida(); salvarLocalStorage();
+        renderizarGolsPartida(); salvarLocalSomente();
       }
 
       function notaValida(nota, permitirVazio = false) {
@@ -2307,7 +2306,7 @@
         gols.forEach((g) => { state.historico.push({ ...base, timeGol: g.time||"", gol: normalizarNome(g.autor)||"Nenhum", assist: normalizarNome(g.assist)||"Nenhum" }); });
         state.golsDaPartida = []; state.avaliacaoRascunho = {};
         byId("gols1").value = 0; byId("gols2").value = 0;
-        renderizarTudo(); salvarLocalStorage();
+        renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo salvo! Veja os stats na aba Stats.");
         ativarAba("stats");
       }
@@ -2331,7 +2330,7 @@
             avs.forEach((a) => { state.avaliacoes.push(a); if (a.jogador) state.jogadores.add(a.jogador); });
             byId("statusImportacao").textContent = `${linhas.length} linha(s) de jogo e ${avs.length} avaliação(ões) importadas de ${arquivo.name}.`;
             e.target.value = "";
-            renderizarTudo(); salvarLocalStorage();
+            renderizarTudo(); salvarComCloud();
             mostrarToast("Histórico importado e mesclado com sucesso.");
           } catch (err) {
             console.error(err);
@@ -2727,7 +2726,7 @@
         state.notasJogadores[chave] = { marcacao:m, passes:p, stamina:s };
         const temNotas = NOTAS.includes(m)||NOTAS.includes(p)||NOTAS.includes(s);
         row.classList.toggle("has-notes", temNotas);
-        salvarLocalStorage();
+        salvarComCloud();
         renderizarTabelaOverall(obterHistoricoFiltrado());
         mostrarToast("Notas salvas. Overall atualizado.");
       }
@@ -2945,7 +2944,7 @@
           if (chaveNome(a.time) === chaveNome(t1)) a.nomeTime = nF1;
           if (chaveNome(a.time) === chaveNome(t2)) a.nomeTime = nF2;
         });
-        fecharEditorJogo(); atualizarFiltrosData(); renderizarTudo(); salvarLocalStorage();
+        fecharEditorJogo(); atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo editado com sucesso.");
       }
 
@@ -2955,7 +2954,7 @@
         if (!confirm(`Apagar o jogo ${partida.nFantasia1} ${partida.g1} × ${partida.g2} ${partida.nFantasia2}? As avaliações desse jogo também serão removidas.`)) return;
         state.historico = state.historico.filter((l) => getIdLinha(l) !== idPartida);
         state.avaliacoes = state.avaliacoes.filter((a) => a.idPartida !== idPartida);
-        atualizarFiltrosData(); renderizarTudo(); salvarLocalStorage();
+        atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo apagado.");
       }
 
@@ -3015,7 +3014,7 @@
       let salvarCloudTimer = null;
       function salvarCloudStorageDebounced() {
         window.clearTimeout(salvarCloudTimer);
-        salvarCloudTimer = window.setTimeout(salvarCloudStorageAgora, 900);
+        salvarCloudTimer = window.setTimeout(salvarCloudStorageAgora, 15000);
       }
 
       async function salvarCloudStorageAgora() {
@@ -3110,6 +3109,35 @@
           localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
           salvarCloudStorageDebounced();
           atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva só no localStorage (sem acionar cloud) — para rascunhos/digitação
+      function salvarLocalSomente() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva localStorage + dispara cloud imediatamente — para ações críticas
+      function salvarComCloud() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+          salvarCloudStorageAgora();
         } catch (err) {
           console.warn("Falha ao salvar no navegador", err);
         }
