@@ -501,6 +501,86 @@
       white-space: nowrap;
     }
 
+    /* Seção de chips de jogadores escalados — destaque no topo do card */
+    .team-players-preview {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(54, 209, 107, 0.22);
+      border-radius: 16px;
+      background: rgba(54, 209, 107, 0.06);
+      min-height: 48px;
+    }
+
+    .team-players-preview-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .team-players-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      color: #06130b;
+      background: var(--green);
+      font-size: 0.72rem;
+      font-weight: 1000;
+    }
+
+    /* Accordion para o banco */
+    .bank-box-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid rgba(54, 209, 107, 0.16);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(54, 209, 107, 0.04);
+      box-shadow: none;
+      font-size: 0.84rem;
+      font-weight: 950;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .bank-box-toggle:hover,
+    .bank-box-toggle:focus-visible {
+      background: rgba(54, 209, 107, 0.10);
+    }
+
+    .bank-box-toggle-icon {
+      transition: transform 0.2s ease;
+      font-style: normal;
+    }
+
+    .bank-box[data-open="true"] .bank-box-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .bank-box-body {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .bank-box[data-open="true"] .bank-box-body {
+      display: grid;
+      gap: 8px;
+    }
+
 
 
     .bank-results {
@@ -1009,6 +1089,59 @@
       border-color: rgba(54, 209, 107, 0.24);
     }
 
+    /* Novo painel de notas por jogador */
+    .player-ratings-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .player-rating-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) repeat(3, 68px) 72px;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      transition: border-color 0.15s ease;
+    }
+
+    .player-rating-row.has-notes {
+      border-color: rgba(54, 209, 107, 0.22);
+      background: rgba(54, 209, 107, 0.04);
+    }
+
+    .player-rating-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .player-rating-select {
+      min-height: 40px;
+      padding: 6px 8px;
+      border-radius: 12px;
+      font-weight: 950;
+      text-align: center;
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 560px) {
+      .player-rating-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .player-rating-name {
+        grid-column: 1 / -1;
+        font-size: 0.88rem;
+      }
+    }
+
     .rating-status {
       flex: 0 0 auto;
       color: #06130b;
@@ -1282,9 +1415,9 @@
             <div class="card-header">
               <div>
                 <h2 class="card-title">✅ Fechar jogo</h2>
-                <p class="card-subtitle">As avaliações de marcação, passes e stamina ficam na aba Stats depois que o jogo for salvo.</p>
+                <p class="card-subtitle">Salva o placar no histórico. As notas de marcação, passes e stamina ficam na aba Stats — você edita uma vez por jogador.</p>
               </div>
-              <span class="pill">Depois avalia</span>
+              <span class="pill">Stats →</span>
             </div>
             <button id="btnSalvarJogo" class="btn btn-full btn-large" type="button">✔️ Fechar e guardar jogo</button>
           </article>
@@ -1311,29 +1444,29 @@
           <article class="card accent-blue">
             <div class="card-header">
               <div>
-                <h2 class="card-title">📝 Avaliações de performance</h2>
-                <p class="card-subtitle">Depois de salvar um jogo, edite aqui as notas de marcação, passes e stamina. O overall recalcula na hora.</p>
+                <h2 class="card-title">📝 Notas dos jogadores</h2>
+                <p class="card-subtitle">Atribua marcação, passes e stamina uma vez por jogador. Atualize só quando a performance mudar de verdade.</p>
               </div>
               <span class="pill">S A B C D F</span>
             </div>
-            <div class="formula-box">Jogadores entram no Overall quando têm ao menos uma avaliação com nota. Campos vazios contam como C no cálculo até serem preenchidos.</div>
-            <div id="listaAvaliacoesStats" class="rating-list"></div>
+            <div class="formula-box">Notas são globais por jogador — não por jogo. O overall recalcula na hora. Campos em branco contam como C.</div>
+            <div id="listaNotasJogadores" class="player-ratings-grid"></div>
           </article>
 
           <article class="card accent-blue">
             <div class="card-header">
               <div>
                 <h2 class="card-title">⭐ Overall dos jogadores</h2>
-                <p class="card-subtitle">Calculado pela performance nos últimos 5 jogos em que o jogador foi avaliado.</p>
+                <p class="card-subtitle">Calculado pelas notas globais do jogador mais participação em gols no histórico.</p>
               </div>
             </div>
             <div class="formula-box">
-              Fórmula: 60% média das notas de marcação, passes e stamina + 30% participação direta em gols + 10% minutos jogados. As notas usam S=100, A=90, B=78, C=65, D=50 e F=30.
+              Fórmula: 70% média das notas (marcação, passes, stamina) + 30% participação em gols e assistências. Notas: S=100, A=90, B=78, C=65, D=50, F=30.
             </div>
             <div class="scroll-table">
               <table id="tabelaOverall">
                 <thead>
-                  <tr><th>#</th><th>Jogador</th><th>Overall</th><th>Jogos base</th><th>Gols</th><th>Assist.</th><th>Min.</th><th>Média notas</th></tr>
+                  <tr><th>#</th><th>Jogador</th><th>Overall</th><th>Jogos</th><th>Gols</th><th>Assist.</th><th>Média notas</th></tr>
                 </thead>
                 <tbody></tbody>
               </table>
@@ -1514,6 +1647,7 @@
         historico: [],
         avaliacoes: [],
         jogadores: new Set(),
+        notasJogadores: {},
         escalacao: criarEscalacaoVazia(),
         timesAtivos: [],
         golsDaPartida: [],
@@ -1558,17 +1692,29 @@
             <label for="nomeFantasia${id}">Nome fantasia</label>
             <input id="nomeFantasia${id}" type="text" value="Time ${id}" autocomplete="off" />
 
-            <div class="bank-box">
-              <label for="buscaBanco${id}">Consultar banco de jogadores</label>
-              <input id="buscaBanco${id}" type="search" placeholder="Buscar no banco..." autocomplete="off" />
-              <div id="sugestoesBanco${id}" class="bank-results" aria-label="Sugestões do banco para o Time ${id}"></div>
+            <div class="team-players-preview field-gap">
+              <div class="team-players-preview-label">
+                <span>Escalados</span>
+                <span id="chipsContador${id}" class="team-players-count">0</span>
+              </div>
+              <div id="chipsTime${id}" class="team-current-list" aria-label="Jogadores escalados no Time ${id}" style="max-height:none;border:none;background:none;padding:0;"></div>
+            </div>
+
+            <div id="bankBox${id}" class="bank-box field-gap" data-open="false">
+              <button class="bank-box-toggle" type="button" aria-expanded="false" aria-controls="bankBody${id}" data-bank-toggle="${id}">
+                <span>🔍 Buscar no banco de jogadores</span>
+                <i class="bank-box-toggle-icon">▾</i>
+              </button>
+              <div id="bankBody${id}" class="bank-box-body">
+                <input id="buscaBanco${id}" type="search" placeholder="Filtrar banco..." autocomplete="off" />
+                <div id="sugestoesBanco${id}" class="bank-results" aria-label="Sugestões do banco para o Time ${id}"></div>
+              </div>
             </div>
 
             <div class="field-gap">
-              <label for="esc${id}">Jogadores do time</label>
+              <label for="esc${id}">Ou digite um jogador por linha</label>
               <textarea id="esc${id}" placeholder="Um jogador por linha"></textarea>
             </div>
-            <div id="chipsTime${id}" class="team-current-list field-gap" aria-label="Jogadores escalados no Time ${id}"></div>
           </div>
         `).join("");
       }
@@ -1624,6 +1770,18 @@
 
         byId("btnConfirmarEscalacao").addEventListener("click", confirmarEscalacaoDaNoite);
         byId("btnLimparEscalacao").addEventListener("click", limparEscalacoes);
+
+        // Toggle do banco colapsável
+        $$("[data-bank-toggle]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.bankToggle;
+            const box = byId(`bankBox${id}`);
+            const aberto = box.dataset.open === "true";
+            box.dataset.open = aberto ? "false" : "true";
+            btn.setAttribute("aria-expanded", aberto ? "false" : "true");
+            if (!aberto) byId(`buscaBanco${id}`)?.focus();
+          });
+        });
 
         ["time1", "time2"].forEach((id) => {
           byId(id).addEventListener("change", () => {
@@ -2380,7 +2538,7 @@
 
         renderizarTudo();
         salvarLocalStorage();
-        mostrarToast("Jogo salvo. Agora você pode avaliar os jogadores na aba Stats.");
+        mostrarToast("Jogo salvo! Veja os stats na aba Stats.");
         ativarAba("stats");
       }
 
@@ -2763,10 +2921,13 @@
       function renderizarChipsDosTimes() {
         TEAM_IDS.forEach((id) => {
           const container = byId(`chipsTime${id}`);
+          const contador = byId(`chipsContador${id}`);
           const jogadores = getJogadoresTimeFormulario(id);
 
+          if (contador) contador.textContent = jogadores.length;
+
           if (!jogadores.length) {
-            container.innerHTML = '<div class="empty-state">Nenhum jogador neste time ainda.</div>';
+            container.innerHTML = '<div class="empty-state" style="min-height:36px;font-size:0.82rem;">Nenhum jogador neste time ainda.</div>';
             return;
           }
 
@@ -2894,7 +3055,7 @@
         const totalGols = partidas.reduce((soma, jogo) => soma + jogo.g1 + jogo.g2, 0);
         byId("statusFiltro").textContent = `${partidas.length} jogo${partidas.length === 1 ? "" : "s"} • ${totalGols} gol${totalGols === 1 ? "" : "s"}`;
 
-        renderizarEditorAvaliacoesStats();
+        renderizarNotasJogadores();
         renderizarTabelaOverall(linhas);
         renderizarTabelaJogadores(linhas);
         renderizarTabelaTimes(partidas);
@@ -2908,83 +3069,62 @@
       }
 
 
-      function renderizarEditorAvaliacoesStats() {
-        const container = byId("listaAvaliacoesStats");
+      function renderizarNotasJogadores() {
+        const container = byId("listaNotasJogadores");
         if (!container) return;
 
-        const filtro = byId("filtroData").value || "TODAS";
-        const avaliacoesComIndice = state.avaliacoes
-          .map((avaliacao, index) => ({ avaliacao, index }))
-          .filter(({ avaliacao }) => filtro === "TODAS" || `${avaliacao.data} | ${avaliacao.nomeFut || "Fut Regular"}` === filtro)
-          .reverse();
-
-        if (!avaliacoesComIndice.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum jogador para avaliar ainda. Salve um jogo primeiro.</div>';
+        const jogadores = getJogadoresBancoOrdenados();
+        if (!jogadores.length) {
+          container.innerHTML = '<div class="empty-state">Nenhum jogador cadastrado ainda. Cadastre na aba Setup.</div>';
           return;
         }
 
-        container.innerHTML = avaliacoesComIndice.map(({ avaliacao, index }) => {
-          const temStats = avaliacaoTemStats(avaliacao);
-          const status = temStats ? "Avaliado" : "Pendente";
-          const statusClass = temStats ? "done" : "";
+        // Cabeçalho
+        container.innerHTML = `
+          <div class="player-rating-row" style="background:transparent;border-color:transparent;font-size:0.72rem;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;padding:4px 12px;">
+            <span>Jogador</span>
+            <span style="text-align:center;">Marc.</span>
+            <span style="text-align:center;">Passes</span>
+            <span style="text-align:center;">Stam.</span>
+          </div>
+        ` + jogadores.map((jogador) => {
+          const chave = chaveNome(jogador);
+          const notas = state.notasJogadores[chave] || {};
+          const temNotas = NOTAS.includes(notas.marcacao) || NOTAS.includes(notas.passes) || NOTAS.includes(notas.stamina);
           return `
-            <div class="rating-card ${temStats ? "done" : "pending"}" data-saved-rating-index="${index}">
-              <div class="rating-player">
-                <div>
-                  <strong>${escaparHTML(avaliacao.jogador)}</strong>
-                  <div class="rating-meta">
-                    <span>${escaparHTML(formatarData(avaliacao.data))}</span>
-                    <span>•</span>
-                    <span>${escaparHTML(avaliacao.nomeFut || "Fut Regular")}</span>
-                    <span>•</span>
-                    <span>${escaparHTML(avaliacao.nomeTime || avaliacao.time || "Time")}</span>
-                  </div>
-                </div>
-                <span class="rating-status ${statusClass}">${status}</span>
-              </div>
-              <div class="rating-controls">
-                <div class="rating-control">
-                  <label>Marcação/interceptações</label>
-                  <select data-saved-rating-field="marcacao">${opcoesNotas(avaliacao.marcacao, true)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Passes bem executados</label>
-                  <select data-saved-rating-field="passes">${opcoesNotas(avaliacao.passes, true)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Stamina</label>
-                  <select data-saved-rating-field="stamina">${opcoesNotas(avaliacao.stamina, true)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Minutos jogados</label>
-                  <input type="number" min="0" inputmode="numeric" value="${Math.max(0, parseInt(avaliacao.tempo, 10) || 0)}" data-saved-rating-field="tempo" />
-                </div>
-              </div>
+            <div class="player-rating-row ${temNotas ? "has-notes" : ""}" data-player-rating-key="${escaparHTML(chave)}">
+              <span class="player-rating-name">👟 ${escaparHTML(jogador)}</span>
+              <select class="player-rating-select" data-nota-field="marcacao" aria-label="Marcação de ${escaparHTML(jogador)}">${opcoesNotas(notas.marcacao || "", true)}</select>
+              <select class="player-rating-select" data-nota-field="passes" aria-label="Passes de ${escaparHTML(jogador)}">${opcoesNotas(notas.passes || "", true)}</select>
+              <select class="player-rating-select" data-nota-field="stamina" aria-label="Stamina de ${escaparHTML(jogador)}">${opcoesNotas(notas.stamina || "", true)}</select>
             </div>
           `;
         }).join("");
 
-        container.querySelectorAll(".rating-card").forEach((card) => {
-          card.querySelectorAll("[data-saved-rating-field]").forEach((campo) => {
-            campo.addEventListener("change", () => atualizarAvaliacaoSalva(card));
+        container.querySelectorAll("[data-player-rating-key]").forEach((row) => {
+          row.querySelectorAll("[data-nota-field]").forEach((sel) => {
+            sel.addEventListener("change", () => salvarNotaJogador(row));
           });
         });
       }
 
-      function atualizarAvaliacaoSalva(card) {
-        const index = Number(card.dataset.savedRatingIndex);
-        const avaliacao = state.avaliacoes[index];
-        if (!avaliacao) return;
-
-        avaliacao.marcacao = notaValida(card.querySelector('[data-saved-rating-field="marcacao"]')?.value, true);
-        avaliacao.passes = notaValida(card.querySelector('[data-saved-rating-field="passes"]')?.value, true);
-        avaliacao.stamina = notaValida(card.querySelector('[data-saved-rating-field="stamina"]')?.value, true);
-        avaliacao.tempo = String(Math.max(0, parseInt(card.querySelector('[data-saved-rating-field="tempo"]')?.value, 10) || 0));
-        avaliacao.avaliado = avaliacaoTemStats(avaliacao);
-
+      function salvarNotaJogador(row) {
+        const chave = row.dataset.playerRatingKey;
+        if (!chave) return;
+        const marcacao = notaValida(row.querySelector('[data-nota-field="marcacao"]')?.value, true);
+        const passes = notaValida(row.querySelector('[data-nota-field="passes"]')?.value, true);
+        const stamina = notaValida(row.querySelector('[data-nota-field="stamina"]')?.value, true);
+        state.notasJogadores[chave] = { marcacao, passes, stamina };
+        const temNotas = NOTAS.includes(marcacao) || NOTAS.includes(passes) || NOTAS.includes(stamina);
+        row.classList.toggle("has-notes", temNotas);
         salvarLocalStorage();
-        renderizarPainelEstatistico();
-        mostrarToast("Avaliação atualizada. Overall recalculado.");
+        renderizarTabelaOverall(obterHistoricoFiltrado());
+        mostrarToast("Notas salvas. Overall atualizado.");
+      }
+
+      function getNotasJogador(nomeJogador) {
+        const chave = chaveNome(nomeJogador);
+        return state.notasJogadores[chave] || {};
       }
 
       function contarContribuicoesPorJogadorPartida(linhas) {
@@ -3005,80 +3145,60 @@
         return mapa;
       }
 
-      function calcularOverallJogo(avaliacao, contribuicoes) {
-        const marcacao = NOTA_VALORES[notaValida(avaliacao.marcacao)] || NOTA_VALORES.C;
-        const passes = NOTA_VALORES[notaValida(avaliacao.passes)] || NOTA_VALORES.C;
-        const stamina = NOTA_VALORES[notaValida(avaliacao.stamina)] || NOTA_VALORES.C;
+      function calcularOverallJogador(nomeJogador, linhas) {
+        const notas = getNotasJogador(nomeJogador);
+        const marcacao = NOTA_VALORES[notaValida(notas.marcacao)] || NOTA_VALORES.C;
+        const passes = NOTA_VALORES[notaValida(notas.passes)] || NOTA_VALORES.C;
+        const stamina = NOTA_VALORES[notaValida(notas.stamina)] || NOTA_VALORES.C;
         const mediaNotas = (marcacao + passes + stamina) / 3;
-        const gols = contribuicoes?.gols || 0;
-        const assist = contribuicoes?.assist || 0;
-        const contribuicao = Math.min(100, gols * 28 + assist * 18);
-        const tempoScore = Math.min(100, (Math.max(0, parseInt(avaliacao.tempo, 10) || 0) / 10) * 100);
-        const overall = Math.round(mediaNotas * 0.60 + contribuicao * 0.30 + tempoScore * 0.10);
-        return { overall, mediaNotas, gols, assist, minutos: Math.max(0, parseInt(avaliacao.tempo, 10) || 0) };
+
+        // contar gols e assists no histórico
+        const nomeChave = chaveNome(nomeJogador);
+        let gols = 0;
+        let assist = 0;
+        let partidasSet = new Set();
+        linhas.forEach((linha) => {
+          if (isGolValido(linha.gol) && chaveNome(linha.gol) === nomeChave) {
+            gols += 1;
+            if (linha.idPartida) partidasSet.add(linha.idPartida);
+          }
+          if (isAssistenciaValida(linha.assist) && chaveNome(linha.assist) === nomeChave) {
+            assist += 1;
+            if (linha.idPartida) partidasSet.add(linha.idPartida);
+          }
+        });
+        const contribuicao = Math.min(100, gols * 12 + assist * 8);
+        const jogos = partidasSet.size;
+        const overall = Math.round(mediaNotas * 0.70 + contribuicao * 0.30);
+        return { overall, mediaNotas: Math.round(mediaNotas), gols, assist, jogos };
       }
 
       function renderizarTabelaOverall(linhas) {
         const tbody = byId("tabelaOverall")?.querySelector("tbody");
         if (!tbody) return;
 
-        const avaliacoes = obterAvaliacoesFiltradasPorFiltro().filter(avaliacaoTemStats);
-        if (!avaliacoes.length) {
-          tbody.innerHTML = '<tr><td class="empty-table" colspan="8">Nenhuma avaliação com nota ainda. Edite marcação, passes ou stamina na seção acima.</td></tr>';
+        const jogadores = getJogadoresBancoOrdenados();
+        if (!jogadores.length) {
+          tbody.innerHTML = '<tr><td class="empty-table" colspan="7">Nenhum jogador cadastrado ainda.</td></tr>';
           return;
         }
 
-        const contribs = contarContribuicoesPorJogadorPartida(linhas);
-        const porJogador = new Map();
-
-        avaliacoes.forEach((avaliacao, indice) => {
-          const nome = normalizarNome(avaliacao.jogador);
-          if (!nome) return;
-          const idPartida = avaliacao.idPartida || `SEM-ID-${indice}`;
-          const c = contribs.get(`${idPartida}__${chaveNome(nome)}`) || { gols: 0, assist: 0 };
-          const score = calcularOverallJogo(avaliacao, c);
-          if (!porJogador.has(nome)) porJogador.set(nome, []);
-          porJogador.get(nome).push({ ...score, indice, idPartida });
-        });
-
-        const lista = Array.from(porJogador.entries()).map(([nome, jogos]) => {
-          const ultimos = jogos.slice(-5);
-          const soma = ultimos.reduce((acc, item) => {
-            acc.overall += item.overall;
-            acc.mediaNotas += item.mediaNotas;
-            acc.gols += item.gols;
-            acc.assist += item.assist;
-            acc.minutos += item.minutos;
-            return acc;
-          }, { overall: 0, mediaNotas: 0, gols: 0, assist: 0, minutos: 0 });
-          return {
-            nome,
-            jogosBase: ultimos.length,
-            overall: Math.round(soma.overall / ultimos.length),
-            mediaNotas: Math.round(soma.mediaNotas / ultimos.length),
-            gols: soma.gols,
-            assist: soma.assist,
-            minutos: soma.minutos
-          };
+        const lista = jogadores.map((nome) => {
+          const s = calcularOverallJogador(nome, linhas);
+          return { nome, ...s };
         }).sort((a, b) => b.overall - a.overall || b.gols - a.gols || b.assist - a.assist || a.nome.localeCompare(b.nome, "pt-BR"));
-
-        if (!lista.length) {
-          tbody.innerHTML = '<tr><td class="empty-table" colspan="8">Nenhuma avaliação válida neste filtro.</td></tr>';
-          return;
-        }
 
         const maxOverall = lista[0].overall;
         tbody.innerHTML = lista.map((item, index) => {
-          const lider = item.overall === maxOverall && maxOverall > 0 ? "leader" : "";
+          const lider = item.overall === maxOverall && maxOverall > 65 ? "leader" : "";
           return `
             <tr class="${lider}">
               <td><span class="rank-cell">${index + 1}</span></td>
               <td><strong>${escaparHTML(item.nome)}</strong></td>
               <td><span class="overall-score">${item.overall}</span></td>
-              <td>${item.jogosBase}/5</td>
+              <td>${item.jogos}</td>
               <td>${item.gols}</td>
               <td>${item.assist}</td>
-              <td>${item.minutos}</td>
               <td>${item.mediaNotas}</td>
             </tr>
           `;
@@ -3428,6 +3548,7 @@
           historico: state.historico,
           avaliacoes: state.avaliacoes,
           jogadores: getJogadoresBancoOrdenados(),
+          notasJogadores: state.notasJogadores,
           escalacao: state.escalacao,
           timesAtivos: state.timesAtivos,
           golsDaPartida: state.golsDaPartida,
@@ -3549,6 +3670,10 @@
               nomeFut: normalizarNome(salvo.config.nomeFut)
             };
           }
+
+          if (salvo.notasJogadores && typeof salvo.notasJogadores === "object") {
+            state.notasJogadores = salvo.notasJogadores;
+          }
         } catch (erro) {
           console.warn("Falha ao carregar dados locais", erro);
         }
@@ -3630,6 +3755,7 @@
         state.historico = [];
         state.avaliacoes = [];
         state.jogadores = new Set();
+        state.notasJogadores = {};
         state.escalacao = criarEscalacaoVazia();
         state.timesAtivos = [];
         state.golsDaPartida = [];
