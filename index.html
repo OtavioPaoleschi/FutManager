@@ -44,10 +44,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    button,
-    input,
-    select,
-    textarea { font: inherit; }
+    button, input, select, textarea { font: inherit; }
 
     button {
       min-height: var(--tap);
@@ -57,16 +54,12 @@
       touch-action: manipulation;
     }
 
-    button:disabled,
-    select:disabled,
-    input:disabled {
+    button:disabled, select:disabled, input:disabled {
       opacity: 0.55;
       cursor: not-allowed;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
       min-height: var(--tap);
       border: 1px solid var(--line-strong);
@@ -79,31 +72,16 @@
       transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: rgba(54, 209, 107, 0.78);
       box-shadow: 0 0 0 4px rgba(54, 209, 107, 0.13);
       background: rgba(255, 255, 255, 0.09);
     }
 
-    input[type="file"] {
-      padding: 12px;
-      color: var(--muted);
-    }
+    input[type="file"] { padding: 12px; color: var(--muted); }
 
-
-    select option,
-    select optgroup {
-      color: #f3fff6;
-      background: #101f17;
-    }
-
-    select option:checked,
-    select option:hover {
-      color: #06130b;
-      background: #36d16b;
-    }
+    select option, select optgroup { color: #f3fff6; background: #101f17; }
+    select option:checked, select option:hover { color: #06130b; background: #36d16b; }
 
     textarea {
       min-height: 122px;
@@ -256,6 +234,19 @@
       box-shadow: 0 12px 28px rgba(54, 209, 107, 0.26);
     }
 
+    .tab-btn.locked-tab {
+      position: relative;
+    }
+
+    .tab-btn.locked-tab::after {
+      content: "🔒";
+      font-size: 0.65rem;
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      opacity: 0.6;
+    }
+
     .screen { display: none; }
     .screen.active { display: block; }
 
@@ -284,6 +275,7 @@
     .card.accent-purple::before { background: var(--purple); }
     .card.accent-orange::before { background: var(--orange); }
     .card.accent-danger::before { background: var(--danger); }
+    .card.no-accent::before { display: none; }
 
     .card-header {
       display: flex;
@@ -327,8 +319,7 @@
       gap: 12px;
     }
 
-    .input-combo,
-    .bank-row {
+    .input-combo, .bank-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 10px;
@@ -392,8 +383,7 @@
       line-height: 1.45;
     }
 
-    .tags,
-    .team-current-list {
+    .tags, .team-current-list {
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
@@ -405,8 +395,7 @@
       background: rgba(0, 0, 0, 0.13);
     }
 
-    .badge,
-    .team-chip {
+    .badge, .team-chip {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -422,18 +411,16 @@
     }
 
     .badge.success { color: #041007; background: #7dff9d; }
+    .badge.assigned { color: #06130b; background: linear-gradient(135deg, #ffe0a8, var(--orange)); }
 
-    .badge-name,
-    .chip-name {
+    .badge-name, .chip-name {
       max-width: min(58vw, 260px);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .badge-remove,
-    .chip-remove,
-    .icon-button {
+    .badge-remove, .chip-remove, .icon-button {
       display: inline-grid;
       place-items: center;
       width: 34px;
@@ -445,6 +432,23 @@
       color: #ffecec;
       background: rgba(255, 107, 107, 0.22);
       font-size: 1rem;
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: none;
+    }
+
+    .badge-edit {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 999px;
+      color: #b3e2ff;
+      background: rgba(85, 183, 255, 0.18);
+      font-size: 0.8rem;
       font-weight: 1000;
       line-height: 1;
       box-shadow: none;
@@ -555,25 +559,14 @@
       transition: background 0.15s ease;
     }
 
-    .bank-box-toggle:hover,
-    .bank-box-toggle:focus-visible {
+    .bank-box-toggle:hover, .bank-box-toggle:focus-visible {
       background: rgba(54, 209, 107, 0.10);
     }
 
-    .bank-box-toggle-icon {
-      transition: transform 0.2s ease;
-      font-style: normal;
-    }
+    .bank-box-toggle-icon { transition: transform 0.2s ease; font-style: normal; }
+    .bank-box[data-open="true"] .bank-box-toggle-icon { transform: rotate(180deg); }
 
-    .bank-box[data-open="true"] .bank-box-toggle-icon {
-      transform: rotate(180deg);
-    }
-
-    .bank-box-body {
-      display: none;
-      margin-top: 10px;
-    }
-
+    .bank-box-body { display: none; margin-top: 10px; }
     .bank-box[data-open="true"] .bank-box-body {
       display: grid;
       gap: 8px;
@@ -602,8 +595,7 @@
       text-align: left;
     }
 
-    .bank-result:active,
-    .bank-result:hover {
+    .bank-result:active, .bank-result:hover {
       color: #06130b;
       background: linear-gradient(135deg, #7dff9d, var(--green));
     }
@@ -619,11 +611,7 @@
       line-height: 1.35;
     }
 
-    .rating-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 10px;
-    }
+    .rating-list { display: grid; gap: 10px; margin-top: 10px; }
 
     .rating-card {
       display: grid;
@@ -666,15 +654,9 @@
       gap: 8px;
     }
 
-    .rating-control label,
-    .mini-label {
-      margin-bottom: 5px;
-      font-size: 0.72rem;
-      line-height: 1.2;
-    }
+    .rating-control label, .mini-label { margin-bottom: 5px; font-size: 0.72rem; line-height: 1.2; }
 
-    .rating-control select,
-    .rating-control input {
+    .rating-control select, .rating-control input {
       min-height: 44px;
       padding: 8px 10px;
       border-radius: 14px;
@@ -741,18 +723,9 @@
       letter-spacing: -0.05em;
     }
 
-    .score-x {
-      padding-bottom: 24px;
-      color: var(--muted);
-      font-size: 1.6rem;
-      font-weight: 1000;
-    }
+    .score-x { padding-bottom: 24px; color: var(--muted); font-size: 1.6rem; font-weight: 1000; }
 
-    .goal-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
+    .goal-list { display: grid; gap: 8px; margin-top: 12px; }
 
     .goal-item {
       display: grid;
@@ -765,8 +738,7 @@
       background: rgba(255, 255, 255, 0.06);
     }
 
-    .goal-item strong,
-    .goal-item span {
+    .goal-item strong, .goal-item span {
       display: block;
       min-width: 0;
       overflow: hidden;
@@ -774,11 +746,7 @@
       white-space: nowrap;
     }
 
-    .goal-item span {
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
+    .goal-item span { margin-top: 3px; color: var(--muted); font-size: 0.84rem; }
 
     .empty-state {
       display: grid;
@@ -809,8 +777,7 @@
       font-size: 0.9rem;
     }
 
-    th,
-    td {
+    th, td {
       padding: 12px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       text-align: left;
@@ -829,8 +796,7 @@
       text-transform: uppercase;
     }
 
-    td:not(:first-child),
-    th:not(:first-child) { text-align: center; }
+    td:not(:first-child), th:not(:first-child) { text-align: center; }
 
     tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.035); }
     tbody tr:hover { background: rgba(54, 209, 107, 0.08); }
@@ -849,13 +815,7 @@
     }
 
     .leader .rank-cell { background: var(--orange); }
-
-    .empty-table {
-      padding: 18px !important;
-      color: var(--muted);
-      text-align: center !important;
-    }
-
+    .empty-table { padding: 18px !important; color: var(--muted); text-align: center !important; }
     .history-table { min-width: 760px; }
 
     .status-line {
@@ -878,10 +838,7 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateY(0); opacity: 1; }
 
     .toast-inner {
       padding: 14px 16px;
@@ -896,106 +853,6 @@
 
     .toast.error .toast-inner { background: #ffb0b0; }
     .toast.warn .toast-inner { background: #ffe0a8; }
-
-    /* ── Ranking cards mobile-friendly (artilharia + overall) ── */
-    .ranking-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .ranking-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.05);
-      min-width: 0;
-      transition: border-color 0.15s ease;
-    }
-
-    .ranking-row.leader {
-      border-color: rgba(54, 209, 107, 0.35);
-      background: rgba(54, 209, 107, 0.07);
-    }
-
-    .ranking-pos {
-      display: inline-grid;
-      place-items: center;
-      flex: 0 0 auto;
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      color: #07120d;
-      background: rgba(255, 255, 255, 0.82);
-      font-size: 0.78rem;
-      font-weight: 1000;
-    }
-
-    .leader .ranking-pos { background: var(--orange); }
-
-    .ranking-inner {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-
-    .ranking-name {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-weight: 900;
-      font-size: 0.94rem;
-      line-height: 1.2;
-    }
-
-    .ranking-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 5px;
-    }
-
-    .ranking-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.07);
-      font-size: 0.75rem;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .ranking-chip em {
-      font-style: normal;
-      color: var(--text);
-      font-weight: 1000;
-    }
-
-    .ranking-main-badge {
-      flex: 0 0 auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 48px;
-      height: 36px;
-      padding: 0 12px;
-      border-radius: 999px;
-      color: #06130b;
-      background: linear-gradient(135deg, #7dff9d, var(--green));
-      font-size: 0.9rem;
-      font-weight: 1000;
-      white-space: nowrap;
-    }
-
-    .ranking-row.leader .ranking-main-badge {
-      background: linear-gradient(135deg, #ffe0a8, var(--orange));
-    }
 
     .sr-only {
       position: absolute;
@@ -1024,6 +881,7 @@
       font-weight: 950;
     }
 
+    /* Login overlay */
     .login-overlay {
       position: fixed;
       inset: 0;
@@ -1048,23 +906,8 @@
       box-shadow: var(--shadow);
     }
 
-    .login-card h2 {
-      margin: 0 0 8px;
-      font-size: 1.55rem;
-      letter-spacing: -0.04em;
-    }
-
-    .login-card p {
-      margin: 0 0 16px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    body.locked .app-shell {
-      filter: blur(8px) saturate(0.85);
-      pointer-events: none;
-      user-select: none;
-    }
+    .login-card h2 { margin: 0 0 8px; font-size: 1.55rem; letter-spacing: -0.04em; }
+    .login-card p { margin: 0 0 16px; color: var(--muted); line-height: 1.45; }
 
     .auth-error {
       min-height: 22px;
@@ -1074,6 +917,7 @@
       line-height: 1.35;
     }
 
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1108,17 +952,8 @@
       margin-bottom: 14px;
     }
 
-    .modal-head h2 {
-      margin: 0;
-      font-size: 1.35rem;
-      letter-spacing: -0.03em;
-    }
-
-    .modal-head p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      line-height: 1.4;
-    }
+    .modal-head h2 { margin: 0; font-size: 1.35rem; letter-spacing: -0.03em; }
+    .modal-head p { margin: 5px 0 0; color: var(--muted); line-height: 1.4; }
 
     .modal-close {
       width: 42px;
@@ -1133,11 +968,32 @@
       font-weight: 1000;
     }
 
-    .edit-goals-list {
+    /* Edit name modal */
+    .edit-name-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 950;
       display: grid;
-      gap: 10px;
-      margin-top: 10px;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
     }
+
+    .edit-name-modal[hidden] { display: none; }
+
+    .edit-name-card {
+      width: min(400px, 100%);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      background: #0d1b13;
+      box-shadow: var(--shadow);
+    }
+
+    .edit-name-card h3 { margin: 0 0 14px; font-size: 1.2rem; letter-spacing: -0.03em; }
+
+    .edit-goals-list { display: grid; gap: 10px; margin-top: 10px; }
 
     .edit-goal-row {
       display: grid;
@@ -1169,25 +1025,9 @@
       font-weight: 950;
     }
 
-    .table-action.danger {
-      color: #ffe5e5;
-      background: rgba(255, 107, 107, 0.16);
-    }
+    .table-action.danger { color: #ffe5e5; background: rgba(255, 107, 107, 0.16); }
 
-    .rating-card.pending {
-      border-color: rgba(255, 184, 77, 0.28);
-      background: rgba(255, 184, 77, 0.06);
-    }
-
-    .rating-card.done {
-      border-color: rgba(54, 209, 107, 0.24);
-    }
-
-    .player-ratings-grid {
-      display: grid;
-      gap: 8px;
-      margin-top: 10px;
-    }
+    .player-ratings-grid { display: grid; gap: 8px; margin-top: 10px; }
 
     .player-rating-row {
       display: grid;
@@ -1229,10 +1069,48 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto auto;
       }
-      .player-rating-name {
-        grid-column: 1 / -1;
-        font-size: 0.88rem;
-      }
+      .player-rating-name { grid-column: 1 / -1; font-size: 0.88rem; }
+    }
+
+    /* Home screen — lineup cards */
+    .home-lineup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .home-team-card {
+      padding: 14px;
+      border: 1px solid rgba(54, 209, 107, 0.18);
+      border-radius: 20px;
+      background: rgba(54, 209, 107, 0.05);
+    }
+
+    .home-team-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      font-weight: 1000;
+    }
+
+    .home-team-name .team-letter { width: 30px; height: 30px; border-radius: 10px; font-size: 0.9rem; }
+
+    .home-player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .home-player-item {
+      padding: 6px 10px;
+      border-radius: 10px;
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      font-size: 0.84rem;
+      font-weight: 850;
     }
 
     .rating-status {
@@ -1246,7 +1124,6 @@
     }
 
     .rating-status.done { background: #7dff9d; }
-
     .rating-meta {
       display: flex;
       flex-wrap: wrap;
@@ -1259,26 +1136,35 @@
 
     .history-table { min-width: 920px; }
 
+    /* Auth wall */
+    .auth-wall {
+      display: grid;
+      place-items: center;
+      min-height: 300px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .auth-wall-card {
+      width: min(420px, 100%);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .auth-wall-card h2 { margin: 0 0 10px; font-size: 1.4rem; letter-spacing: -0.03em; }
+    .auth-wall-card p { margin: 0 0 18px; color: var(--muted); }
+
     @media (min-width: 720px) {
       .modal-backdrop { align-items: center; }
       .modal-card { padding: 20px; }
     }
 
     @media (max-width: 640px) {
-      .session-button {
-        position: relative;
-        right: auto;
-        top: auto;
-        margin-top: 12px;
-      }
-
-      .edit-goal-row {
-        grid-template-columns: 1fr;
-      }
-
-      .rating-controls {
-        grid-template-columns: 1fr 1fr;
-      }
+      .session-button { position: relative; right: auto; top: auto; margin-top: 12px; }
+      .edit-goal-row { grid-template-columns: 1fr; }
+      .rating-controls { grid-template-columns: 1fr 1fr; }
     }
 
     @media (min-width: 720px) {
@@ -1295,9 +1181,7 @@
 
     @media (max-width: 520px) {
       .app-shell { padding-inline: 10px; }
-      .input-combo,
-      .bank-row,
-      .rating-controls { grid-template-columns: 1fr 1fr; }
+      .input-combo, .bank-row, .rating-controls { grid-template-columns: 1fr 1fr; }
       .bank-add-button { width: 100%; }
       .card-header { flex-direction: column; align-items: flex-start; }
       .actions { grid-template-columns: 1fr; }
@@ -1311,15 +1195,35 @@
   </style>
 </head>
 <body>
-  <div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="loginTitulo">
+  <!-- Login overlay (for protected tabs) -->
+  <div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="loginTitulo" hidden>
     <form id="loginForm" class="login-card">
-      <h2 id="loginTitulo">🔐 Entrar no Fut Manager</h2>
-      <p>Digite a senha da pelada para liberar cadastro, lançamento e edição dos resultados nesta sessão.</p>
+      <h2 id="loginTitulo">🔐 Área restrita</h2>
+      <p>Digite a senha para acessar esta área.</p>
       <label for="loginSenha">Senha</label>
       <input id="loginSenha" type="password" autocomplete="current-password" placeholder="Senha da rodada" />
       <button class="btn btn-full btn-large" type="submit" style="margin-top: 12px;">Entrar</button>
+      <div style="margin-top: 10px;">
+        <button id="btnVoltarHome" class="btn btn-secondary btn-full" type="button">← Voltar para o início</button>
+      </div>
       <div id="loginErro" class="auth-error" aria-live="polite"></div>
     </form>
+  </div>
+
+  <!-- Edit player name modal -->
+  <div id="editNameModal" class="edit-name-modal" hidden>
+    <div class="edit-name-card">
+      <h3>✏️ Editar nome do jogador</h3>
+      <input id="editNameInput" type="hidden" data-old="" />
+      <div>
+        <label for="editNameValue">Novo nome</label>
+        <input id="editNameValue" type="text" autocomplete="off" />
+      </div>
+      <div class="actions" style="margin-top: 14px;">
+        <button id="btnSalvarEditNome" class="btn" type="button">💾 Salvar</button>
+        <button id="btnCancelarEditNome" class="btn btn-secondary" type="button">Cancelar</button>
+      </div>
+    </div>
   </div>
 
   <div id="appShell" class="app-shell">
@@ -1327,7 +1231,7 @@
       <div class="eyebrow">⚽ Controle rápido de quadra</div>
       <button id="btnLogout" class="session-button" type="button">🔒 Sair</button>
       <h1>Sistema do Fut</h1>
-      <p>Importe o histórico, monte os times da noite, registre gols em poucos toques e exporte tudo em CSV unificado.</p>
+      <p>Escalação da noite, estatísticas e gestão completa da pelada.</p>
       <div class="metric-grid" aria-label="Resumo geral">
         <div class="metric"><strong id="mTotalJogos">0</strong><span>Jogos salvos</span></div>
         <div class="metric"><strong id="mTotalGols">0</strong><span>Gols no histórico</span></div>
@@ -1336,15 +1240,162 @@
     </header>
 
     <nav class="tabbar" aria-label="Navegação principal">
-      <button class="tab-btn active" type="button" data-tab="setup">📥 Setup</button>
-      <button class="tab-btn" type="button" data-tab="times">👥 Times</button>
-      <button class="tab-btn" type="button" data-tab="jogo">⚽ Jogo</button>
-      <button class="tab-btn" type="button" data-tab="stats">📊 Stats</button>
-      <button class="tab-btn" type="button" data-tab="exportar">💾 CSV</button>
+      <!-- PUBLIC -->
+      <button class="tab-btn active" type="button" data-tab="home" data-public="true">🏠 Início</button>
+      <button class="tab-btn" type="button" data-tab="stats" data-public="true">📊 Stats</button>
+      <!-- PRIVATE -->
+      <button class="tab-btn locked-tab" type="button" data-tab="notas" data-public="false">⭐ Notas</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="setup" data-public="false">📥 Setup</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="times" data-public="false">👥 Times</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="jogo" data-public="false">⚽ Jogo</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="exportar" data-public="false">💾 CSV</button>
     </nav>
 
     <main>
-      <section id="tab-setup" class="screen active">
+      <!-- ===== HOME (PUBLIC) ===== -->
+      <section id="tab-home" class="screen active">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🌙 Escalação da noite</h2>
+                <p class="card-subtitle" id="homeFutInfo">Carregando informações do fut...</p>
+              </div>
+              <span id="homeTimesAtivos" class="pill">0 times</span>
+            </div>
+            <div id="homeLineupGrid" class="home-lineup-grid">
+              <div class="empty-state">Nenhuma escalação travada ainda para esta noite.</div>
+            </div>
+          </article>
+
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📊 Resumo rápido</h2>
+                <p class="card-subtitle">Artilharia e classificação do fut mais recente.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaJogadoresHome">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== STATS (PUBLIC) ===== -->
+      <section id="tab-stats" class="screen">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📊 Painel estatístico</h2>
+                <p class="card-subtitle">Tudo atualiza automaticamente após importar CSV ou salvar jogo.</p>
+              </div>
+            </div>
+            <label for="filtroData">Filtrar por data/fut</label>
+            <select id="filtroData"></select>
+            <div class="status-line">
+              <span id="statusFiltro" class="pill">0 jogos</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">⭐ Overall dos jogadores</h2>
+                <p class="card-subtitle">Calculado pelas notas globais + participação em gols no histórico.</p>
+              </div>
+            </div>
+            <div class="formula-box">
+              Fórmula: 70% média das notas (marcação, passes, stamina) + 30% participação em gols e assistências. Notas: S=100, A=90, B=78, C=65, D=50, F=30.
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaOverall">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Overall</th><th>Jogos</th><th>Gols</th><th>Assist.</th><th>Média notas</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🏆 Artilharia dos jogadores</h2>
+                <p class="card-subtitle">Linhas em destaque indicam o líder do ranking filtrado.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaJogadores">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th><th>Jogos</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🛡️ Classificação dos times</h2>
+                <p class="card-subtitle">Pontuação: vitória 3 pts, empate 1 pt.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaTimes">
+                <thead>
+                  <tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🕘 Histórico de jogos</h2>
+                <p class="card-subtitle">Rolagem horizontal ativa para leitura fácil no celular.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaHistorico" class="history-table">
+                <thead>
+                  <tr><th>Data</th><th>Fut</th><th>Placar</th><th>Tempo</th><th>Gols anotados</th><th>Ações</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== NOTAS (PRIVATE) ===== -->
+      <section id="tab-notas" class="screen">
+        <div class="stack">
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📝 Notas dos jogadores</h2>
+                <p class="card-subtitle">Atribua marcação, passes e stamina uma vez por jogador. Atualize só quando a performance mudar de verdade.</p>
+              </div>
+              <span class="pill">S A B C D F</span>
+            </div>
+            <div class="formula-box">Notas são globais por jogador — não por jogo. O overall recalcula na hora. Campos em branco contam como C.</div>
+            <div id="listaNotasJogadores" class="player-ratings-grid"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== SETUP (PRIVATE) ===== -->
+      <section id="tab-setup" class="screen">
         <div class="stack">
           <article class="card accent-blue">
             <div class="card-header">
@@ -1382,7 +1433,7 @@
             <div class="card-header">
               <div>
                 <h2 class="card-title">3. Banco de jogadores</h2>
-                <p class="card-subtitle">Cadastre nomes rapidamente, veja a lista em tempo real e remova jogadores quando precisar.</p>
+                <p class="card-subtitle">Cadastre nomes rapidamente, edite ou remova jogadores quando precisar.</p>
               </div>
               <span class="pill"><span id="contadorJogadores">0</span> nomes</span>
             </div>
@@ -1403,13 +1454,14 @@
         </div>
       </section>
 
+      <!-- ===== TIMES (PRIVATE) ===== -->
       <section id="tab-times" class="screen">
         <div class="stack">
           <article class="card accent-orange">
             <div class="card-header">
               <div>
                 <h2 class="card-title">4. Escalação da noite</h2>
-                <p class="card-subtitle">Preencha só os times que vão jogar. Você pode digitar nomes ou consultar o banco de jogadores.</p>
+                <p class="card-subtitle">Preencha só os times que vão jogar. Jogadores já alocados em outros times ficam ocultos no banco.</p>
               </div>
               <span class="pill">A–F</span>
             </div>
@@ -1430,6 +1482,7 @@
         </div>
       </section>
 
+      <!-- ===== JOGO (PRIVATE) ===== -->
       <section id="tab-jogo" class="screen">
         <div class="stack">
           <article class="card">
@@ -1508,103 +1561,16 @@
             <div class="card-header">
               <div>
                 <h2 class="card-title">✅ Fechar jogo</h2>
-                <p class="card-subtitle">Salva o placar no histórico. As notas de marcação, passes e stamina ficam na aba Stats — você edita uma vez por jogador.</p>
+                <p class="card-subtitle">Salva o placar no histórico. As notas ficam na aba Notas.</p>
               </div>
-              <span class="pill">Stats →</span>
+              <span class="pill">Notas →</span>
             </div>
             <button id="btnSalvarJogo" class="btn btn-full btn-large" type="button">✔️ Fechar e guardar jogo</button>
           </article>
         </div>
       </section>
 
-      <section id="tab-stats" class="screen">
-        <div class="stack">
-          <article class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">📊 Painel estatístico</h2>
-                <p class="card-subtitle">Tudo atualiza automaticamente após importar CSV ou salvar jogo.</p>
-              </div>
-            </div>
-            <label for="filtroData">Filtrar por data/fut</label>
-            <select id="filtroData"></select>
-            <div class="status-line">
-              <span id="statusFiltro" class="pill">0 jogos</span>
-            </div>
-          </article>
-
-
-          <article class="card accent-blue">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">📝 Notas dos jogadores</h2>
-                <p class="card-subtitle">Atribua marcação, passes e stamina uma vez por jogador. Atualize só quando a performance mudar de verdade.</p>
-              </div>
-              <span class="pill">S A B C D F</span>
-            </div>
-            <div class="formula-box">Notas são globais por jogador — não por jogo. O overall recalcula na hora. Campos em branco contam como C.</div>
-            <div id="listaNotasJogadores" class="player-ratings-grid"></div>
-          </article>
-
-          <article class="card accent-blue">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">⭐ Overall dos jogadores</h2>
-                <p class="card-subtitle">Calculado pelas notas globais do jogador mais participação em gols no histórico.</p>
-              </div>
-            </div>
-            <div class="formula-box">
-              Fórmula: 70% média das notas (marcação, passes, stamina) + 30% participação em gols e assistências. Notas: S=100, A=90, B=78, C=65, D=50, F=30.
-            </div>
-            <div id="listaOverall" class="ranking-list"></div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">🏆 Artilharia dos jogadores</h2>
-                <p class="card-subtitle">Linhas em destaque indicam o líder do ranking filtrado.</p>
-              </div>
-            </div>
-            <div id="listaArtilharia" class="ranking-list"></div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">🛡️ Classificação dos times</h2>
-                <p class="card-subtitle">Pontuação: vitória 3 pts, empate 1 pt.</p>
-              </div>
-            </div>
-            <div class="scroll-table">
-              <table id="tabelaTimes">
-                <thead>
-                  <tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">🕘 Histórico de jogos</h2>
-                <p class="card-subtitle">Rolagem horizontal ativa para leitura fácil no celular.</p>
-              </div>
-            </div>
-            <div class="scroll-table">
-              <table id="tabelaHistorico" class="history-table">
-                <thead>
-                  <tr><th>Data</th><th>Fut</th><th>Placar</th><th>Tempo</th><th>Gols anotados</th><th>Ações</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </article>
-        </div>
-      </section>
-
+      <!-- ===== EXPORTAR (PRIVATE) ===== -->
       <section id="tab-exportar" class="screen">
         <div class="stack">
           <article class="card">
@@ -1633,61 +1599,34 @@
     </main>
   </div>
 
-
+  <!-- Edit match modal -->
   <div id="modalEditarJogo" class="modal-backdrop" hidden>
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloEditarJogo">
       <div class="modal-head">
         <div>
           <h2 id="tituloEditarJogo">✏️ Editar jogo</h2>
-          <p>Corrija data, placar, tempo e gols. As avaliações ligadas a este jogo continuam salvas.</p>
+          <p>Corrija data, placar, tempo e gols.</p>
         </div>
         <button id="btnFecharModalJogo" class="modal-close" type="button" aria-label="Fechar">×</button>
       </div>
 
       <input id="editIdPartida" type="hidden" />
       <div class="form-grid">
-        <div>
-          <label for="editData">Data</label>
-          <input id="editData" type="date" />
-        </div>
-        <div>
-          <label for="editNomeFut">Nome do Fut</label>
-          <input id="editNomeFut" type="text" autocomplete="off" />
-        </div>
-        <div>
-          <label for="editTempo">Tempo em minutos</label>
-          <input id="editTempo" type="number" min="1" inputmode="numeric" />
-        </div>
+        <div><label for="editData">Data</label><input id="editData" type="date" /></div>
+        <div><label for="editNomeFut">Nome do Fut</label><input id="editNomeFut" type="text" autocomplete="off" /></div>
+        <div><label for="editTempo">Tempo em minutos</label><input id="editTempo" type="number" min="1" inputmode="numeric" /></div>
       </div>
 
       <div class="form-grid field-gap">
-        <div>
-          <label for="editT1">Código mandante</label>
-          <input id="editT1" type="text" maxlength="12" />
-        </div>
-        <div>
-          <label for="editNomeTime1">Nome mandante</label>
-          <input id="editNomeTime1" type="text" />
-        </div>
-        <div>
-          <label for="editGols1">Gols mandante</label>
-          <input id="editGols1" type="number" min="0" inputmode="numeric" />
-        </div>
+        <div><label for="editT1">Código mandante</label><input id="editT1" type="text" maxlength="12" /></div>
+        <div><label for="editNomeTime1">Nome mandante</label><input id="editNomeTime1" type="text" /></div>
+        <div><label for="editGols1">Gols mandante</label><input id="editGols1" type="number" min="0" inputmode="numeric" /></div>
       </div>
 
       <div class="form-grid field-gap">
-        <div>
-          <label for="editT2">Código visitante</label>
-          <input id="editT2" type="text" maxlength="12" />
-        </div>
-        <div>
-          <label for="editNomeTime2">Nome visitante</label>
-          <input id="editNomeTime2" type="text" />
-        </div>
-        <div>
-          <label for="editGols2">Gols visitante</label>
-          <input id="editGols2" type="number" min="0" inputmode="numeric" />
-        </div>
+        <div><label for="editT2">Código visitante</label><input id="editT2" type="text" maxlength="12" /></div>
+        <div><label for="editNomeTime2">Nome visitante</label><input id="editNomeTime2" type="text" /></div>
+        <div><label for="editGols2">Gols visitante</label><input id="editGols2" type="number" min="0" inputmode="numeric" /></div>
       </div>
 
       <datalist id="listaJogadoresDatalist"></datalist>
@@ -1714,13 +1653,18 @@
       "use strict";
 
       const STORAGE_KEY = "sistema_fut_mobile_v6";
-      const LEGACY_KEYS = ["sistema_fut_mobile_v6", "sistema_fut_mobile_v5", "sistema_fut_mobile_v4", "sistema_fut_mobile_v3", "sistema_fut_mobile_v2"];
-      const TEAM_IDS = ["A", "B", "C", "D", "E", "F"];
-      const NOTAS = ["S", "A", "B", "C", "D", "F"];
-      const NOTA_VALORES = { S: 100, A: 90, B: 78, C: 65, D: 50, F: 30 };
+      const LEGACY_KEYS = ["sistema_fut_mobile_v6","sistema_fut_mobile_v5","sistema_fut_mobile_v4","sistema_fut_mobile_v3","sistema_fut_mobile_v2"];
+      const TEAM_IDS = ["A","B","C","D","E","F"];
+      const NOTAS = ["S","A","B","C","D","F"];
+      const NOTA_VALORES = { S:100, A:90, B:78, C:65, D:50, F:30 };
       const LOGIN_PASSWORD = "OtavioGostoso69";
       const AUTH_SESSION_KEY = "fut_manager_auth_plain_password";
+      const PUBLIC_TABS = ["home","stats"];
       const ehPlaceholderAntigo = (nome) => /^Jogador\s+(1|2|3)$/i.test(normalizarNome(nome));
+
+      // Tab the user tried to open while not authenticated
+      let pendingTab = null;
+      let jogoEditandoId = null;
 
       const state = {
         historico: [],
@@ -1734,10 +1678,8 @@
         config: { data: "", nomeFut: "" }
       };
 
-      let jogoEditandoId = null;
-
-      const $ = (selector) => document.querySelector(selector);
-      const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => Array.from(document.querySelectorAll(sel));
       const byId = (id) => document.getElementById(id);
 
       document.addEventListener("DOMContentLoaded", iniciarApp);
@@ -1749,8 +1691,9 @@
         if (!state.__cloudLoaded) carregarLocalStorage();
         preencherCamposIniciais();
         conectarEventos();
-        aplicarEstadoLogin();
         renderizarTudo();
+        // Show/hide logout button based on auth state
+        byId("btnLogout").style.display = usuarioAutenticado() ? "" : "none";
       }
 
       function criarEscalacaoVazia() {
@@ -1790,13 +1733,80 @@
               </div>
             </div>
 
-            <div class="field-gap">
-              <label for="esc${id}">Ou digite um jogador por linha</label>
-              <textarea id="esc${id}" placeholder="Um jogador por linha"></textarea>
-            </div>
+            <textarea id="esc${id}" style="display:none;" aria-hidden="true" tabindex="-1"></textarea>
           </div>
         `).join("");
       }
+
+      // ─── AUTH ────────────────────────────────────────────────────────────────
+
+      function usuarioAutenticado() {
+        return sessionStorage.getItem(AUTH_SESSION_KEY) === LOGIN_PASSWORD;
+      }
+
+      function conectarEventosLogin() {
+        byId("loginForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const senha = byId("loginSenha").value;
+          if (senha === LOGIN_PASSWORD) {
+            sessionStorage.setItem(AUTH_SESSION_KEY, senha);
+            byId("loginSenha").value = "";
+            byId("loginErro").textContent = "";
+            byId("loginOverlay").hidden = true;
+            byId("btnLogout").style.display = "";
+            mostrarToast("Sessão liberada.");
+            if (pendingTab) {
+              const tab = pendingTab;
+              pendingTab = null;
+              ativarAba(tab);
+            }
+            return;
+          }
+          byId("loginErro").textContent = "Senha errada.";
+          byId("loginSenha").select();
+        });
+
+        byId("btnLogout").addEventListener("click", () => {
+          sessionStorage.removeItem(AUTH_SESSION_KEY);
+          byId("btnLogout").style.display = "none";
+          mostrarToast("Sessão bloqueada.", "warn");
+          ativarAba("home");
+        });
+
+        byId("btnVoltarHome").addEventListener("click", () => {
+          byId("loginOverlay").hidden = true;
+          pendingTab = null;
+          ativarAba("home");
+        });
+      }
+
+      function exigirLogin(tabDesejada) {
+        if (usuarioAutenticado()) return true;
+        pendingTab = tabDesejada || null;
+        byId("loginOverlay").hidden = false;
+        window.setTimeout(() => byId("loginSenha")?.focus(), 80);
+        return false;
+      }
+
+      // ─── TABS ────────────────────────────────────────────────────────────────
+
+      function ativarAba(nome) {
+        const isPublic = PUBLIC_TABS.includes(nome);
+        if (!isPublic && !usuarioAutenticado()) {
+          exigirLogin(nome);
+          return;
+        }
+        byId("loginOverlay").hidden = true;
+        $$(".tab-btn").forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === nome));
+        $$(".screen").forEach((s) => s.classList.toggle("active", s.id === `tab-${nome}`));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Re-render relevant panel when switching to it
+        if (nome === "stats") renderizarPainelEstatistico();
+        if (nome === "notas") renderizarNotasJogadores();
+        if (nome === "home") renderizarHome();
+      }
+
+      // ─── EVENTS ──────────────────────────────────────────────────────────────
 
       function conectarEventos() {
         $$(".tab-btn").forEach((btn) => {
@@ -1805,9 +1815,7 @@
 
         byId("csvFileInput").addEventListener("change", importarCSV);
         byId("btnCriarJogador").addEventListener("click", cadastrarNovoJogador);
-        byId("novoJogadorNome").addEventListener("keydown", (event) => {
-          if (event.key === "Enter") cadastrarNovoJogador();
-        });
+        byId("novoJogadorNome").addEventListener("keydown", (e) => { if (e.key === "Enter") cadastrarNovoJogador(); });
         byId("buscarJogadorNome").addEventListener("input", renderizarJogadores);
 
         byId("dataJogo").addEventListener("change", () => {
@@ -1816,12 +1824,12 @@
             nome.value = nomePadraoFutPorData(byId("dataJogo").value);
             nome.dataset.auto = "true";
           }
-          salvarLocalStorage();
+          salvarLocalSomente();
         });
 
         byId("nomeFutDia").addEventListener("input", () => {
           byId("nomeFutDia").dataset.auto = "false";
-          salvarLocalStorage();
+          salvarLocalSomente();
         });
 
         TEAM_IDS.forEach((id) => {
@@ -1836,12 +1844,11 @@
             renderizarChipsDosTimes();
             renderizarBancoNosTimes();
             atualizarSeletoresGol();
-            renderizarAvaliacoesPartida();
           });
           byId(`buscaBanco${id}`).addEventListener("input", renderizarBancoNosTimes);
-          byId(`buscaBanco${id}`).addEventListener("keydown", (event) => {
-            if (event.key !== "Enter") return;
-            event.preventDefault();
+          byId(`buscaBanco${id}`).addEventListener("keydown", (e) => {
+            if (e.key !== "Enter") return;
+            e.preventDefault();
             const primeiro = byId(`sugestoesBanco${id}`).querySelector("[data-add-bank-player]");
             if (primeiro) adicionarJogadorBancoAoTime(id, primeiro.dataset.addBankPlayer);
           });
@@ -1861,21 +1868,16 @@
           });
         });
 
-        ["time1", "time2"].forEach((id) => {
+        ["time1","time2"].forEach((id) => {
           byId(id).addEventListener("change", () => {
             impedirTimesDuplicados();
             atualizarNomesPlacar();
             atualizarSeletoresGol();
-            renderizarAvaliacoesPartida();
           });
         });
 
-        ["gols1", "gols2", "tempo"].forEach((id) => {
-          byId(id).addEventListener("input", () => {
-            renderizarGolsPartida();
-            if (id === "tempo") atualizarTemposPadraoAvaliacoes();
-            salvarLocalStorage();
-          });
+        ["gols1","gols2","tempo"].forEach((id) => {
+          byId(id).addEventListener("input", () => { salvarLocalSomente(); });
         });
 
         byId("timeGol").addEventListener("change", atualizarSeletoresGol);
@@ -1890,61 +1892,20 @@
         byId("btnCancelarEdicaoJogo").addEventListener("click", fecharEditorJogo);
         byId("btnSalvarEdicaoJogo").addEventListener("click", salvarEdicaoJogo);
         byId("btnAdicionarGolEdit").addEventListener("click", adicionarGolAoEditor);
-        byId("modalEditarJogo").addEventListener("click", (event) => {
-          if (event.target.id === "modalEditarJogo") fecharEditorJogo();
-        });
+        byId("modalEditarJogo").addEventListener("click", (e) => { if (e.target.id === "modalEditarJogo") fecharEditorJogo(); });
+
+        // Edit player name modal
+        byId("btnSalvarEditNome").addEventListener("click", confirmarEdicaoNome);
+        byId("btnCancelarEditNome").addEventListener("click", () => { byId("editNameModal").hidden = true; });
       }
 
-
-      function usuarioAutenticado() {
-        return sessionStorage.getItem(AUTH_SESSION_KEY) === LOGIN_PASSWORD;
-      }
-
-      function conectarEventosLogin() {
-        byId("loginForm").addEventListener("submit", (event) => {
-          event.preventDefault();
-          const senha = byId("loginSenha").value;
-          if (senha === LOGIN_PASSWORD) {
-            sessionStorage.setItem(AUTH_SESSION_KEY, senha);
-            byId("loginSenha").value = "";
-            byId("loginErro").textContent = "";
-            aplicarEstadoLogin();
-            mostrarToast("Sessão liberada.");
-            return;
-          }
-          byId("loginErro").textContent = "Senha errada.";
-          byId("loginSenha").select();
-        });
-
-        byId("btnLogout").addEventListener("click", () => {
-          sessionStorage.removeItem(AUTH_SESSION_KEY);
-          aplicarEstadoLogin();
-          mostrarToast("Sessão bloqueada.", "warn");
-        });
-      }
-
-      function aplicarEstadoLogin() {
-        const autenticado = usuarioAutenticado();
-        byId("loginOverlay").hidden = autenticado;
-        document.body.classList.toggle("locked", !autenticado);
-        byId("appShell").setAttribute("aria-hidden", autenticado ? "false" : "true");
-        byId("appShell").inert = !autenticado;
-        if (!autenticado) window.setTimeout(() => byId("loginSenha")?.focus(), 80);
-      }
-
-      function exigirLogin() {
-        if (usuarioAutenticado()) return true;
-        aplicarEstadoLogin();
-        mostrarToast("Digite a senha para alterar os dados.", "warn");
-        return false;
-      }
+      // ─── PLAYER BANK ─────────────────────────────────────────────────────────
 
       function preencherCamposIniciais() {
         const hoje = hojeISO();
         byId("dataJogo").value = state.config.data || hoje;
         byId("nomeFutDia").value = state.config.nomeFut || nomePadraoFutPorData(byId("dataJogo").value);
         byId("nomeFutDia").dataset.auto = state.config.nomeFut ? "false" : "true";
-
         TEAM_IDS.forEach((id) => {
           const time = state.escalacao[id] || { nome: `Time ${id}`, jogadores: [] };
           byId(`nomeFantasia${id}`).value = time.nome || `Time ${id}`;
@@ -1952,76 +1913,58 @@
         });
       }
 
-      function ativarAba(nome) {
-        $$(".tab-btn").forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === nome));
-        $$(".screen").forEach((screen) => screen.classList.toggle("active", screen.id === `tab-${nome}`));
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
       function hojeISO() {
-        const hoje = new Date();
-        const yyyy = hoje.getFullYear();
-        const mm = String(hoje.getMonth() + 1).padStart(2, "0");
-        const dd = String(hoje.getDate()).padStart(2, "0");
-        return `${yyyy}-${mm}-${dd}`;
+        const h = new Date();
+        return `${h.getFullYear()}-${String(h.getMonth()+1).padStart(2,"0")}-${String(h.getDate()).padStart(2,"0")}`;
       }
 
       function nomePadraoFutPorData(dataISO) {
-        const data = dataISO ? new Date(`${dataISO}T12:00:00`) : new Date();
-        const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-        return `Fut da ${dias[data.getDay()]}`;
+        const d = dataISO ? new Date(`${dataISO}T12:00:00`) : new Date();
+        const dias = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+        return `Fut da ${dias[d.getDay()]}`;
       }
 
-      function normalizarNome(valor) {
-        return String(valor || "").trim().replace(/\s+/g, " ");
-      }
-
-      function chaveNome(valor) {
-        return normalizarNome(valor).toLocaleLowerCase("pt-BR");
-      }
-
-      function mesmoNome(a, b) {
-        return chaveNome(a) === chaveNome(b);
-      }
+      function normalizarNome(v) { return String(v || "").trim().replace(/\s+/g," "); }
+      function chaveNome(v) { return normalizarNome(v).toLocaleLowerCase("pt-BR"); }
+      function mesmoNome(a,b) { return chaveNome(a) === chaveNome(b); }
 
       function unicos(lista) {
-        const vistos = new Set();
-        const saida = [];
-        lista.map(normalizarNome).filter(Boolean).forEach((nome) => {
-          const chave = chaveNome(nome);
-          if (!vistos.has(chave)) {
-            vistos.add(chave);
-            saida.push(nome);
-          }
+        const vistos = new Set(), saida = [];
+        lista.map(normalizarNome).filter(Boolean).forEach((n) => {
+          const c = chaveNome(n);
+          if (!vistos.has(c)) { vistos.add(c); saida.push(n); }
         });
         return saida;
       }
 
-      function escaparHTML(valor) {
-        const mapa = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
-        return String(valor ?? "").replace(/[&<>"']/g, (char) => mapa[char]);
+      function escaparHTML(v) {
+        const m = { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" };
+        return String(v ?? "").replace(/[&<>"']/g, (c) => m[c]);
       }
 
-      function formatarData(data) {
-        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(data || ""));
-        return match ? `${match[3]}/${match[2]}/${match[1]}` : (data || "Sem data");
+      function formatarData(d) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d || ""));
+        return m ? `${m[3]}/${m[2]}/${m[1]}` : (d || "Sem data");
       }
 
-      function isGolValido(valor) {
-        const v = chaveNome(valor);
-        return v && v !== "nenhum" && v !== "sem gol" && v !== "-";
-      }
-
-      function isAssistenciaValida(valor) {
-        const v = chaveNome(valor);
-        return v && v !== "nenhum" && v !== "sem assistência" && v !== "sem assistencia" && v !== "-";
-      }
+      function isGolValido(v) { const c = chaveNome(v); return c && c !== "nenhum" && c !== "sem gol" && c !== "-"; }
+      function isAssistenciaValida(v) { const c = chaveNome(v); return c && c !== "nenhum" && c !== "sem assistência" && c !== "sem assistencia" && c !== "-"; }
 
       function getJogadoresBancoOrdenados() {
-        return Array.from(state.jogadores)
-          .map(normalizarNome)
-          .filter((nome) => nome && !ehPlaceholderAntigo(nome))
-          .sort((a, b) => a.localeCompare(b, "pt-BR"));
+        return Array.from(state.jogadores).map(normalizarNome).filter((n) => n && !ehPlaceholderAntigo(n))
+          .sort((a,b) => a.localeCompare(b,"pt-BR"));
+      }
+
+      // Returns set of all players assigned to ANY team (across all team textareas)
+      function getJogadoresJaEscaladosEmOutrosTimesParaId(idAtual) {
+        const escaladosEmOutros = new Set();
+        TEAM_IDS.forEach((id) => {
+          if (id === idAtual) return;
+          getJogadoresTimeFormulario(id).forEach((n) => {
+            if (n) escaladosEmOutros.add(chaveNome(n));
+          });
+        });
+        return escaladosEmOutros;
       }
 
       function getNomeTimeFormulario(id) {
@@ -2043,54 +1986,96 @@
             jogadores: getJogadoresTimeFormulario(id)
           };
         });
-        salvarLocalStorage();
+        salvarLocalSomente();
       }
 
       function cadastrarNovoJogador() {
         const input = byId("novoJogadorNome");
         const nome = normalizarNome(input.value);
-        if (!nome) {
-          mostrarToast("Digite o nome do jogador antes de criar.", "warn");
-          return;
-        }
-
-        const existente = getJogadoresBancoOrdenados().find((jogador) => mesmoNome(jogador, nome));
+        if (!nome) { mostrarToast("Digite o nome do jogador antes de criar.", "warn"); return; }
+        const existente = getJogadoresBancoOrdenados().find((j) => mesmoNome(j, nome));
         if (existente) {
           mostrarToast(`${existente} já está no banco.`, "warn");
           input.value = "";
           return;
         }
-
         state.jogadores.add(nome);
         input.value = "";
         renderizarJogadores();
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
         atualizarResumoTopo();
-        salvarLocalStorage();
+        salvarComCloud();
         mostrarToast(`${nome} entrou no banco de jogadores.`);
+      }
+
+      function abrirEdicaoNome(nomeAntigo) {
+        byId("editNameInput").dataset.old = nomeAntigo;
+        byId("editNameValue").value = nomeAntigo;
+        byId("editNameModal").hidden = false;
+        window.setTimeout(() => byId("editNameValue")?.focus(), 60);
+      }
+
+      function confirmarEdicaoNome() {
+        const nomeAntigo = normalizarNome(byId("editNameInput").dataset.old);
+        const nomeNovo = normalizarNome(byId("editNameValue").value);
+        if (!nomeNovo) { mostrarToast("Digite um nome válido.", "warn"); return; }
+        if (mesmoNome(nomeAntigo, nomeNovo)) { byId("editNameModal").hidden = true; return; }
+
+        const existente = getJogadoresBancoOrdenados().find((j) => mesmoNome(j, nomeNovo));
+        if (existente && !mesmoNome(existente, nomeAntigo)) {
+          mostrarToast(`${nomeNovo} já existe no banco.`, "warn"); return;
+        }
+
+        // Update jogadores set
+        state.jogadores.forEach((n) => { if (mesmoNome(n, nomeAntigo)) state.jogadores.delete(n); });
+        state.jogadores.add(nomeNovo);
+
+        // Update historico
+        state.historico.forEach((linha) => {
+          if (isGolValido(linha.gol) && mesmoNome(linha.gol, nomeAntigo)) linha.gol = nomeNovo;
+          if (isAssistenciaValida(linha.assist) && mesmoNome(linha.assist, nomeAntigo)) linha.assist = nomeNovo;
+        });
+
+        // Update avaliacoes
+        state.avaliacoes.forEach((a) => { if (mesmoNome(a.jogador, nomeAntigo)) a.jogador = nomeNovo; });
+
+        // Update notasJogadores key
+        const chaveAntiga = chaveNome(nomeAntigo);
+        const chaveNova = chaveNome(nomeNovo);
+        if (state.notasJogadores[chaveAntiga]) {
+          state.notasJogadores[chaveNova] = state.notasJogadores[chaveAntiga];
+          delete state.notasJogadores[chaveAntiga];
+        }
+
+        // Update escalacao textareas
+        TEAM_IDS.forEach((id) => {
+          const textarea = byId(`esc${id}`);
+          textarea.value = getJogadoresTimeFormulario(id)
+            .map((n) => mesmoNome(n, nomeAntigo) ? nomeNovo : n).join("\n");
+          if (state.escalacao[id]) {
+            state.escalacao[id].jogadores = state.escalacao[id].jogadores
+              .map((n) => mesmoNome(n, nomeAntigo) ? nomeNovo : n);
+          }
+        });
+
+        byId("editNameModal").hidden = true;
+        renderizarTudo();
+        salvarComCloud();
+        mostrarToast(`Nome alterado para "${nomeNovo}".`);
       }
 
       function removerJogadorDoBanco(nome) {
         const jogador = normalizarNome(nome);
         if (!jogador) return;
-
-        const confirmar = confirm(`Remover ${jogador} do banco e das escalações abertas? O histórico já salvo não será apagado.`);
-        if (!confirmar) return;
-
-        state.jogadores.forEach((nomeBanco) => {
-          if (mesmoNome(nomeBanco, jogador)) state.jogadores.delete(nomeBanco);
-        });
-
+        if (!confirm(`Remover ${jogador} do banco e das escalações abertas? O histórico já salvo não será apagado.`)) return;
+        state.jogadores.forEach((n) => { if (mesmoNome(n, jogador)) state.jogadores.delete(n); });
         TEAM_IDS.forEach((id) => {
-          const textarea = byId(`esc${id}`);
-          textarea.value = textarea.value
-            .split(/\r?\n/)
-            .filter((linha) => !mesmoNome(linha, jogador))
-            .join("\n");
+          const ta = byId(`esc${id}`);
+          ta.value = ta.value.split(/\r?\n/).filter((l) => !mesmoNome(l, jogador)).join("\n");
         });
-
         salvarRascunhoEscalacao();
+        salvarComCloud();
         renderizarTudo();
         mostrarToast(`${jogador} removido do cadastro.`);
       }
@@ -2098,77 +2083,51 @@
       function adicionarJogadorBancoAoTime(id, nomeEscolhido = "") {
         const inputBusca = byId(`buscaBanco${id}`);
         const jogador = normalizarNome(nomeEscolhido || inputBusca.value);
-        if (!jogador) {
-          mostrarToast("Escolha um jogador do banco antes de adicionar ao time.", "warn");
-          return;
-        }
-
-        const jogadorBanco = getJogadoresBancoOrdenados().find((nome) => mesmoNome(nome, jogador));
-        if (!jogadorBanco) {
-          mostrarToast("Esse nome ainda não está no banco. Cadastre no Setup ou digite no textarea.", "warn");
-          return;
-        }
-
-        const textarea = byId(`esc${id}`);
+        if (!jogador) { mostrarToast("Escolha um jogador do banco.", "warn"); return; }
+        const jogadorBanco = getJogadoresBancoOrdenados().find((n) => mesmoNome(n, jogador));
+        if (!jogadorBanco) { mostrarToast("Esse nome ainda não está no banco.", "warn"); return; }
         const atuais = getJogadoresTimeFormulario(id);
-        if (atuais.some((nome) => mesmoNome(nome, jogadorBanco))) {
-          mostrarToast(`${jogadorBanco} já está no ${getNomeTimeFormulario(id)}.`, "warn");
-          return;
+        if (atuais.some((n) => mesmoNome(n, jogadorBanco))) {
+          mostrarToast(`${jogadorBanco} já está no ${getNomeTimeFormulario(id)}.`, "warn"); return;
         }
-
-        textarea.value = [...atuais, jogadorBanco].join("\n");
+        byId(`esc${id}`).value = [...atuais, jogadorBanco].join("\n");
         inputBusca.value = "";
         salvarRascunhoEscalacao();
         renderizarPreviewTimesFormulario();
         renderizarChipsDosTimes();
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
-        renderizarAvaliacoesPartida();
-        salvarLocalStorage();
         mostrarToast(`${jogadorBanco} adicionado ao ${getNomeTimeFormulario(id)}.`);
       }
 
       function removerJogadorDoTime(id, nome) {
-        const textarea = byId(`esc${id}`);
-        textarea.value = getJogadoresTimeFormulario(id)
-          .filter((jogador) => !mesmoNome(jogador, nome))
-          .join("\n");
+        const ta = byId(`esc${id}`);
+        ta.value = getJogadoresTimeFormulario(id).filter((j) => !mesmoNome(j, nome)).join("\n");
         salvarRascunhoEscalacao();
         renderizarPreviewTimesFormulario();
         renderizarChipsDosTimes();
         renderizarBancoNosTimes();
         atualizarSeletoresGol();
-        renderizarAvaliacoesPartida();
-        salvarLocalStorage();
       }
 
       function confirmarEscalacaoDaNoite() {
         const escalacao = criarEscalacaoVazia();
         const ativos = [];
-
         TEAM_IDS.forEach((id) => {
           const nome = getNomeTimeFormulario(id);
           const jogadores = getJogadoresTimeFormulario(id);
           escalacao[id] = { nome, jogadores };
-
           if (timeEstaPreenchido(id, nome, jogadores)) {
             ativos.push(id);
-            jogadores.forEach((jogador) => state.jogadores.add(jogador));
+            jogadores.forEach((j) => state.jogadores.add(j));
           }
         });
-
         state.escalacao = escalacao;
         state.timesAtivos = ativos;
-
         renderizarTudo();
-        salvarLocalStorage();
-
-        if (ativos.length < 2) {
-          mostrarToast("Preencha pelo menos 2 times para anotar um jogo.", "warn");
-          return;
-        }
-
-        mostrarToast("Escalação travada. Os times preenchidos já aparecem no jogo.");
+        salvarComCloud();
+        if (ativos.length < 2) { mostrarToast("Preencha pelo menos 2 times para anotar um jogo.", "warn"); return; }
+        mostrarToast("Escalação travada. Os times já aparecem no jogo.");
         ativarAba("jogo");
       }
 
@@ -2177,212 +2136,145 @@
         state.escalacao = criarEscalacaoVazia();
         state.timesAtivos = [];
         state.golsDaPartida = [];
-
         TEAM_IDS.forEach((id) => {
           byId(`nomeFantasia${id}`).value = `Time ${id}`;
           byId(`esc${id}`).value = "";
         });
-
         byId("gols1").value = 0;
         byId("gols2").value = 0;
-
         renderizarTudo();
-        salvarLocalStorage();
+        salvarComCloud();
         mostrarToast("Escalações limpas.");
       }
 
+      // ─── GAME ────────────────────────────────────────────────────────────────
+
       function atualizarSeletoresDeTimes() {
-        const t1 = byId("time1");
-        const t2 = byId("time2");
-        const anterior1 = t1.value;
-        const anterior2 = t2.value;
-
-        t1.innerHTML = "";
-        t2.innerHTML = "";
-
+        const t1 = byId("time1"), t2 = byId("time2");
+        const ant1 = t1.value, ant2 = t2.value;
+        t1.innerHTML = ""; t2.innerHTML = "";
         if (state.timesAtivos.length < 2) {
           t1.innerHTML = '<option value="">Trave 2 times primeiro</option>';
           t2.innerHTML = '<option value="">Trave 2 times primeiro</option>';
-          t1.disabled = true;
-          t2.disabled = true;
+          t1.disabled = t2.disabled = true;
           byId("statusTimesJogo").textContent = "Aguardando times";
-          atualizarNomesPlacar();
-          atualizarSeletoresGol();
-          renderizarAvaliacoesPartida();
-          return;
+          atualizarNomesPlacar(); atualizarSeletoresGol(); return;
         }
-
-        t1.disabled = false;
-        t2.disabled = false;
+        t1.disabled = t2.disabled = false;
         byId("statusTimesJogo").textContent = `${state.timesAtivos.length} times ativos`;
-
         state.timesAtivos.forEach((id) => {
           const nome = state.escalacao[id]?.nome || `Time ${id}`;
-          t1.add(new Option(nome, id));
-          t2.add(new Option(nome, id));
+          t1.add(new Option(nome, id)); t2.add(new Option(nome, id));
         });
-
-        t1.value = state.timesAtivos.includes(anterior1) ? anterior1 : state.timesAtivos[0];
-        const sugestaoT2 = state.timesAtivos.find((id) => id !== t1.value) || state.timesAtivos[1];
-        t2.value = state.timesAtivos.includes(anterior2) && anterior2 !== t1.value ? anterior2 : sugestaoT2;
-
-        atualizarNomesPlacar();
-        atualizarSeletoresGol();
-        renderizarAvaliacoesPartida();
+        t1.value = state.timesAtivos.includes(ant1) ? ant1 : state.timesAtivos[0];
+        const sug = state.timesAtivos.find((id) => id !== t1.value) || state.timesAtivos[1];
+        t2.value = state.timesAtivos.includes(ant2) && ant2 !== t1.value ? ant2 : sug;
+        atualizarNomesPlacar(); atualizarSeletoresGol();
       }
 
       function impedirTimesDuplicados() {
-        const t1 = byId("time1");
-        const t2 = byId("time2");
+        const t1 = byId("time1"), t2 = byId("time2");
         if (!t1.value || !t2.value || t1.value !== t2.value) return;
         const outro = state.timesAtivos.find((id) => id !== t1.value);
         if (outro) t2.value = outro;
       }
 
       function atualizarNomesPlacar() {
-        const t1 = byId("time1").value;
-        const t2 = byId("time2").value;
+        const t1 = byId("time1").value, t2 = byId("time2").value;
         byId("placarNome1").textContent = t1 ? (state.escalacao[t1]?.nome || `Time ${t1}`) : "Mandante";
         byId("placarNome2").textContent = t2 ? (state.escalacao[t2]?.nome || `Time ${t2}`) : "Visitante";
       }
 
-      function getJogadoresDoTime(id) {
-        return state.escalacao[id]?.jogadores || [];
-      }
+      function getJogadoresDoTime(id) { return state.escalacao[id]?.jogadores || []; }
 
       function getJogadoresDaPartida() {
-        const t1 = byId("time1").value;
-        const t2 = byId("time2").value;
-        const jogadores = [...getJogadoresDoTime(t1), ...getJogadoresDoTime(t2)];
-        return unicos(jogadores.length ? jogadores : Object.values(state.escalacao).flatMap((time) => time.jogadores || []));
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        const j = [...getJogadoresDoTime(t1), ...getJogadoresDoTime(t2)];
+        return unicos(j.length ? j : Object.values(state.escalacao).flatMap((t) => t.jogadores || []));
       }
 
       function atualizarSeletoresGol() {
-        const timeGol = byId("timeGol");
-        const timeSelecionadoAntes = timeGol.value;
-        timeGol.innerHTML = "";
-
-        const t1 = byId("time1").value;
-        const t2 = byId("time2").value;
+        const tg = byId("timeGol");
+        const antes = tg.value;
+        tg.innerHTML = "";
+        const t1 = byId("time1").value, t2 = byId("time2").value;
         const times = [t1, t2].filter(Boolean);
-
         if (times.length < 2) {
-          timeGol.innerHTML = '<option value="">Selecione os times</option>';
-          timeGol.disabled = true;
+          tg.innerHTML = '<option value="">Selecione os times</option>';
+          tg.disabled = true;
           byId("autorGol").innerHTML = '<option value="">Sem jogadores</option>';
           byId("autorAssistencia").innerHTML = '<option value="Nenhum">Sem assistência</option>';
           byId("btnAdicionarGol").disabled = true;
           return;
         }
-
-        timeGol.disabled = false;
+        tg.disabled = false;
         byId("btnAdicionarGol").disabled = false;
-
-        times.forEach((id) => {
-          const nome = state.escalacao[id]?.nome || `Time ${id}`;
-          timeGol.add(new Option(nome, id));
-        });
-        timeGol.value = times.includes(timeSelecionadoAntes) ? timeSelecionadoAntes : t1;
-
+        times.forEach((id) => { const n = state.escalacao[id]?.nome || `Time ${id}`; tg.add(new Option(n, id)); });
+        tg.value = times.includes(antes) ? antes : t1;
         atualizarSelectAutorGol();
         atualizarSelectAssistencia();
       }
 
       function atualizarSelectAutorGol() {
-        const select = byId("autorGol");
-        const anterior = select.value;
+        const sel = byId("autorGol");
+        const ant = sel.value;
         const time = byId("timeGol").value;
-        let jogadores = getJogadoresDoTime(time);
-
-        if (!jogadores.length) jogadores = getJogadoresDaPartida();
-        if (!jogadores.length) jogadores = getJogadoresBancoOrdenados();
-
-        select.innerHTML = "";
-        if (!jogadores.length) {
-          select.add(new Option("Nenhum jogador disponível", ""));
-          select.disabled = true;
-          byId("btnAdicionarGol").disabled = true;
-          return;
-        }
-
-        select.disabled = false;
-        byId("btnAdicionarGol").disabled = false;
-        jogadores.forEach((jogador) => select.add(new Option(jogador, jogador)));
-        select.value = jogadores.some((jogador) => mesmoNome(jogador, anterior)) ? anterior : jogadores[0];
+        let j = getJogadoresDoTime(time);
+        if (!j.length) j = getJogadoresDaPartida();
+        if (!j.length) j = getJogadoresBancoOrdenados();
+        sel.innerHTML = "";
+        if (!j.length) { sel.add(new Option("Nenhum jogador disponível","")); sel.disabled = true; byId("btnAdicionarGol").disabled = true; return; }
+        sel.disabled = false; byId("btnAdicionarGol").disabled = false;
+        j.forEach((p) => sel.add(new Option(p, p)));
+        sel.value = j.some((p) => mesmoNome(p, ant)) ? ant : j[0];
       }
 
       function atualizarSelectAssistencia() {
-        const select = byId("autorAssistencia");
-        const anterior = select.value;
+        const sel = byId("autorAssistencia");
+        const ant = sel.value;
         const autor = byId("autorGol").value;
         const time = byId("timeGol").value;
-        let jogadores = getJogadoresDoTime(time);
-
-        if (!jogadores.length) jogadores = getJogadoresDaPartida();
-        if (!jogadores.length) jogadores = getJogadoresBancoOrdenados();
-
-        select.innerHTML = "";
-        select.add(new Option("Sem assistência", "Nenhum"));
-        jogadores.filter((jogador) => !mesmoNome(jogador, autor)).forEach((jogador) => select.add(new Option(jogador, jogador)));
-        select.value = [...select.options].some((option) => option.value === anterior) ? anterior : "Nenhum";
+        let j = getJogadoresDoTime(time);
+        if (!j.length) j = getJogadoresDaPartida();
+        if (!j.length) j = getJogadoresBancoOrdenados();
+        sel.innerHTML = "";
+        sel.add(new Option("Sem assistência","Nenhum"));
+        j.filter((p) => !mesmoNome(p, autor)).forEach((p) => sel.add(new Option(p, p)));
+        sel.value = [...sel.options].some((o) => o.value === ant) ? ant : "Nenhum";
       }
 
       function adicionarGolNaPartida() {
         const time = byId("timeGol").value;
         const autor = normalizarNome(byId("autorGol").value);
         const assist = normalizarNome(byId("autorAssistencia").value) || "Nenhum";
-
-        if (!time || !autor) {
-          mostrarToast("Selecione o time e o autor do gol.", "warn");
-          return;
-        }
-
+        if (!time || !autor) { mostrarToast("Selecione o time e o autor do gol.", "warn"); return; }
         state.golsDaPartida.push({ time, autor, assist });
         state.jogadores.add(autor);
         if (isAssistenciaValida(assist)) state.jogadores.add(assist);
-
-        if (time === byId("time1").value) {
-          byId("gols1").value = Math.max(0, parseInt(byId("gols1").value, 10) || 0) + 1;
-        } else if (time === byId("time2").value) {
-          byId("gols2").value = Math.max(0, parseInt(byId("gols2").value, 10) || 0) + 1;
-        }
-
-        renderizarJogadores();
-        renderizarBancoNosTimes();
-        renderizarGolsPartida();
-        renderizarAvaliacoesPartida();
-        atualizarResumoTopo();
-        salvarLocalStorage();
+        if (time === byId("time1").value) byId("gols1").value = Math.max(0, parseInt(byId("gols1").value,10)||0)+1;
+        else if (time === byId("time2").value) byId("gols2").value = Math.max(0, parseInt(byId("gols2").value,10)||0)+1;
+        renderizarJogadores(); renderizarBancoNosTimes(); renderizarGolsPartida(); atualizarResumoTopo(); salvarLocalSomente();
         mostrarToast("Gol adicionado ao jogo atual.");
       }
 
       function desfazerUltimoGol() {
-        if (!state.golsDaPartida.length) {
-          mostrarToast("Nenhum gol para desfazer.", "warn");
-          return;
-        }
-
-        const removido = state.golsDaPartida.pop();
-        ajustarPlacarPorGolRemovido(removido);
-        renderizarGolsPartida();
-        salvarLocalStorage();
+        if (!state.golsDaPartida.length) { mostrarToast("Nenhum gol para desfazer.", "warn"); return; }
+        const r = state.golsDaPartida.pop();
+        ajustarPlacarPorGolRemovido(r);
+        renderizarGolsPartida(); salvarLocalSomente();
         mostrarToast("Último gol removido.");
       }
 
-      function ajustarPlacarPorGolRemovido(gol) {
-        if (gol.time === byId("time1").value) {
-          byId("gols1").value = Math.max(0, (parseInt(byId("gols1").value, 10) || 0) - 1);
-        } else if (gol.time === byId("time2").value) {
-          byId("gols2").value = Math.max(0, (parseInt(byId("gols2").value, 10) || 0) - 1);
-        }
+      function ajustarPlacarPorGolRemovido(g) {
+        if (g.time === byId("time1").value) byId("gols1").value = Math.max(0,(parseInt(byId("gols1").value,10)||0)-1);
+        else if (g.time === byId("time2").value) byId("gols2").value = Math.max(0,(parseInt(byId("gols2").value,10)||0)-1);
       }
 
-      function removerGolPorIndice(indice) {
-        if (indice < 0 || indice >= state.golsDaPartida.length) return;
-        const [removido] = state.golsDaPartida.splice(indice, 1);
-        ajustarPlacarPorGolRemovido(removido);
-        renderizarGolsPartida();
-        salvarLocalStorage();
+      function removerGolPorIndice(i) {
+        if (i < 0 || i >= state.golsDaPartida.length) return;
+        const [r] = state.golsDaPartida.splice(i,1);
+        ajustarPlacarPorGolRemovido(r);
+        renderizarGolsPartida(); salvarLocalSomente();
       }
 
       function notaValida(nota, permitirVazio = false) {
@@ -2391,269 +2283,57 @@
         return NOTAS.includes(n) ? n : (permitirVazio ? "" : "C");
       }
 
-      function avaliacaoTemStats(avaliacao) {
-        return [avaliacao?.marcacao, avaliacao?.passes, avaliacao?.stamina]
-          .some((nota) => NOTAS.includes(String(nota || "").toUpperCase()));
-      }
-
       function opcoesNotas(valorAtual = "C", permitirVazio = false) {
         const atual = notaValida(valorAtual, permitirVazio);
-        const vazio = permitirVazio ? `<option value="" ${atual === "" ? "selected" : ""}>—</option>` : "";
-        return vazio + NOTAS.map((nota) => `<option value="${nota}" ${nota === atual ? "selected" : ""}>${nota}</option>`).join("");
+        const vazio = permitirVazio ? `<option value="" ${atual===""?"selected":""}>—</option>` : "";
+        return vazio + NOTAS.map((n) => `<option value="${n}" ${n===atual?"selected":""}>${n}</option>`).join("");
       }
 
-      function tempoAtualPartida() {
-        return Math.max(1, parseInt(byId("tempo")?.value, 10) || 10);
-      }
-
-      function chaveAvaliacao(jogador, time) {
-        return `${chaveNome(time)}__${chaveNome(jogador)}`;
-      }
-
-      function getJogadoresDaPartidaComTime() {
-        const t1 = byId("time1")?.value;
-        const t2 = byId("time2")?.value;
-        const vistos = new Set();
-        const saida = [];
-
-        [t1, t2].filter(Boolean).forEach((time) => {
-          getJogadoresDoTime(time).forEach((jogador) => {
-            const nome = normalizarNome(jogador);
-            const chave = chaveAvaliacao(nome, time);
-            if (!nome || vistos.has(chave)) return;
-            vistos.add(chave);
-            saida.push({ jogador: nome, time, nomeTime: state.escalacao[time]?.nome || `Time ${time}` });
-          });
-        });
-
-        return saida;
-      }
-
-      function getDraftAvaliacao(jogador, time) {
-        const chave = chaveAvaliacao(jogador, time);
-        if (!state.avaliacaoRascunho[chave]) {
-          state.avaliacaoRascunho[chave] = {
-            marcacao: "C",
-            passes: "C",
-            stamina: "C",
-            tempo: tempoAtualPartida(),
-            tempoManual: false
-          };
-        }
-        return state.avaliacaoRascunho[chave];
-      }
-
-      function renderizarAvaliacoesPartida() {
-        const container = byId("listaAvaliacoesJogadores");
-        if (!container) return;
-
-        const jogadores = getJogadoresDaPartidaComTime();
-        if (!jogadores.length) {
-          container.innerHTML = '<div class="empty-state">Trave a escalação e escolha os times do jogo para avaliar os jogadores.</div>';
-          return;
-        }
-
-        container.innerHTML = jogadores.map(({ jogador, time, nomeTime }) => {
-          const draft = getDraftAvaliacao(jogador, time);
-          const tempo = Math.max(1, parseInt(draft.tempo, 10) || tempoAtualPartida());
-          return `
-            <div class="rating-card" data-rating-player="${escaparHTML(jogador)}" data-rating-time="${escaparHTML(time)}">
-              <div class="rating-player">
-                <strong>${escaparHTML(jogador)}</strong>
-                <span>${escaparHTML(nomeTime)}</span>
-              </div>
-              <div class="rating-controls">
-                <div class="rating-control">
-                  <label>Marcação/interceptações</label>
-                  <select data-rating-field="marcacao">${opcoesNotas(draft.marcacao)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Passes bem executados</label>
-                  <select data-rating-field="passes">${opcoesNotas(draft.passes)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Stamina</label>
-                  <select data-rating-field="stamina">${opcoesNotas(draft.stamina)}</select>
-                </div>
-                <div class="rating-control">
-                  <label>Minutos jogados</label>
-                  <input type="number" min="0" inputmode="numeric" value="${tempo}" data-rating-field="tempo" data-manual="${draft.tempoManual ? "true" : "false"}" />
-                </div>
-              </div>
-            </div>
-          `;
-        }).join("");
-
-        container.querySelectorAll(".rating-card").forEach((card) => {
-          card.querySelectorAll("[data-rating-field]").forEach((campo) => {
-            campo.addEventListener("change", () => atualizarRascunhoAvaliacao(card, campo));
-            campo.addEventListener("input", () => atualizarRascunhoAvaliacao(card, campo));
-          });
-        });
-      }
-
-      function atualizarRascunhoAvaliacao(card, campoAlterado) {
-        const jogador = normalizarNome(card.dataset.ratingPlayer);
-        const time = normalizarNome(card.dataset.ratingTime);
-        const draft = getDraftAvaliacao(jogador, time);
-        draft.marcacao = notaValida(card.querySelector('[data-rating-field="marcacao"]')?.value);
-        draft.passes = notaValida(card.querySelector('[data-rating-field="passes"]')?.value);
-        draft.stamina = notaValida(card.querySelector('[data-rating-field="stamina"]')?.value);
-        draft.tempo = Math.max(0, parseInt(card.querySelector('[data-rating-field="tempo"]')?.value, 10) || 0);
-        if (campoAlterado?.dataset.ratingField === "tempo") {
-          campoAlterado.dataset.manual = "true";
-          draft.tempoManual = true;
-        }
-        salvarLocalStorage();
-      }
-
-      function atualizarTemposPadraoAvaliacoes() {
-        const tempo = tempoAtualPartida();
-        byId("listaAvaliacoesJogadores")?.querySelectorAll('[data-rating-field="tempo"]').forEach((input) => {
-          if (input.dataset.manual === "true") return;
-          input.value = tempo;
-          const card = input.closest(".rating-card");
-          if (card) {
-            const draft = getDraftAvaliacao(card.dataset.ratingPlayer, card.dataset.ratingTime);
-            draft.tempo = tempo;
-          }
-        });
-      }
-
-      function coletarAvaliacoesDaPartida() {
-        const container = byId("listaAvaliacoesJogadores");
-        if (!container) return [];
-
-        return Array.from(container.querySelectorAll(".rating-card")).map((card) => {
-          const jogador = normalizarNome(card.dataset.ratingPlayer);
-          const time = normalizarNome(card.dataset.ratingTime);
-          const nomeTime = state.escalacao[time]?.nome || `Time ${time}`;
-          return {
-            jogador,
-            time,
-            nomeTime,
-            marcacao: notaValida(card.querySelector('[data-rating-field="marcacao"]')?.value),
-            passes: notaValida(card.querySelector('[data-rating-field="passes"]')?.value),
-            stamina: notaValida(card.querySelector('[data-rating-field="stamina"]')?.value),
-            tempo: Math.max(0, parseInt(card.querySelector('[data-rating-field="tempo"]')?.value, 10) || 0)
-          };
-        }).filter((avaliacao) => avaliacao.jogador && avaliacao.time);
-      }
-
-
-      function criarAvaliacoesPendentesDaPartida(idPartida, base) {
-        getJogadoresDaPartidaComTime().forEach(({ jogador, time, nomeTime }) => {
-          const jaExiste = state.avaliacoes.some((avaliacao) =>
-            avaliacao.idPartida === idPartida &&
-            mesmoNome(avaliacao.jogador, jogador) &&
-            chaveNome(avaliacao.time) === chaveNome(time)
-          );
-          if (jaExiste) return;
-
-          state.avaliacoes.push({
-            idAvaliacao: `AVL-${hashString(`${idPartida}|${time}|${jogador}`)}`,
-            idPartida,
-            data: base.data,
-            nomeFut: base.nomeFut,
-            jogador,
-            time,
-            nomeTime,
-            tempo: String(base.tempo),
-            marcacao: "",
-            passes: "",
-            stamina: "",
-            avaliado: false
-          });
-          state.jogadores.add(jogador);
-        });
-      }
+      function tempoAtualPartida() { return Math.max(1, parseInt(byId("tempo")?.value,10)||10); }
+      function chaveAvaliacao(jogador, time) { return `${chaveNome(time)}__${chaveNome(jogador)}`; }
 
       function salvarPartidaNoHistorico() {
         const data = byId("dataJogo").value || hojeISO();
         const nomeFut = normalizarNome(byId("nomeFutDia").value) || "Fut Regular";
-        const t1 = byId("time1").value;
-        const t2 = byId("time2").value;
-        const g1 = Math.max(0, parseInt(byId("gols1").value, 10) || 0);
-        const g2 = Math.max(0, parseInt(byId("gols2").value, 10) || 0);
-        const tempo = Math.max(1, parseInt(byId("tempo").value, 10) || 10);
-
-        if (!t1 || !t2 || t1 === t2) {
-          mostrarToast("Escolha dois times diferentes para salvar o jogo.", "warn");
-          return;
-        }
-
-        const idPartida = `JOGO-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-        const base = {
-          idPartida,
-          data,
-          nomeFut,
-          t1,
-          nFantasia1: state.escalacao[t1]?.nome || `Time ${t1}`,
-          g1,
-          t2,
-          nFantasia2: state.escalacao[t2]?.nome || `Time ${t2}`,
-          g2,
-          tempo: String(tempo)
-        };
-
-        const gols = state.golsDaPartida.length ? state.golsDaPartida : [{ time: "", autor: "Nenhum", assist: "Nenhum" }];
-
-        gols.forEach((gol) => {
-          state.historico.push({
-            ...base,
-            timeGol: gol.time || "",
-            gol: normalizarNome(gol.autor) || "Nenhum",
-            assist: normalizarNome(gol.assist) || "Nenhum"
-          });
-        });
-
-        criarAvaliacoesPendentesDaPartida(idPartida, base);
-
-        state.golsDaPartida = [];
-        state.avaliacaoRascunho = {};
-        byId("gols1").value = 0;
-        byId("gols2").value = 0;
-
-        renderizarTudo();
-        salvarLocalStorage();
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        const g1 = Math.max(0, parseInt(byId("gols1").value,10)||0);
+        const g2 = Math.max(0, parseInt(byId("gols2").value,10)||0);
+        const tempo = Math.max(1, parseInt(byId("tempo").value,10)||10);
+        if (!t1 || !t2 || t1 === t2) { mostrarToast("Escolha dois times diferentes para salvar o jogo.", "warn"); return; }
+        const idPartida = `JOGO-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+        const base = { idPartida, data, nomeFut, t1, nFantasia1: state.escalacao[t1]?.nome||`Time ${t1}`, g1, t2, nFantasia2: state.escalacao[t2]?.nome||`Time ${t2}`, g2, tempo: String(tempo) };
+        const gols = state.golsDaPartida.length ? state.golsDaPartida : [{ time:"", autor:"Nenhum", assist:"Nenhum" }];
+        gols.forEach((g) => { state.historico.push({ ...base, timeGol: g.time||"", gol: normalizarNome(g.autor)||"Nenhum", assist: normalizarNome(g.assist)||"Nenhum" }); });
+        state.golsDaPartida = []; state.avaliacaoRascunho = {};
+        byId("gols1").value = 0; byId("gols2").value = 0;
+        renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo salvo! Veja os stats na aba Stats.");
         ativarAba("stats");
       }
 
-      function importarCSV(event) {
-        const arquivo = event.target.files?.[0];
+      // ─── IMPORT/EXPORT ───────────────────────────────────────────────────────
+
+      function importarCSV(e) {
+        const arquivo = e.target.files?.[0];
         if (!arquivo) return;
-
         const leitor = new FileReader();
-        leitor.onload = (e) => {
+        leitor.onload = (ev) => {
           try {
-            const importados = parseCSV(String(e.target.result || ""));
-            const linhas = importados.historico || [];
-            const avaliacoes = importados.avaliacoes || [];
-
-            if (!linhas.length && !avaliacoes.length) {
-              mostrarToast("Não encontrei linhas válidas no CSV.", "warn");
-              return;
-            }
-
-            linhas.forEach((linha) => {
-              state.historico.push(linha);
-              if (isGolValido(linha.gol)) state.jogadores.add(linha.gol);
-              if (isAssistenciaValida(linha.assist)) state.jogadores.add(linha.assist);
+            const imp = parseCSV(String(ev.target.result||""));
+            const linhas = imp.historico||[], avs = imp.avaliacoes||[];
+            if (!linhas.length && !avs.length) { mostrarToast("Não encontrei linhas válidas no CSV.", "warn"); return; }
+            linhas.forEach((l) => {
+              state.historico.push(l);
+              if (isGolValido(l.gol)) state.jogadores.add(l.gol);
+              if (isAssistenciaValida(l.assist)) state.jogadores.add(l.assist);
             });
-
-            avaliacoes.forEach((avaliacao) => {
-              state.avaliacoes.push(avaliacao);
-              if (avaliacao.jogador) state.jogadores.add(avaliacao.jogador);
-            });
-
-            byId("statusImportacao").textContent = `${linhas.length} linha(s) de jogo e ${avaliacoes.length} avaliação(ões) importadas de ${arquivo.name}.`;
-            event.target.value = "";
-            renderizarTudo();
-            salvarLocalStorage();
+            avs.forEach((a) => { state.avaliacoes.push(a); if (a.jogador) state.jogadores.add(a.jogador); });
+            byId("statusImportacao").textContent = `${linhas.length} linha(s) de jogo e ${avs.length} avaliação(ões) importadas de ${arquivo.name}.`;
+            e.target.value = "";
+            renderizarTudo(); salvarComCloud();
             mostrarToast("Histórico importado e mesclado com sucesso.");
-          } catch (erro) {
-            console.error(erro);
+          } catch (err) {
+            console.error(err);
             mostrarToast("Não consegui ler este CSV. Confira o formato do arquivo.", "error");
           }
         };
@@ -2661,253 +2341,101 @@
       }
 
       function parseCSV(texto) {
-        const conteudo = texto.replace(/^\uFEFF/, "").trim();
-        const resultado = { historico: [], avaliacoes: [] };
+        const conteudo = texto.replace(/^\uFEFF/,"").trim();
+        const resultado = { historico:[], avaliacoes:[] };
         if (!conteudo) return resultado;
-
-        const linhasBrutas = conteudo.split(/\r?\n/).filter((linha) => linha.trim() !== "");
-        if (!linhasBrutas.length) return resultado;
-
-        const delimitador = detectarDelimitador(linhasBrutas[0]);
-        const primeiraLinha = parseLinhaCSV(linhasBrutas[0], delimitador);
-        const primeiraNormalizada = primeiraLinha.map(normalizarChave);
-        const temCabecalho = primeiraNormalizada.includes("data") || primeiraNormalizada.includes("nomedofut") || primeiraNormalizada.includes("timemandante") || primeiraNormalizada.includes("tiporegistro") || primeiraNormalizada.includes("tipo");
-        const cabecalhos = temCabecalho ? primeiraNormalizada : null;
-        const linhasDados = temCabecalho ? linhasBrutas.slice(1) : linhasBrutas;
-
-        linhasDados.forEach((linhaBruta) => {
-          const colunas = parseLinhaCSV(linhaBruta, delimitador);
-          if (colunas.every((coluna) => !normalizarNome(coluna))) return;
-
-          const get = (aliases, fallbackIndex) => getValorCSV(colunas, cabecalhos, aliases, fallbackIndex);
-          const tipo = normalizarChave(get(["Tipo Registro", "Tipo", "Registro"], -1));
-          const data = normalizarNome(get(["Data"], cabecalhos ? -1 : 0)) || hojeISO();
-          const nomeFut = normalizarNome(get(["Nome do Fut", "NomeFut", "Fut"], cabecalhos ? -1 : 1)) || "Fut Regular";
-          const t1 = normalizarNome(get(["Time Mandante", "Time 1", "Mandante"], cabecalhos ? -1 : 2)) || "A";
-          const nFantasia1 = normalizarNome(get(["Nome Fantasia Mandante", "Fantasia Mandante", "Nome Time Mandante"], cabecalhos ? -1 : 3)) || `Time ${t1}`;
-          const g1 = parseInt(get(["Gols Mandante", "Gols 1", "Gols Time 1"], cabecalhos ? -1 : 4), 10) || 0;
-          const t2 = normalizarNome(get(["Time Visitante", "Time 2", "Visitante"], cabecalhos ? -1 : 5)) || "B";
-          const nFantasia2 = normalizarNome(get(["Nome Fantasia Visitante", "Fantasia Visitante", "Nome Time Visitante"], cabecalhos ? -1 : 6)) || `Time ${t2}`;
-          const g2 = parseInt(get(["Gols Visitante", "Gols 2", "Gols Time 2"], cabecalhos ? -1 : 7), 10) || 0;
-          const tempo = normalizarNome(get(["Tempo Jogo", "Tempo", "Minutos"], cabecalhos ? -1 : 8)) || "10";
-          const idCSV = normalizarNome(get(["Id da Partida", "ID Partida", "idPartida"], cabecalhos ? -1 : 12));
-          const baseSemId = [data, nomeFut, t1, nFantasia1, g1, t2, nFantasia2, g2, tempo].join("|");
-          const idPartida = idCSV || `CSV-${hashString(baseSemId)}`;
-
-          if (tipo === "avaliacao" || tipo === "avaliacao" || tipo === "avaliação") {
-            const jogador = normalizarNome(get(["Jogador Avaliado", "Jogador", "Atleta"], -1));
-            if (!jogador || ehPlaceholderAntigo(jogador)) return;
-            const time = normalizarNome(get(["Time do Jogador", "Time Jogador", "Time Avaliado"], -1));
-            resultado.avaliacoes.push(normalizarAvaliacao({
-              idPartida,
-              data,
-              nomeFut,
-              jogador,
-              time: time || "",
-              nomeTime: normalizarNome(get(["Nome Time do Jogador", "Nome Time Jogador", "Nome do Time"], -1)) || (time ? `Time ${time}` : ""),
-              tempo: normalizarNome(get(["Tempo Jogador", "Minutos Jogador", "Tempo Jogado"], -1)) || tempo,
-              marcacao: normalizarNome(get(["Nota Marcacao", "Nota Marcação", "Marcacao", "Marcação"], -1)),
-              passes: normalizarNome(get(["Nota Passes", "Passes", "Passe"], -1)),
-              stamina: normalizarNome(get(["Nota Stamina", "Stamina", "Folego", "Fôlego"], -1))
-            }));
+        const lb = conteudo.split(/\r?\n/).filter((l) => l.trim() !== "");
+        if (!lb.length) return resultado;
+        const del = detectarDelimitador(lb[0]);
+        const pL = parseLinhaCSV(lb[0], del).map(normalizarChave);
+        const temCab = pL.includes("data")||pL.includes("nomedofut")||pL.includes("timemandante")||pL.includes("tiporegistro")||pL.includes("tipo");
+        const cab = temCab ? pL : null;
+        const ld = temCab ? lb.slice(1) : lb;
+        ld.forEach((raw) => {
+          const cols = parseLinhaCSV(raw, del);
+          if (cols.every((c) => !normalizarNome(c))) return;
+          const get = (aliases, fi) => getValorCSV(cols, cab, aliases, fi);
+          const tipo = normalizarChave(get(["Tipo Registro","Tipo","Registro"],-1));
+          const data = normalizarNome(get(["Data"], cab ? -1 : 0))||hojeISO();
+          const nomeFut = normalizarNome(get(["Nome do Fut","NomeFut","Fut"], cab ? -1 : 1))||"Fut Regular";
+          const t1 = normalizarNome(get(["Time Mandante","Time 1","Mandante"], cab ? -1 : 2))||"A";
+          const nF1 = normalizarNome(get(["Nome Fantasia Mandante","Fantasia Mandante","Nome Time Mandante"], cab ? -1 : 3))||`Time ${t1}`;
+          const g1 = parseInt(get(["Gols Mandante","Gols 1","Gols Time 1"], cab ? -1 : 4),10)||0;
+          const t2 = normalizarNome(get(["Time Visitante","Time 2","Visitante"], cab ? -1 : 5))||"B";
+          const nF2 = normalizarNome(get(["Nome Fantasia Visitante","Fantasia Visitante","Nome Time Visitante"], cab ? -1 : 6))||`Time ${t2}`;
+          const g2 = parseInt(get(["Gols Visitante","Gols 2","Gols Time 2"], cab ? -1 : 7),10)||0;
+          const tempo = normalizarNome(get(["Tempo Jogo","Tempo","Minutos"], cab ? -1 : 8))||"10";
+          const idCSV = normalizarNome(get(["Id da Partida","ID Partida","idPartida"], cab ? -1 : 12));
+          const baseSemId = [data,nomeFut,t1,nF1,g1,t2,nF2,g2,tempo].join("|");
+          const idPartida = idCSV||`CSV-${hashString(baseSemId)}`;
+          if (tipo==="avaliacao"||tipo==="avaliação") {
+            const jog = normalizarNome(get(["Jogador Avaliado","Jogador","Atleta"],-1));
+            if (!jog||ehPlaceholderAntigo(jog)) return;
+            const time = normalizarNome(get(["Time do Jogador","Time Jogador","Time Avaliado"],-1));
+            resultado.avaliacoes.push(normalizarAvaliacao({ idPartida,data,nomeFut,jogador:jog,time:time||"",nomeTime:normalizarNome(get(["Nome Time do Jogador","Nome Time Jogador","Nome do Time"],-1))||(time?`Time ${time}`:""),tempo:normalizarNome(get(["Tempo Jogador","Minutos Jogador","Tempo Jogado"],-1))||tempo,marcacao:normalizarNome(get(["Nota Marcacao","Nota Marcação","Marcacao","Marcação"],-1)),passes:normalizarNome(get(["Nota Passes","Passes","Passe"],-1)),stamina:normalizarNome(get(["Nota Stamina","Stamina","Folego","Fôlego"],-1)) }));
             return;
           }
-
-          const gol = normalizarNome(get(["Autor do Gol", "Autor Gol", "Gol", "Artilheiro"], cabecalhos ? -1 : 9)) || "Nenhum";
-          const assist = normalizarNome(get(["Assistencia", "Assistência", "Autor Assistencia", "Autor Assistência"], cabecalhos ? -1 : 10)) || "Nenhum";
-          const timeGol = normalizarNome(get(["Time do Gol", "Time Gol"], cabecalhos ? -1 : 11));
-
-          if (tipo === "avaliacoes" || tipo === "ratings") return;
-          if (!data && !t1 && !t2) return;
-
-          resultado.historico.push({
-            idPartida,
-            data,
-            nomeFut,
-            t1,
-            nFantasia1,
-            g1,
-            t2,
-            nFantasia2,
-            g2,
-            tempo,
-            timeGol,
-            gol,
-            assist
-          });
+          if (tipo==="avaliacoes"||tipo==="ratings") return;
+          if (!data&&!t1&&!t2) return;
+          const gol = normalizarNome(get(["Autor do Gol","Autor Gol","Gol","Artilheiro"], cab ? -1 : 9))||"Nenhum";
+          const assist = normalizarNome(get(["Assistencia","Assistência","Autor Assistencia","Autor Assistência"], cab ? -1 : 10))||"Nenhum";
+          const timeGol = normalizarNome(get(["Time do Gol","Time Gol"], cab ? -1 : 11));
+          resultado.historico.push({ idPartida,data,nomeFut,t1,nFantasia1:nF1,g1,t2,nFantasia2:nF2,g2,tempo,timeGol,gol,assist });
         });
-
         return resultado;
       }
 
       function detectarDelimitador(linha) {
-        const qtdPontoVirgula = parseLinhaCSV(linha, ";").length;
-        const qtdVirgula = parseLinhaCSV(linha, ",").length;
-        return qtdPontoVirgula >= qtdVirgula ? ";" : ",";
+        return parseLinhaCSV(linha,";").length >= parseLinhaCSV(linha,",").length ? ";" : ",";
       }
 
-      function parseLinhaCSV(linha, delimitador) {
-        const colunas = [];
-        let atual = "";
-        let dentroAspas = false;
-
-        for (let i = 0; i < linha.length; i += 1) {
-          const char = linha[i];
-          const proximo = linha[i + 1];
-
-          if (char === '"') {
-            if (dentroAspas && proximo === '"') {
-              atual += '"';
-              i += 1;
-            } else {
-              dentroAspas = !dentroAspas;
-            }
-          } else if (char === delimitador && !dentroAspas) {
-            colunas.push(atual.trim());
-            atual = "";
-          } else {
-            atual += char;
-          }
+      function parseLinhaCSV(linha, del) {
+        const cols = []; let atual = "", dentroAspas = false;
+        for (let i = 0; i < linha.length; i++) {
+          const c = linha[i], prox = linha[i+1];
+          if (c === '"') { if (dentroAspas && prox === '"') { atual += '"'; i++; } else dentroAspas = !dentroAspas; }
+          else if (c === del && !dentroAspas) { cols.push(atual.trim()); atual = ""; }
+          else atual += c;
         }
-
-        colunas.push(atual.trim());
-        return colunas;
+        cols.push(atual.trim()); return cols;
       }
 
-      function normalizarChave(valor) {
-        return String(valor || "")
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, "");
-      }
-
-      function getValorCSV(colunas, cabecalhos, aliases, fallbackIndex) {
-        if (cabecalhos) {
-          for (const alias of aliases) {
-            const indice = cabecalhos.indexOf(normalizarChave(alias));
-            if (indice >= 0) return colunas[indice] || "";
-          }
-        }
-        if (Number.isInteger(fallbackIndex) && fallbackIndex >= 0) return colunas[fallbackIndex] || "";
+      function normalizarChave(v) { return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,""); }
+      function getValorCSV(cols, cab, aliases, fi) {
+        if (cab) { for (const a of aliases) { const i = cab.indexOf(normalizarChave(a)); if (i>=0) return cols[i]||""; } }
+        if (Number.isInteger(fi) && fi>=0) return cols[fi]||"";
         return "";
       }
-
-      function hashString(valor) {
-        let hash = 0;
-        const texto = String(valor || "");
-        for (let i = 0; i < texto.length; i += 1) {
-          hash = ((hash << 5) - hash) + texto.charCodeAt(i);
-          hash |= 0;
-        }
-        return Math.abs(hash).toString(36);
+      function hashString(v) {
+        let h = 0; const t = String(v||"");
+        for (let i=0;i<t.length;i++) { h=((h<<5)-h)+t.charCodeAt(i); h|=0; }
+        return Math.abs(h).toString(36);
       }
 
       function exportarParaCSV() {
-        if (!state.historico.length && !state.avaliacoes.length) {
-          mostrarToast("Sem dados para exportar.", "warn");
-          return;
-        }
-
-        const cabecalho = [
-          "Tipo Registro",
-          "Id da Partida",
-          "Data",
-          "Nome do Fut",
-          "Time Mandante",
-          "Nome Fantasia Mandante",
-          "Gols Mandante",
-          "Time Visitante",
-          "Nome Fantasia Visitante",
-          "Gols Visitante",
-          "Tempo Jogo",
-          "Time do Gol",
-          "Autor do Gol",
-          "Assistencia",
-          "Jogador Avaliado",
-          "Time do Jogador",
-          "Nome Time do Jogador",
-          "Tempo Jogador",
-          "Nota Marcacao",
-          "Nota Passes",
-          "Nota Stamina"
-        ];
-
-        const linhas = [cabecalho.map(valorCSV).join(";")];
+        if (!state.historico.length && !state.avaliacoes.length) { mostrarToast("Sem dados para exportar.", "warn"); return; }
+        const cab = ["Tipo Registro","Id da Partida","Data","Nome do Fut","Time Mandante","Nome Fantasia Mandante","Gols Mandante","Time Visitante","Nome Fantasia Visitante","Gols Visitante","Tempo Jogo","Time do Gol","Autor do Gol","Assistencia","Jogador Avaliado","Time do Jogador","Nome Time do Jogador","Tempo Jogador","Nota Marcacao","Nota Passes","Nota Stamina"];
+        const linhas = [cab.map(valorCSV).join(";")];
         state.historico.forEach((d) => {
-          linhas.push([
-            isGolValido(d.gol) ? "GOL" : "JOGO",
-            d.idPartida,
-            d.data,
-            d.nomeFut,
-            d.t1,
-            d.nFantasia1,
-            d.g1,
-            d.t2,
-            d.nFantasia2,
-            d.g2,
-            d.tempo,
-            d.timeGol,
-            d.gol,
-            d.assist,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ].map(valorCSV).join(";"));
+          linhas.push([isGolValido(d.gol)?"GOL":"JOGO",d.idPartida,d.data,d.nomeFut,d.t1,d.nFantasia1,d.g1,d.t2,d.nFantasia2,d.g2,d.tempo,d.timeGol,d.gol,d.assist,"","","","","","",""].map(valorCSV).join(";"));
         });
-
         state.avaliacoes.forEach((a) => {
-          const partida = getPartidaPorId(a.idPartida);
-          linhas.push([
-            "AVALIACAO",
-            a.idPartida,
-            a.data,
-            a.nomeFut,
-            partida?.t1 || "",
-            partida?.nFantasia1 || "",
-            partida?.g1 ?? "",
-            partida?.t2 || "",
-            partida?.nFantasia2 || "",
-            partida?.g2 ?? "",
-            partida?.tempo || "",
-            "",
-            "",
-            "",
-            a.jogador,
-            a.time,
-            a.nomeTime,
-            a.tempo,
-            a.marcacao,
-            a.passes,
-            a.stamina
-          ].map(valorCSV).join(";"));
+          const p = getPartidaPorId(a.idPartida);
+          linhas.push(["AVALIACAO",a.idPartida,a.data,a.nomeFut,p?.t1||"",p?.nFantasia1||"",p?.g1??"",p?.t2||"",p?.nFantasia2||"",p?.g2??"",p?.tempo||"","","",a.jogador,a.time,a.nomeTime,a.tempo,a.marcacao,a.passes,a.stamina].map(valorCSV).join(";"));
         });
-
-        const blob = new Blob(["\uFEFF" + linhas.join("\n")], { type: "text/csv;charset=utf-8" });
+        const blob = new Blob(["\uFEFF"+linhas.join("\n")], { type:"text/csv;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = url;
-        link.download = `historico_fut_com_avaliacoes_${hojeISO().replaceAll("-", "")}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        link.href = url; link.download = `historico_fut_com_avaliacoes_${hojeISO().replaceAll("-","")}.csv`;
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
         URL.revokeObjectURL(url);
-
         mostrarToast("CSV baixado com jogos e avaliações.");
       }
 
-      function getPartidaPorId(idPartida) {
-        return montarPartidas(state.historico).find((partida) => partida.id === idPartida) || null;
-      }
+      function getPartidaPorId(idPartida) { return montarPartidas(state.historico).find((p) => p.id === idPartida)||null; }
+      function valorCSV(v) { const t = String(v??""); return /[;"\n\r]/.test(t) ? `"${t.replace(/"/g,'""')}"` : t; }
 
-      function valorCSV(valor) {
-        const texto = String(valor ?? "");
-        return /[;"\n\r]/.test(texto) ? `"${texto.replace(/"/g, '""')}"` : texto;
-      }
+      // ─── RENDER ──────────────────────────────────────────────────────────────
 
       function renderizarTudo() {
         renderizarJogadores();
@@ -2921,75 +2449,142 @@
         renderizarGolsPartida();
         atualizarResumoTopo();
         atualizarStatusLocal();
+        renderizarHome();
+      }
+
+      function renderizarHome() {
+        // Escalação da noite
+        const ativos = state.timesAtivos.filter((id) => {
+          const t = state.escalacao[id];
+          return t && (t.jogadores.length > 0 || t.nome !== `Time ${id}`);
+        });
+        const nomeFut = state.config.nomeFut || nomePadraoFutPorData(state.config.data || hojeISO());
+        const dataStr = state.config.data ? formatarData(state.config.data) : "hoje";
+        const infoEl = byId("homeFutInfo");
+        if (infoEl) infoEl.textContent = `${nomeFut} • ${dataStr}`;
+        byId("homeTimesAtivos").textContent = `${ativos.length} time${ativos.length===1?"":"s"}`;
+        const grid = byId("homeLineupGrid");
+        if (grid) {
+          if (!ativos.length) {
+            grid.innerHTML = '<div class="empty-state">Nenhuma escalação travada ainda para esta noite.</div>';
+          } else {
+            grid.innerHTML = ativos.map((id) => {
+              const t = state.escalacao[id];
+              const jogadores = t.jogadores || [];
+              return `<div class="home-team-card">
+                <div class="home-team-name">
+                  <span class="team-letter">${id}</span>
+                  <span>${escaparHTML(t.nome || `Time ${id}`)}</span>
+                </div>
+                <div class="home-player-list">
+                  ${jogadores.length ? jogadores.map((j) => `<div class="home-player-item">👟 ${escaparHTML(j)}</div>`).join("") : '<div class="mini-empty">Sem jogadores</div>'}
+                </div>
+              </div>`;
+            }).join("");
+          }
+        }
+
+        // Resumo rápido — artilharia do fut mais recente (ou todas as datas)
+        const linhas = state.historico;
+        const stats = new Map();
+        linhas.forEach((d) => {
+          if (isGolValido(d.gol)) {
+            if (!stats.has(d.gol)) stats.set(d.gol, { gols:0, assist:0 });
+            stats.get(d.gol).gols++;
+          }
+          if (isAssistenciaValida(d.assist)) {
+            if (!stats.has(d.assist)) stats.set(d.assist, { gols:0, assist:0 });
+            stats.get(d.assist).assist++;
+          }
+        });
+        const lista = Array.from(stats.entries()).map(([nome, s]) => ({ nome, ...s }))
+          .sort((a,b) => b.gols-a.gols || b.assist-a.assist || a.nome.localeCompare(b.nome,"pt-BR"))
+          .slice(0, 10);
+        const tbody = byId("tabelaJogadoresHome")?.querySelector("tbody");
+        if (tbody) {
+          if (!lista.length) {
+            tbody.innerHTML = '<tr><td class="empty-table" colspan="4">Nenhum gol registrado ainda.</td></tr>';
+          } else {
+            const maxG = lista[0].gols;
+            tbody.innerHTML = lista.map((item, i) => `
+              <tr class="${item.gols===maxG&&maxG>0?"leader":""}">
+                <td><span class="rank-cell">${i+1}</span></td>
+                <td><strong>${escaparHTML(item.nome)}</strong></td>
+                <td>${item.gols}</td>
+                <td>${item.assist}</td>
+              </tr>
+            `).join("");
+          }
+        }
       }
 
       function renderizarJogadores() {
         const container = byId("listaTodosJogadores");
-        const busca = chaveNome(byId("buscarJogadorNome")?.value || "");
+        const busca = chaveNome(byId("buscarJogadorNome")?.value||"");
         const jogadores = getJogadoresBancoOrdenados();
-        const filtrados = busca ? jogadores.filter((jogador) => chaveNome(jogador).includes(busca)) : jogadores;
+        const filtrados = busca ? jogadores.filter((j) => chaveNome(j).includes(busca)) : jogadores;
         byId("contadorJogadores").textContent = jogadores.length;
 
+        // Get all assigned players for badge highlighting
+        const escaladosSet = new Set();
+        TEAM_IDS.forEach((id) => {
+          (state.escalacao[id]?.jogadores || []).forEach((n) => escaladosSet.add(chaveNome(n)));
+          getJogadoresTimeFormulario(id).forEach((n) => escaladosSet.add(chaveNome(n)));
+        });
+
         if (!jogadores.length) {
-          container.innerHTML = '<div class="empty-state">Banco vazio. Cadastre o primeiro jogador acima ou importe um CSV.</div>';
-          return;
+          container.innerHTML = '<div class="empty-state">Banco vazio. Cadastre o primeiro jogador acima ou importe um CSV.</div>'; return;
         }
-
         if (!filtrados.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum jogador encontrado nesse filtro.</div>';
-          return;
+          container.innerHTML = '<div class="empty-state">Nenhum jogador encontrado nesse filtro.</div>'; return;
         }
 
-        container.innerHTML = filtrados.map((jogador) => `
-          <span class="badge">
+        container.innerHTML = filtrados.map((jogador) => {
+          const escalado = escaladosSet.has(chaveNome(jogador));
+          return `<span class="badge ${escalado?"assigned":""}">
             <span class="badge-name">👟 ${escaparHTML(jogador)}</span>
+            <button class="badge-edit" type="button" aria-label="Editar ${escaparHTML(jogador)}" data-edit-player="${escaparHTML(jogador)}" title="Editar nome">✏</button>
             <button class="badge-remove" type="button" aria-label="Remover ${escaparHTML(jogador)}" data-remove-player="${escaparHTML(jogador)}">×</button>
-          </span>
-        `).join("");
+          </span>`;
+        }).join("");
 
         container.querySelectorAll("[data-remove-player]").forEach((btn) => {
           btn.addEventListener("click", () => removerJogadorDoBanco(btn.dataset.removePlayer));
         });
+        container.querySelectorAll("[data-edit-player]").forEach((btn) => {
+          btn.addEventListener("click", () => abrirEdicaoNome(btn.dataset.editPlayer));
+        });
       }
 
-
       function renderizarDatalistJogadores() {
-        const datalist = byId("listaJogadoresDatalist");
-        if (!datalist) return;
-        datalist.innerHTML = getJogadoresBancoOrdenados()
-          .map((jogador) => `<option value="${escaparHTML(jogador)}"></option>`)
-          .join("");
+        const dl = byId("listaJogadoresDatalist");
+        if (!dl) return;
+        dl.innerHTML = getJogadoresBancoOrdenados().map((j) => `<option value="${escaparHTML(j)}"></option>`).join("");
       }
 
       function renderizarBancoNosTimes() {
         const banco = getJogadoresBancoOrdenados();
-
         TEAM_IDS.forEach((id) => {
           const input = byId(`buscaBanco${id}`);
           const container = byId(`sugestoesBanco${id}`);
           if (!input || !container) return;
-
           const termo = chaveNome(input.value);
           const noTime = getJogadoresTimeFormulario(id);
-          let disponiveis = banco.filter((jogador) => !noTime.some((nome) => mesmoNome(nome, jogador)));
-          if (termo) disponiveis = disponiveis.filter((jogador) => chaveNome(jogador).includes(termo));
-
-          if (!banco.length) {
-            container.innerHTML = '<div class="mini-empty">Banco vazio. Cadastre jogadores na aba Setup.</div>';
+          // Hide players assigned to other teams
+          const emOutros = getJogadoresJaEscaladosEmOutrosTimesParaId(id);
+          let disp = banco.filter((j) => {
+            if (noTime.some((n) => mesmoNome(n, j))) return false; // already in this team
+            if (emOutros.has(chaveNome(j))) return false; // in another team
+            return true;
+          });
+          if (termo) disp = disp.filter((j) => chaveNome(j).includes(termo));
+          if (!banco.length) { container.innerHTML = '<div class="mini-empty">Banco vazio. Cadastre jogadores na aba Setup.</div>'; return; }
+          if (!disp.length) {
+            container.innerHTML = termo ? '<div class="mini-empty">Nenhum jogador encontrado nesse filtro.</div>' : '<div class="mini-empty">Todos os jogadores disponíveis já estão escalados.</div>';
             return;
           }
-
-          if (!disponiveis.length) {
-            container.innerHTML = termo
-              ? '<div class="mini-empty">Nenhum jogador encontrado nesse filtro.</div>'
-              : '<div class="mini-empty">Todos os jogadores do banco já estão neste time.</div>';
-            return;
-          }
-
-          container.innerHTML = disponiveis.slice(0, 8).map((jogador) => `
-            <button class="bank-result" type="button" data-add-bank-player="${escaparHTML(jogador)}">+ ${escaparHTML(jogador)}</button>
-          `).join("") + (disponiveis.length > 8 ? `<div class="mini-empty">Mostrando 8 de ${disponiveis.length}. Digite mais letras para filtrar.</div>` : "");
-
+          container.innerHTML = disp.slice(0,8).map((j) => `<button class="bank-result" type="button" data-add-bank-player="${escaparHTML(j)}">+ ${escaparHTML(j)}</button>`).join("")
+            + (disp.length > 8 ? `<div class="mini-empty">Mostrando 8 de ${disp.length}. Digite mais letras para filtrar.</div>` : "");
           container.querySelectorAll("[data-add-bank-player]").forEach((btn) => {
             btn.addEventListener("click", () => adicionarJogadorBancoAoTime(id, btn.dataset.addBankPlayer));
           });
@@ -3001,21 +2596,14 @@
           const container = byId(`chipsTime${id}`);
           const contador = byId(`chipsContador${id}`);
           const jogadores = getJogadoresTimeFormulario(id);
-
           if (contador) contador.textContent = jogadores.length;
-
           if (!jogadores.length) {
-            container.innerHTML = '<div class="empty-state" style="min-height:36px;font-size:0.82rem;">Nenhum jogador neste time ainda.</div>';
-            return;
+            container.innerHTML = '<div class="empty-state" style="min-height:36px;font-size:0.82rem;">Nenhum jogador neste time ainda.</div>'; return;
           }
-
-          container.innerHTML = jogadores.map((jogador) => `
-            <span class="team-chip">
-              <span class="chip-name">${escaparHTML(jogador)}</span>
-              <button class="chip-remove" type="button" aria-label="Remover ${escaparHTML(jogador)} do Time ${id}" data-remove-team-player="${id}" data-player="${escaparHTML(jogador)}">×</button>
-            </span>
-          `).join("");
-
+          container.innerHTML = jogadores.map((j) => `<span class="team-chip">
+            <span class="chip-name">${escaparHTML(j)}</span>
+            <button class="chip-remove" type="button" aria-label="Remover ${escaparHTML(j)} do Time ${id}" data-remove-team-player="${id}" data-player="${escaparHTML(j)}">×</button>
+          </span>`).join("");
           container.querySelectorAll("[data-remove-team-player]").forEach((btn) => {
             btn.addEventListener("click", () => removerJogadorDoTime(btn.dataset.removeTeamPlayer, btn.dataset.player));
           });
@@ -3024,160 +2612,103 @@
 
       function renderizarPreviewTimesFormulario() {
         const ativos = [];
-        let totalEscalados = 0;
-
+        let totalEsc = 0;
         TEAM_IDS.forEach((id) => {
           const nome = getNomeTimeFormulario(id);
-          const jogadores = getJogadoresTimeFormulario(id);
-          if (timeEstaPreenchido(id, nome, jogadores)) {
-            ativos.push({ id, nome, jogadores });
-            totalEscalados += jogadores.length;
-          }
+          const j = getJogadoresTimeFormulario(id);
+          if (timeEstaPreenchido(id, nome, j)) { ativos.push({ id, nome, jogadores:j }); totalEsc += j.length; }
         });
-
-        byId("contadorTimesDetectados").textContent = `${ativos.length} time${ativos.length === 1 ? "" : "s"} detectado${ativos.length === 1 ? "" : "s"}`;
-        byId("contadorEscalados").textContent = `${totalEscalados} jogador${totalEscalados === 1 ? "" : "es"} escalado${totalEscalados === 1 ? "" : "s"}`;
-
+        byId("contadorTimesDetectados").textContent = `${ativos.length} time${ativos.length===1?"":"s"} detectado${ativos.length===1?"":"s"}`;
+        byId("contadorEscalados").textContent = `${totalEsc} jogador${totalEsc===1?"":"es"} escalado${totalEsc===1?"":"s"}`;
         const resumo = byId("timesAtivosResumo");
-        if (!ativos.length) {
-          resumo.innerHTML = '<div class="empty-state">Preencha nome fantasia ou jogadores para ativar um time.</div>';
-          return;
-        }
-
-        resumo.innerHTML = ativos.map((time) => {
-          const travado = state.timesAtivos.includes(time.id) ? "success" : "";
-          return `<span class="badge ${travado}">Time ${time.id}: ${escaparHTML(time.nome)} • ${time.jogadores.length} jogador${time.jogadores.length === 1 ? "" : "es"}</span>`;
+        if (!ativos.length) { resumo.innerHTML = '<div class="empty-state">Preencha nome fantasia ou jogadores para ativar um time.</div>'; return; }
+        resumo.innerHTML = ativos.map((t) => {
+          const travado = state.timesAtivos.includes(t.id) ? "success" : "";
+          return `<span class="badge ${travado}">Time ${t.id}: ${escaparHTML(t.nome)} • ${t.jogadores.length} jogador${t.jogadores.length===1?"":"es"}</span>`;
         }).join("");
       }
 
       function renderizarGolsPartida() {
         const lista = byId("listaGolsPartida");
         const total = state.golsDaPartida.length;
-        byId("contadorGolsPartida").textContent = `${total} gol${total === 1 ? "" : "s"}`;
+        byId("contadorGolsPartida").textContent = `${total} gol${total===1?"":"s"}`;
         byId("btnDesfazerGol").disabled = total === 0;
-
-        if (!total) {
-          lista.innerHTML = '<div class="empty-state">Nenhum gol anotado neste jogo. Você ainda pode salvar 0 x 0 ou preencher o placar manualmente.</div>';
-          return;
-        }
-
-        lista.innerHTML = state.golsDaPartida.map((gol, index) => {
-          const nomeTime = state.escalacao[gol.time]?.nome || `Time ${gol.time}`;
-          const assist = isAssistenciaValida(gol.assist) ? `Assistência: ${gol.assist}` : "Sem assistência";
-          return `
-            <div class="goal-item">
-              <div>
-                <strong>⚽ ${index + 1}. ${escaparHTML(gol.autor)}</strong>
-                <span>${escaparHTML(nomeTime)} • ${escaparHTML(assist)}</span>
-              </div>
-              <button class="icon-button" type="button" aria-label="Remover gol ${index + 1}" data-remove-goal="${index}">×</button>
+        if (!total) { lista.innerHTML = '<div class="empty-state">Nenhum gol anotado neste jogo. Você ainda pode salvar 0 × 0 ou preencher o placar manualmente.</div>'; return; }
+        lista.innerHTML = state.golsDaPartida.map((g, i) => {
+          const nomeTime = state.escalacao[g.time]?.nome || `Time ${g.time}`;
+          const assist = isAssistenciaValida(g.assist) ? `Assistência: ${g.assist}` : "Sem assistência";
+          return `<div class="goal-item">
+            <div>
+              <strong>⚽ ${i+1}. ${escaparHTML(g.autor)}</strong>
+              <span>${escaparHTML(nomeTime)} • ${escaparHTML(assist)}</span>
             </div>
-          `;
+            <button class="icon-button" type="button" aria-label="Remover gol ${i+1}" data-remove-goal="${i}">×</button>
+          </div>`;
         }).join("");
-
         lista.querySelectorAll("[data-remove-goal]").forEach((btn) => {
           btn.addEventListener("click", () => removerGolPorIndice(Number(btn.dataset.removeGoal)));
         });
       }
 
       function atualizarFiltrosData() {
-        const select = byId("filtroData");
-        const atual = select.value || "TODAS";
-        const chaves = Array.from(new Set(state.historico.map((d) => `${d.data} | ${d.nomeFut || "Fut Regular"}`)))
-          .sort((a, b) => b.localeCompare(a, "pt-BR"));
-
-        select.innerHTML = '<option value="TODAS">Todas as datas e futs</option>';
-        chaves.forEach((chave) => select.add(new Option(chave, chave)));
-        select.value = chaves.includes(atual) ? atual : "TODAS";
+        const sel = byId("filtroData");
+        const atual = sel.value || "TODAS";
+        const chaves = Array.from(new Set(state.historico.map((d) => `${d.data} | ${d.nomeFut||"Fut Regular"}`)))
+          .sort((a,b) => b.localeCompare(a,"pt-BR"));
+        sel.innerHTML = '<option value="TODAS">Todas as datas e futs</option>';
+        chaves.forEach((c) => sel.add(new Option(c, c)));
+        sel.value = chaves.includes(atual) ? atual : "TODAS";
       }
 
       function obterHistoricoFiltrado() {
-        const filtro = byId("filtroData").value || "TODAS";
-        if (filtro === "TODAS") return state.historico;
-        return state.historico.filter((d) => `${d.data} | ${d.nomeFut || "Fut Regular"}` === filtro);
+        const f = byId("filtroData").value || "TODAS";
+        if (f === "TODAS") return state.historico;
+        return state.historico.filter((d) => `${d.data} | ${d.nomeFut||"Fut Regular"}` === f);
       }
 
       function montarPartidas(linhas) {
         const mapa = new Map();
-        linhas.forEach((d, indice) => {
+        linhas.forEach((d, i) => {
           const chave = d.idPartida || chavePartida(d);
-          if (!mapa.has(chave)) {
-            mapa.set(chave, {
-              id: chave,
-              ordem: indice,
-              data: d.data,
-              nomeFut: d.nomeFut || "Fut Regular",
-              t1: d.t1,
-              t2: d.t2,
-              nFantasia1: d.nFantasia1 || `Time ${d.t1}`,
-              nFantasia2: d.nFantasia2 || `Time ${d.t2}`,
-              g1: parseInt(d.g1, 10) || 0,
-              g2: parseInt(d.g2, 10) || 0,
-              tempo: d.tempo || "10",
-              linhas: []
-            });
-          }
+          if (!mapa.has(chave)) mapa.set(chave, { id:chave, ordem:i, data:d.data, nomeFut:d.nomeFut||"Fut Regular", t1:d.t1, t2:d.t2, nFantasia1:d.nFantasia1||`Time ${d.t1}`, nFantasia2:d.nFantasia2||`Time ${d.t2}`, g1:parseInt(d.g1,10)||0, g2:parseInt(d.g2,10)||0, tempo:d.tempo||"10", linhas:[] });
           mapa.get(chave).linhas.push(d);
         });
-
         return Array.from(mapa.values()).reverse();
       }
 
-      function chavePartida(d) {
-        return [d.data, d.nomeFut, d.t1, d.nFantasia1, d.g1, d.t2, d.nFantasia2, d.g2, d.tempo].join("|");
-      }
+      function chavePartida(d) { return [d.data,d.nomeFut,d.t1,d.nFantasia1,d.g1,d.t2,d.nFantasia2,d.g2,d.tempo].join("|"); }
 
       function renderizarPainelEstatistico() {
         const linhas = obterHistoricoFiltrado();
         const partidas = montarPartidas(linhas);
-        const totalGols = partidas.reduce((soma, jogo) => soma + jogo.g1 + jogo.g2, 0);
-        byId("statusFiltro").textContent = `${partidas.length} jogo${partidas.length === 1 ? "" : "s"} • ${totalGols} gol${totalGols === 1 ? "" : "s"}`;
-
-        renderizarNotasJogadores();
+        const totalGols = partidas.reduce((s,j) => s+j.g1+j.g2, 0);
+        byId("statusFiltro").textContent = `${partidas.length} jogo${partidas.length===1?"":"s"} • ${totalGols} gol${totalGols===1?"":"s"}`;
         renderizarTabelaOverall(linhas);
         renderizarTabelaJogadores(linhas);
         renderizarTabelaTimes(partidas);
         renderizarTabelaHistorico(partidas);
       }
 
-      function obterAvaliacoesFiltradasPorFiltro() {
-        const filtro = byId("filtroData").value || "TODAS";
-        if (filtro === "TODAS") return state.avaliacoes;
-        return state.avaliacoes.filter((a) => `${a.data} | ${a.nomeFut || "Fut Regular"}` === filtro);
-      }
-
-
       function renderizarNotasJogadores() {
         const container = byId("listaNotasJogadores");
         if (!container) return;
-
         const jogadores = getJogadoresBancoOrdenados();
         if (!jogadores.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum jogador cadastrado ainda. Cadastre na aba Setup.</div>';
-          return;
+          container.innerHTML = '<div class="empty-state">Nenhum jogador cadastrado ainda. Cadastre na aba Setup.</div>'; return;
         }
-
-        container.innerHTML = `
-          <div class="player-rating-row" style="background:transparent;border-color:transparent;font-size:0.72rem;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;padding:4px 12px;">
-            <span>Jogador</span>
-            <span style="text-align:center;">Marc.</span>
-            <span style="text-align:center;">Passes</span>
-            <span style="text-align:center;">Stam.</span>
-          </div>
-        ` + jogadores.map((jogador) => {
+        container.innerHTML = `<div class="player-rating-row" style="background:transparent;border-color:transparent;font-size:0.72rem;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;padding:4px 12px;">
+          <span>Jogador</span><span style="text-align:center;">Marc.</span><span style="text-align:center;">Passes</span><span style="text-align:center;">Stam.</span>
+        </div>` + jogadores.map((jogador) => {
           const chave = chaveNome(jogador);
           const notas = state.notasJogadores[chave] || {};
-          const temNotas = NOTAS.includes(notas.marcacao) || NOTAS.includes(notas.passes) || NOTAS.includes(notas.stamina);
-          return `
-            <div class="player-rating-row ${temNotas ? "has-notes" : ""}" data-player-rating-key="${escaparHTML(chave)}">
-              <span class="player-rating-name">👟 ${escaparHTML(jogador)}</span>
-              <select class="player-rating-select" data-nota-field="marcacao" aria-label="Marcação de ${escaparHTML(jogador)}">${opcoesNotas(notas.marcacao || "", true)}</select>
-              <select class="player-rating-select" data-nota-field="passes" aria-label="Passes de ${escaparHTML(jogador)}">${opcoesNotas(notas.passes || "", true)}</select>
-              <select class="player-rating-select" data-nota-field="stamina" aria-label="Stamina de ${escaparHTML(jogador)}">${opcoesNotas(notas.stamina || "", true)}</select>
-            </div>
-          `;
+          const temNotas = NOTAS.includes(notas.marcacao)||NOTAS.includes(notas.passes)||NOTAS.includes(notas.stamina);
+          return `<div class="player-rating-row ${temNotas?"has-notes":""}" data-player-rating-key="${escaparHTML(chave)}">
+            <span class="player-rating-name">👟 ${escaparHTML(jogador)}</span>
+            <select class="player-rating-select" data-nota-field="marcacao" aria-label="Marcação de ${escaparHTML(jogador)}">${opcoesNotas(notas.marcacao||"",true)}</select>
+            <select class="player-rating-select" data-nota-field="passes" aria-label="Passes de ${escaparHTML(jogador)}">${opcoesNotas(notas.passes||"",true)}</select>
+            <select class="player-rating-select" data-nota-field="stamina" aria-label="Stamina de ${escaparHTML(jogador)}">${opcoesNotas(notas.stamina||"",true)}</select>
+          </div>`;
         }).join("");
-
         container.querySelectorAll("[data-player-rating-key]").forEach((row) => {
           row.querySelectorAll("[data-nota-field]").forEach((sel) => {
             sel.addEventListener("change", () => salvarNotaJogador(row));
@@ -3186,287 +2717,152 @@
       }
 
       function salvarNotaJogador(row) {
+        if (!usuarioAutenticado()) return;
         const chave = row.dataset.playerRatingKey;
         if (!chave) return;
-        const marcacao = notaValida(row.querySelector('[data-nota-field="marcacao"]')?.value, true);
-        const passes = notaValida(row.querySelector('[data-nota-field="passes"]')?.value, true);
-        const stamina = notaValida(row.querySelector('[data-nota-field="stamina"]')?.value, true);
-        state.notasJogadores[chave] = { marcacao, passes, stamina };
-        const temNotas = NOTAS.includes(marcacao) || NOTAS.includes(passes) || NOTAS.includes(stamina);
+        const m = notaValida(row.querySelector('[data-nota-field="marcacao"]')?.value, true);
+        const p = notaValida(row.querySelector('[data-nota-field="passes"]')?.value, true);
+        const s = notaValida(row.querySelector('[data-nota-field="stamina"]')?.value, true);
+        state.notasJogadores[chave] = { marcacao:m, passes:p, stamina:s };
+        const temNotas = NOTAS.includes(m)||NOTAS.includes(p)||NOTAS.includes(s);
         row.classList.toggle("has-notes", temNotas);
-        salvarLocalStorage();
+        salvarComCloud();
         renderizarTabelaOverall(obterHistoricoFiltrado());
         mostrarToast("Notas salvas. Overall atualizado.");
       }
 
-      function getNotasJogador(nomeJogador) {
-        const chave = chaveNome(nomeJogador);
-        return state.notasJogadores[chave] || {};
-      }
-
-      function contarContribuicoesPorJogadorPartida(linhas) {
-        const mapa = new Map();
-        linhas.forEach((linha) => {
-          const id = linha.idPartida || chavePartida(linha);
-          if (isGolValido(linha.gol)) {
-            const chave = `${id}__${chaveNome(linha.gol)}`;
-            if (!mapa.has(chave)) mapa.set(chave, { gols: 0, assist: 0 });
-            mapa.get(chave).gols += 1;
-          }
-          if (isAssistenciaValida(linha.assist)) {
-            const chave = `${id}__${chaveNome(linha.assist)}`;
-            if (!mapa.has(chave)) mapa.set(chave, { gols: 0, assist: 0 });
-            mapa.get(chave).assist += 1;
-          }
-        });
-        return mapa;
-      }
+      function getNotasJogador(nome) { return state.notasJogadores[chaveNome(nome)]||{}; }
 
       function calcularOverallJogador(nomeJogador, linhas) {
         const notas = getNotasJogador(nomeJogador);
-        const marcacao = NOTA_VALORES[notaValida(notas.marcacao)] || NOTA_VALORES.C;
-        const passes = NOTA_VALORES[notaValida(notas.passes)] || NOTA_VALORES.C;
-        const stamina = NOTA_VALORES[notaValida(notas.stamina)] || NOTA_VALORES.C;
-        const mediaNotas = (marcacao + passes + stamina) / 3;
-
-        const nomeChave = chaveNome(nomeJogador);
-        let gols = 0;
-        let assist = 0;
-        let partidasSet = new Set();
-        linhas.forEach((linha) => {
-          if (isGolValido(linha.gol) && chaveNome(linha.gol) === nomeChave) {
-            gols += 1;
-            if (linha.idPartida) partidasSet.add(linha.idPartida);
-          }
-          if (isAssistenciaValida(linha.assist) && chaveNome(linha.assist) === nomeChave) {
-            assist += 1;
-            if (linha.idPartida) partidasSet.add(linha.idPartida);
-          }
+        const marcacao = NOTA_VALORES[notaValida(notas.marcacao)]||NOTA_VALORES.C;
+        const passes = NOTA_VALORES[notaValida(notas.passes)]||NOTA_VALORES.C;
+        const stamina = NOTA_VALORES[notaValida(notas.stamina)]||NOTA_VALORES.C;
+        const mediaN = (marcacao+passes+stamina)/3;
+        const nc = chaveNome(nomeJogador);
+        let gols=0, assist=0;
+        const pSet = new Set();
+        linhas.forEach((l) => {
+          if (isGolValido(l.gol)&&chaveNome(l.gol)===nc) { gols++; if (l.idPartida) pSet.add(l.idPartida); }
+          if (isAssistenciaValida(l.assist)&&chaveNome(l.assist)===nc) { assist++; if (l.idPartida) pSet.add(l.idPartida); }
         });
-        const contribuicao = Math.min(100, gols * 12 + assist * 8);
-        const jogos = partidasSet.size;
-        const overall = Math.round(mediaNotas * 0.70 + contribuicao * 0.30);
-        return { overall, mediaNotas: Math.round(mediaNotas), gols, assist, jogos };
+        const contrib = Math.min(100, gols*12+assist*8);
+        return { overall: Math.round(mediaN*0.70+contrib*0.30), mediaNotas: Math.round(mediaN), gols, assist, jogos: pSet.size };
       }
 
-      // ── Overall: ranking cards, sem tabela ─────────────────────
       function renderizarTabelaOverall(linhas) {
-        const container = byId("listaOverall");
-        if (!container) return;
-
+        const tbody = byId("tabelaOverall")?.querySelector("tbody");
+        if (!tbody) return;
         const jogadores = getJogadoresBancoOrdenados();
-        if (!jogadores.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum jogador cadastrado ainda.</div>';
-          return;
-        }
-
-        const lista = jogadores.map((nome) => {
-          const s = calcularOverallJogador(nome, linhas);
-          return { nome, ...s };
-        }).sort((a, b) => b.overall - a.overall || b.gols - a.gols || b.assist - a.assist || a.nome.localeCompare(b.nome, "pt-BR"));
-
-        const maxOverall = lista[0].overall;
-        container.innerHTML = lista.map((item, index) => {
-          const lider = item.overall === maxOverall && maxOverall > 65 ? "leader" : "";
-          return `
-            <div class="ranking-row ${lider}">
-              <span class="ranking-pos">${index + 1}</span>
-              <div class="ranking-inner">
-                <div class="ranking-name">👟 ${escaparHTML(item.nome)}</div>
-                <div class="ranking-meta">
-                  <span class="ranking-chip">J <em>${item.jogos}</em></span>
-                  <span class="ranking-chip">⚽ <em>${item.gols}</em></span>
-                  <span class="ranking-chip">🅰️ <em>${item.assist}</em></span>
-                  <span class="ranking-chip">📊 <em>${item.mediaNotas}</em></span>
-                </div>
-              </div>
-              <span class="ranking-main-badge">${item.overall}</span>
-            </div>
-          `;
-        }).join("");
+        if (!jogadores.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="7">Nenhum jogador cadastrado ainda.</td></tr>'; return; }
+        const lista = jogadores.map((n) => ({ nome:n, ...calcularOverallJogador(n, linhas) }))
+          .sort((a,b) => b.overall-a.overall||b.gols-a.gols||b.assist-a.assist||a.nome.localeCompare(b.nome,"pt-BR"));
+        const maxO = lista[0].overall;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.overall===maxO&&maxO>65?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td><span class="overall-score">${item.overall}</span></td>
+          <td>${item.jogos}</td><td>${item.gols}</td><td>${item.assist}</td><td>${item.mediaNotas}</td>
+        </tr>`).join("");
       }
 
-      // ── Artilharia: ranking cards, sem tabela ──────────────────
       function renderizarTabelaJogadores(linhas) {
         const stats = new Map();
-
         linhas.forEach((d) => {
-          if (isGolValido(d.gol)) {
-            if (!stats.has(d.gol)) stats.set(d.gol, { gols: 0, assist: 0, jogos: new Set() });
-            stats.get(d.gol).gols += 1;
-          }
-          if (isAssistenciaValida(d.assist)) {
-            if (!stats.has(d.assist)) stats.set(d.assist, { gols: 0, assist: 0, jogos: new Set() });
-            stats.get(d.assist).assist += 1;
-          }
+          if (isGolValido(d.gol)) { if (!stats.has(d.gol)) stats.set(d.gol,{gols:0,assist:0,jogos:new Set()}); stats.get(d.gol).gols++; }
+          if (isAssistenciaValida(d.assist)) { if (!stats.has(d.assist)) stats.set(d.assist,{gols:0,assist:0,jogos:new Set()}); stats.get(d.assist).assist++; }
         });
-
-        obterAvaliacoesFiltradasPorFiltro().forEach((avaliacao) => {
-          const nome = normalizarNome(avaliacao.jogador);
-          if (!nome) return;
-          if (!stats.has(nome)) stats.set(nome, { gols: 0, assist: 0, jogos: new Set() });
-          const registro = stats.get(nome);
-          if (!registro.jogos) registro.jogos = new Set();
-          registro.jogos.add(avaliacao.idPartida || `${avaliacao.data}|${avaliacao.nomeFut}`);
-        });
-
-        const lista = Array.from(stats.entries())
-          .map(([nome, s]) => ({ nome, gols: s.gols || 0, assist: s.assist || 0, jogos: s.jogos ? s.jogos.size : 0 }))
-          .sort((a, b) => b.gols - a.gols || b.assist - a.assist || b.jogos - a.jogos || a.nome.localeCompare(b.nome, "pt-BR"));
-
-        const container = byId("listaArtilharia");
-        if (!lista.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum gol ou assistência registrado neste filtro.</div>';
-          return;
-        }
-
-        const maxGols = lista[0].gols;
-        container.innerHTML = lista.map((item, index) => {
-          const lider = item.gols === maxGols && maxGols > 0 ? "leader" : "";
-          return `
-            <div class="ranking-row ${lider}">
-              <span class="ranking-pos">${index + 1}</span>
-              <div class="ranking-inner">
-                <div class="ranking-name">👟 ${escaparHTML(item.nome)}</div>
-                <div class="ranking-meta">
-                  <span class="ranking-chip">🅰️ assist. <em>${item.assist}</em></span>
-                  <span class="ranking-chip">J <em>${item.jogos || "—"}</em></span>
-                </div>
-              </div>
-              <span class="ranking-main-badge">⚽ ${item.gols}</span>
-            </div>
-          `;
-        }).join("");
+        const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,gols:s.gols||0,assist:s.assist||0,jogos:s.jogos?s.jogos.size:0}))
+          .sort((a,b) => b.gols-a.gols||b.assist-a.assist||b.jogos-a.jogos||a.nome.localeCompare(b.nome,"pt-BR"));
+        const tbody = byId("tabelaJogadores").querySelector("tbody");
+        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="5">Nenhum gol ou assistência registrado neste filtro.</td></tr>'; return; }
+        const maxG = lista[0].gols;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.gols===maxG&&maxG>0?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td>${item.gols}</td><td>${item.assist}</td><td>${item.jogos||"—"}</td>
+        </tr>`).join("");
       }
 
       function renderizarTabelaTimes(partidas) {
         const stats = new Map();
-        const iniciar = () => ({ pts: 0, j: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0, sg: 0 });
-
-        partidas.forEach((jogo) => {
-          const a = jogo.nFantasia1 || `Time ${jogo.t1}`;
-          const b = jogo.nFantasia2 || `Time ${jogo.t2}`;
-          if (!stats.has(a)) stats.set(a, iniciar());
-          if (!stats.has(b)) stats.set(b, iniciar());
-
-          const sA = stats.get(a);
-          const sB = stats.get(b);
-          sA.j += 1; sB.j += 1;
-          sA.gp += jogo.g1; sA.gc += jogo.g2;
-          sB.gp += jogo.g2; sB.gc += jogo.g1;
-
-          if (jogo.g1 > jogo.g2) {
-            sA.v += 1; sA.pts += 3; sB.d += 1;
-          } else if (jogo.g2 > jogo.g1) {
-            sB.v += 1; sB.pts += 3; sA.d += 1;
-          } else {
-            sA.e += 1; sB.e += 1; sA.pts += 1; sB.pts += 1;
-          }
+        const ini = () => ({pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0,sg:0});
+        partidas.forEach((j) => {
+          const a = j.nFantasia1||`Time ${j.t1}`, b = j.nFantasia2||`Time ${j.t2}`;
+          if (!stats.has(a)) stats.set(a,ini()); if (!stats.has(b)) stats.set(b,ini());
+          const sA=stats.get(a), sB=stats.get(b);
+          sA.j++; sB.j++; sA.gp+=j.g1; sA.gc+=j.g2; sB.gp+=j.g2; sB.gc+=j.g1;
+          if (j.g1>j.g2) { sA.v++; sA.pts+=3; sB.d++; }
+          else if (j.g2>j.g1) { sB.v++; sB.pts+=3; sA.d++; }
+          else { sA.e++; sB.e++; sA.pts++; sB.pts++; }
         });
-
-        const lista = Array.from(stats.entries()).map(([nome, s]) => ({ nome, ...s, sg: s.gp - s.gc }))
-          .sort((a, b) => b.pts - a.pts || b.v - a.v || b.sg - a.sg || b.gp - a.gp || a.nome.localeCompare(b.nome, "pt-BR"));
-
+        const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,...s,sg:s.gp-s.gc}))
+          .sort((a,b) => b.pts-a.pts||b.v-a.v||b.sg-a.sg||b.gp-a.gp||a.nome.localeCompare(b.nome,"pt-BR"));
         const tbody = byId("tabelaTimes").querySelector("tbody");
-        if (!lista.length) {
-          tbody.innerHTML = '<tr><td class="empty-table" colspan="10">Nenhum time com jogo salvo neste filtro.</td></tr>';
-          return;
-        }
-
-        const maxPts = lista[0].pts;
-        tbody.innerHTML = lista.map((item, index) => {
-          const lider = item.pts === maxPts && maxPts > 0 ? "leader" : "";
-          return `
-            <tr class="${lider}">
-              <td><span class="rank-cell">${index + 1}</span></td>
-              <td><strong>${escaparHTML(item.nome)}</strong></td>
-              <td>${item.pts}</td>
-              <td>${item.j}</td>
-              <td>${item.v}</td>
-              <td>${item.e}</td>
-              <td>${item.d}</td>
-              <td>${item.gp}</td>
-              <td>${item.gc}</td>
-              <td>${item.sg}</td>
-            </tr>
-          `;
-        }).join("");
+        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="10">Nenhum time com jogo salvo neste filtro.</td></tr>'; return; }
+        const maxP = lista[0].pts;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.pts===maxP&&maxP>0?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td>${item.pts}</td><td>${item.j}</td><td>${item.v}</td><td>${item.e}</td><td>${item.d}</td><td>${item.gp}</td><td>${item.gc}</td><td>${item.sg}</td>
+        </tr>`).join("");
       }
 
       function renderizarTabelaHistorico(partidas) {
         const tbody = byId("tabelaHistorico").querySelector("tbody");
-        if (!partidas.length) {
-          tbody.innerHTML = '<tr><td class="empty-table" colspan="6">Nenhum jogo salvo ainda.</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = partidas.map((jogo) => {
-          const gols = jogo.linhas
-            .filter((linha) => isGolValido(linha.gol))
-            .map((linha) => {
-              const assist = isAssistenciaValida(linha.assist) ? ` (${linha.assist})` : "";
-              return `${linha.gol}${assist}`;
-            })
-            .join(", ") || "—";
-
-          return `
-            <tr>
-              <td>${escaparHTML(formatarData(jogo.data))}</td>
-              <td>${escaparHTML(jogo.nomeFut)}</td>
-              <td><strong>${escaparHTML(jogo.nFantasia1)} ${jogo.g1} × ${jogo.g2} ${escaparHTML(jogo.nFantasia2)}</strong></td>
-              <td>${escaparHTML(jogo.tempo)} min</td>
-              <td>${escaparHTML(gols)}</td>
-              <td>
-                <div class="table-actions">
-                  <button class="table-action" type="button" data-edit-match="${escaparHTML(jogo.id)}">Editar</button>
-                  <button class="table-action danger" type="button" data-delete-match="${escaparHTML(jogo.id)}">Apagar</button>
-                </div>
-              </td>
-            </tr>
-          `;
+        if (!partidas.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="6">Nenhum jogo salvo ainda.</td></tr>'; return; }
+        tbody.innerHTML = partidas.map((j) => {
+          const gols = j.linhas.filter((l) => isGolValido(l.gol))
+            .map((l) => `${l.gol}${isAssistenciaValida(l.assist)?` (${l.assist})`:""}`).join(", ") || "—";
+          const podeEditar = usuarioAutenticado();
+          return `<tr>
+            <td>${escaparHTML(formatarData(j.data))}</td>
+            <td>${escaparHTML(j.nomeFut)}</td>
+            <td><strong>${escaparHTML(j.nFantasia1)} ${j.g1} × ${j.g2} ${escaparHTML(j.nFantasia2)}</strong></td>
+            <td>${escaparHTML(j.tempo)} min</td>
+            <td>${escaparHTML(gols)}</td>
+            <td>
+              <div class="table-actions">
+                <button class="table-action" type="button" data-edit-match="${escaparHTML(j.id)}" ${podeEditar?"":"disabled"}>Editar</button>
+                <button class="table-action danger" type="button" data-delete-match="${escaparHTML(j.id)}" ${podeEditar?"":"disabled"}>Apagar</button>
+              </div>
+            </td>
+          </tr>`;
         }).join("");
-
         tbody.querySelectorAll("[data-edit-match]").forEach((btn) => {
-          btn.addEventListener("click", () => abrirEditorJogo(btn.dataset.editMatch));
+          btn.addEventListener("click", () => {
+            if (!usuarioAutenticado()) { exigirLogin(); return; }
+            abrirEditorJogo(btn.dataset.editMatch);
+          });
         });
         tbody.querySelectorAll("[data-delete-match]").forEach((btn) => {
-          btn.addEventListener("click", () => apagarJogo(btn.dataset.deleteMatch));
+          btn.addEventListener("click", () => {
+            if (!usuarioAutenticado()) { exigirLogin(); return; }
+            apagarJogo(btn.dataset.deleteMatch);
+          });
         });
       }
 
+      // ─── EDIT MATCH ──────────────────────────────────────────────────────────
 
-      function getIdLinha(linha) {
-        return linha.idPartida || chavePartida(linha);
-      }
+      function getIdLinha(l) { return l.idPartida || chavePartida(l); }
 
       function abrirEditorJogo(idPartida) {
-        if (!exigirLogin()) return;
         const partida = getPartidaPorId(idPartida);
-        if (!partida) {
-          mostrarToast("Não encontrei esse jogo para editar.", "warn");
-          return;
-        }
-
+        if (!partida) { mostrarToast("Não encontrei esse jogo para editar.", "warn"); return; }
         jogoEditandoId = partida.id;
         byId("editIdPartida").value = partida.id;
         byId("editData").value = partida.data || hojeISO();
         byId("editNomeFut").value = partida.nomeFut || "Fut Regular";
-        byId("editTempo").value = Math.max(1, parseInt(partida.tempo, 10) || 10);
-        byId("editT1").value = partida.t1 || "A";
-        byId("editNomeTime1").value = partida.nFantasia1 || `Time ${partida.t1 || "A"}`;
-        byId("editGols1").value = Math.max(0, parseInt(partida.g1, 10) || 0);
-        byId("editT2").value = partida.t2 || "B";
-        byId("editNomeTime2").value = partida.nFantasia2 || `Time ${partida.t2 || "B"}`;
-        byId("editGols2").value = Math.max(0, parseInt(partida.g2, 10) || 0);
-
-        const gols = partida.linhas
-          .filter((linha) => isGolValido(linha.gol))
-          .map((linha) => ({
-            timeGol: linha.timeGol || "",
-            gol: linha.gol || "",
-            assist: isAssistenciaValida(linha.assist) ? linha.assist : ""
-          }));
-
+        byId("editTempo").value = Math.max(1, parseInt(partida.tempo,10)||10);
+        byId("editT1").value = partida.t1||"A";
+        byId("editNomeTime1").value = partida.nFantasia1||`Time ${partida.t1||"A"}`;
+        byId("editGols1").value = Math.max(0, parseInt(partida.g1,10)||0);
+        byId("editT2").value = partida.t2||"B";
+        byId("editNomeTime2").value = partida.nFantasia2||`Time ${partida.t2||"B"}`;
+        byId("editGols2").value = Math.max(0, parseInt(partida.g2,10)||0);
+        const gols = partida.linhas.filter((l) => isGolValido(l.gol))
+          .map((l) => ({ timeGol:l.timeGol||"", gol:l.gol||"", assist:isAssistenciaValida(l.assist)?l.assist:"" }));
         renderizarGolsEditor(gols);
         byId("modalEditarJogo").hidden = false;
         document.body.style.overflow = "hidden";
@@ -3478,49 +2874,30 @@
         document.body.style.overflow = "";
       }
 
-      function opcoesTimesEditor(valorAtual = "") {
-        const t1 = normalizarNome(byId("editT1")?.value) || "A";
-        const t2 = normalizarNome(byId("editT2")?.value) || "B";
-        const n1 = normalizarNome(byId("editNomeTime1")?.value) || `Time ${t1}`;
-        const n2 = normalizarNome(byId("editNomeTime2")?.value) || `Time ${t2}`;
-        return [
-          { valor: t1, nome: n1 },
-          { valor: t2, nome: n2 }
-        ].map((time) => `<option value="${escaparHTML(time.valor)}" ${time.valor === valorAtual ? "selected" : ""}>${escaparHTML(time.nome)}</option>`).join("");
+      function opcoesTimesEditor(va = "") {
+        const t1 = normalizarNome(byId("editT1")?.value)||"A";
+        const t2 = normalizarNome(byId("editT2")?.value)||"B";
+        const n1 = normalizarNome(byId("editNomeTime1")?.value)||`Time ${t1}`;
+        const n2 = normalizarNome(byId("editNomeTime2")?.value)||`Time ${t2}`;
+        return [{ valor:t1, nome:n1 },{ valor:t2, nome:n2 }]
+          .map((t) => `<option value="${escaparHTML(t.valor)}" ${t.valor===va?"selected":""}>${escaparHTML(t.nome)}</option>`).join("");
       }
 
       function renderizarGolsEditor(gols = []) {
         const container = byId("editGolsLista");
         if (!container) return;
-
-        if (!gols.length) {
-          container.innerHTML = '<div class="empty-state">Nenhum gol cadastrado. Use "Adicionar gol" se o jogo teve gols.</div>';
-          return;
-        }
-
-        container.innerHTML = gols.map((gol, index) => `
-          <div class="edit-goal-row" data-edit-goal-row="${index}">
-            <div>
-              <label>Gol para</label>
-              <select data-edit-goal-field="timeGol">${opcoesTimesEditor(gol.timeGol)}</select>
-            </div>
-            <div>
-              <label>Autor do gol</label>
-              <input type="text" list="listaJogadoresDatalist" value="${escaparHTML(gol.gol || "")}" data-edit-goal-field="gol" placeholder="Nome do jogador" />
-            </div>
-            <div>
-              <label>Assistência</label>
-              <input type="text" list="listaJogadoresDatalist" value="${escaparHTML(gol.assist || "")}" data-edit-goal-field="assist" placeholder="Sem assistência" />
-            </div>
-            <button class="icon-button" type="button" aria-label="Remover gol" data-remove-edit-goal="${index}">×</button>
-          </div>
-        `).join("");
-
+        if (!gols.length) { container.innerHTML = '<div class="empty-state">Nenhum gol cadastrado. Use "Adicionar gol" se o jogo teve gols.</div>'; return; }
+        container.innerHTML = gols.map((g, i) => `<div class="edit-goal-row" data-edit-goal-row="${i}">
+          <div><label>Gol para</label><select data-edit-goal-field="timeGol">${opcoesTimesEditor(g.timeGol)}</select></div>
+          <div><label>Autor do gol</label><input type="text" list="listaJogadoresDatalist" value="${escaparHTML(g.gol||"")}" data-edit-goal-field="gol" placeholder="Nome do jogador" /></div>
+          <div><label>Assistência</label><input type="text" list="listaJogadoresDatalist" value="${escaparHTML(g.assist||"")}" data-edit-goal-field="assist" placeholder="Sem assistência" /></div>
+          <button class="icon-button" type="button" aria-label="Remover gol" data-remove-edit-goal="${i}">×</button>
+        </div>`).join("");
         container.querySelectorAll("[data-remove-edit-goal]").forEach((btn) => {
           btn.addEventListener("click", () => {
-            const golsAtuais = coletarGolsEditor();
-            golsAtuais.splice(Number(btn.dataset.removeEditGoal), 1);
-            renderizarGolsEditor(golsAtuais);
+            const ga = coletarGolsEditor();
+            ga.splice(Number(btn.dataset.removeEditGoal), 1);
+            renderizarGolsEditor(ga);
           });
         });
       }
@@ -3529,107 +2906,83 @@
         return Array.from(byId("editGolsLista").querySelectorAll(".edit-goal-row")).map((row) => ({
           timeGol: normalizarNome(row.querySelector('[data-edit-goal-field="timeGol"]')?.value),
           gol: normalizarNome(row.querySelector('[data-edit-goal-field="gol"]')?.value),
-          assist: normalizarNome(row.querySelector('[data-edit-goal-field="assist"]')?.value) || "Nenhum"
-        })).filter((gol) => isGolValido(gol.gol));
+          assist: normalizarNome(row.querySelector('[data-edit-goal-field="assist"]')?.value)||"Nenhum"
+        })).filter((g) => isGolValido(g.gol));
       }
 
       function adicionarGolAoEditor() {
-        const golsAtuais = coletarGolsEditor();
-        golsAtuais.push({
-          timeGol: normalizarNome(byId("editT1").value) || "A",
-          gol: "",
-          assist: ""
-        });
-        renderizarGolsEditor(golsAtuais);
+        const ga = coletarGolsEditor();
+        ga.push({ timeGol: normalizarNome(byId("editT1").value)||"A", gol:"", assist:"" });
+        renderizarGolsEditor(ga);
       }
 
       function salvarEdicaoJogo() {
-        if (!exigirLogin()) return;
         const idPartida = jogoEditandoId || byId("editIdPartida").value;
-        const partidaAnterior = getPartidaPorId(idPartida);
-        if (!partidaAnterior) {
-          mostrarToast("Não encontrei esse jogo para salvar.", "warn");
-          return;
-        }
-
+        const partidaAnt = getPartidaPorId(idPartida);
+        if (!partidaAnt) { mostrarToast("Não encontrei esse jogo para salvar.", "warn"); return; }
         const data = byId("editData").value || hojeISO();
-        const nomeFut = normalizarNome(byId("editNomeFut").value) || "Fut Regular";
-        const t1 = normalizarNome(byId("editT1").value) || partidaAnterior.t1 || "A";
-        const nFantasia1 = normalizarNome(byId("editNomeTime1").value) || `Time ${t1}`;
-        const g1 = Math.max(0, parseInt(byId("editGols1").value, 10) || 0);
-        const t2 = normalizarNome(byId("editT2").value) || partidaAnterior.t2 || "B";
-        const nFantasia2 = normalizarNome(byId("editNomeTime2").value) || `Time ${t2}`;
-        const g2 = Math.max(0, parseInt(byId("editGols2").value, 10) || 0);
-        const tempo = String(Math.max(1, parseInt(byId("editTempo").value, 10) || 10));
+        const nomeFut = normalizarNome(byId("editNomeFut").value)||"Fut Regular";
+        const t1 = normalizarNome(byId("editT1").value)||partidaAnt.t1||"A";
+        const nF1 = normalizarNome(byId("editNomeTime1").value)||`Time ${t1}`;
+        const g1 = Math.max(0, parseInt(byId("editGols1").value,10)||0);
+        const t2 = normalizarNome(byId("editT2").value)||partidaAnt.t2||"B";
+        const nF2 = normalizarNome(byId("editNomeTime2").value)||`Time ${t2}`;
+        const g2 = Math.max(0, parseInt(byId("editGols2").value,10)||0);
+        const tempo = String(Math.max(1, parseInt(byId("editTempo").value,10)||10));
         const gols = coletarGolsEditor();
-
-        const base = { idPartida, data, nomeFut, t1, nFantasia1, g1, t2, nFantasia2, g2, tempo };
-        state.historico = state.historico.filter((linha) => getIdLinha(linha) !== idPartida);
-
-        const novasLinhas = gols.length ? gols : [{ timeGol: "", gol: "Nenhum", assist: "Nenhum" }];
-        novasLinhas.forEach((gol) => {
-          state.historico.push({
-            ...base,
-            timeGol: gol.timeGol || "",
-            gol: normalizarNome(gol.gol) || "Nenhum",
-            assist: normalizarNome(gol.assist) || "Nenhum"
-          });
-          if (isGolValido(gol.gol)) state.jogadores.add(gol.gol);
-          if (isAssistenciaValida(gol.assist)) state.jogadores.add(gol.assist);
+        const base = { idPartida, data, nomeFut, t1, nFantasia1:nF1, g1, t2, nFantasia2:nF2, g2, tempo };
+        state.historico = state.historico.filter((l) => getIdLinha(l) !== idPartida);
+        const novasL = gols.length ? gols : [{ timeGol:"", gol:"Nenhum", assist:"Nenhum" }];
+        novasL.forEach((g) => {
+          state.historico.push({ ...base, timeGol:g.timeGol||"", gol:normalizarNome(g.gol)||"Nenhum", assist:normalizarNome(g.assist)||"Nenhum" });
+          if (isGolValido(g.gol)) state.jogadores.add(g.gol);
+          if (isAssistenciaValida(g.assist)) state.jogadores.add(g.assist);
         });
-
-        state.avaliacoes.forEach((avaliacao) => {
-          if (avaliacao.idPartida !== idPartida) return;
-          avaliacao.data = data;
-          avaliacao.nomeFut = nomeFut;
-          avaliacao.tempo = String(Math.max(0, parseInt(avaliacao.tempo || tempo, 10) || parseInt(tempo, 10) || 0));
-          if (chaveNome(avaliacao.time) === chaveNome(t1)) avaliacao.nomeTime = nFantasia1;
-          if (chaveNome(avaliacao.time) === chaveNome(t2)) avaliacao.nomeTime = nFantasia2;
+        state.avaliacoes.forEach((a) => {
+          if (a.idPartida !== idPartida) return;
+          a.data = data; a.nomeFut = nomeFut; a.tempo = String(Math.max(0, parseInt(a.tempo||tempo,10)||parseInt(tempo,10)||0));
+          if (chaveNome(a.time) === chaveNome(t1)) a.nomeTime = nF1;
+          if (chaveNome(a.time) === chaveNome(t2)) a.nomeTime = nF2;
         });
-
-        fecharEditorJogo();
-        atualizarFiltrosData();
-        renderizarTudo();
-        salvarLocalStorage();
+        fecharEditorJogo(); atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo editado com sucesso.");
       }
 
       function apagarJogo(idPartida) {
-        if (!exigirLogin()) return;
         const partida = getPartidaPorId(idPartida);
         if (!partida) return;
         if (!confirm(`Apagar o jogo ${partida.nFantasia1} ${partida.g1} × ${partida.g2} ${partida.nFantasia2}? As avaliações desse jogo também serão removidas.`)) return;
-
-        state.historico = state.historico.filter((linha) => getIdLinha(linha) !== idPartida);
-        state.avaliacoes = state.avaliacoes.filter((avaliacao) => avaliacao.idPartida !== idPartida);
-        atualizarFiltrosData();
-        renderizarTudo();
-        salvarLocalStorage();
+        state.historico = state.historico.filter((l) => getIdLinha(l) !== idPartida);
+        state.avaliacoes = state.avaliacoes.filter((a) => a.idPartida !== idPartida);
+        atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
         mostrarToast("Jogo apagado.");
       }
 
+      // ─── METRICS ─────────────────────────────────────────────────────────────
+
       function atualizarResumoTopo() {
         const partidas = montarPartidas(state.historico);
-        const totalGols = partidas.reduce((soma, jogo) => soma + jogo.g1 + jogo.g2, 0);
+        const totalGols = partidas.reduce((s,j) => s+j.g1+j.g2, 0);
         byId("mTotalJogos").textContent = partidas.length;
         byId("mTotalGols").textContent = totalGols;
         byId("mTotalJogadores").textContent = getJogadoresBancoOrdenados().length;
       }
 
       function atualizarStatusLocal() {
-        const totalAvaliacoes = state.avaliacoes.length;
+        const totalAv = state.avaliacoes.length;
         const origem = state.__cloudLoaded ? " • Vercel Blob" : " • cache local";
-        byId("statusLocal").textContent = state.historico.length || totalAvaliacoes
-          ? `${state.historico.length} linha(s) de jogo • ${totalAvaliacoes} avaliação(ões)${origem}`
+        byId("statusLocal").textContent = state.historico.length || totalAv
+          ? `${state.historico.length} linha(s) de jogo • ${totalAv} avaliação(ões)${origem}`
           : `Banco vazio${origem}`;
       }
+
+      // ─── PERSISTENCE ─────────────────────────────────────────────────────────
 
       function criarSnapshotPersistencia() {
         state.config = {
           data: byId("dataJogo")?.value || state.config.data || "",
           nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
         };
-
         return {
           historico: state.historico,
           avaliacoes: state.avaliacoes,
@@ -3645,177 +2998,106 @@
 
       async function carregarCloudStorage() {
         try {
-          const resposta = await fetch("/api/state", {
-            method: "GET",
-            headers: { "Accept": "application/json" },
-            cache: "no-store"
-          });
-
-          if (resposta.status === 404) return;
-          if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
-
-          const payload = await resposta.json();
+          const r = await fetch("/api/state", { method:"GET", headers:{"Accept":"application/json"}, cache:"no-store" });
+          if (r.status === 404) return;
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const payload = await r.json();
           if (!payload || !payload.data) return;
-
           localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
           carregarLocalStorage();
           state.__cloudLoaded = true;
-        } catch (erro) {
-          console.warn("Vercel Blob indisponível; usando cache local.", erro);
+        } catch (err) {
+          console.warn("Vercel Blob indisponível; usando cache local.", err);
         }
       }
 
-      let salvarCloudStorageTimer = null;
-
+      let salvarCloudTimer = null;
       function salvarCloudStorageDebounced() {
-        window.clearTimeout(salvarCloudStorageTimer);
-        salvarCloudStorageTimer = window.setTimeout(salvarCloudStorageAgora, 900);
+        window.clearTimeout(salvarCloudTimer);
+        salvarCloudTimer = window.setTimeout(salvarCloudStorageAgora, 15000);
       }
 
       async function salvarCloudStorageAgora() {
         try {
-          const resposta = await fetch("/api/state", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: criarSnapshotPersistencia() })
-          });
-
-          if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
-          state.__cloudLoaded = true;
-          atualizarStatusLocal();
-        } catch (erro) {
-          console.warn("Falha ao sincronizar com Vercel Blob; os dados continuam no cache local.", erro);
+          const r = await fetch("/api/state", { method:"PUT", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ data: criarSnapshotPersistencia() }) });
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          state.__cloudLoaded = true; atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao sincronizar com Vercel Blob.", err);
         }
       }
 
       function carregarLocalStorage() {
         try {
           let bruto = null;
-          for (const key of LEGACY_KEYS) {
-            bruto = localStorage.getItem(key);
-            if (bruto) break;
-          }
+          for (const k of LEGACY_KEYS) { bruto = localStorage.getItem(k); if (bruto) break; }
           if (!bruto) return;
-
-          const salvo = JSON.parse(bruto);
-          if (Array.isArray(salvo.historico)) {
-            state.historico = salvo.historico.map(normalizarLinhaHistorico);
+          const s = JSON.parse(bruto);
+          if (Array.isArray(s.historico)) state.historico = s.historico.map(normalizarLinhaHistorico);
+          if (Array.isArray(s.avaliacoes)) state.avaliacoes = s.avaliacoes.map(normalizarAvaliacao).filter((a) => a.jogador && !ehPlaceholderAntigo(a.jogador));
+          if (s.avaliacaoRascunho && typeof s.avaliacaoRascunho === "object") state.avaliacaoRascunho = s.avaliacaoRascunho;
+          if (Array.isArray(s.jogadores)) {
+            const jj = s.jogadores.map(normalizarNome).filter((n) => n && !ehPlaceholderAntigo(n));
+            state.jogadores = new Set(jj);
           }
-          if (Array.isArray(salvo.avaliacoes)) {
-            state.avaliacoes = salvo.avaliacoes.map(normalizarAvaliacao).filter((a) => a.jogador && !ehPlaceholderAntigo(a.jogador));
-          }
-          if (salvo.avaliacaoRascunho && typeof salvo.avaliacaoRascunho === "object") {
-            state.avaliacaoRascunho = salvo.avaliacaoRascunho;
-          }
-          if (Array.isArray(salvo.jogadores)) {
-            const jogadoresSalvos = salvo.jogadores
-              .map(normalizarNome)
-              .filter((nome) => nome && !ehPlaceholderAntigo(nome));
-            state.jogadores = new Set(jogadoresSalvos);
-          }
-          if (salvo.escalacao && typeof salvo.escalacao === "object") {
+          if (s.escalacao && typeof s.escalacao === "object") {
             state.escalacao = criarEscalacaoVazia();
             TEAM_IDS.forEach((id) => {
-              const time = salvo.escalacao[id] || {};
-              state.escalacao[id] = {
-                nome: normalizarNome(time.nome) || `Time ${id}`,
-                jogadores: Array.isArray(time.jogadores)
-                  ? unicos(time.jogadores).filter((nome) => !ehPlaceholderAntigo(nome))
-                  : []
-              };
+              const t = s.escalacao[id]||{};
+              state.escalacao[id] = { nome: normalizarNome(t.nome)||`Time ${id}`, jogadores: Array.isArray(t.jogadores) ? unicos(t.jogadores).filter((n) => !ehPlaceholderAntigo(n)) : [] };
             });
           }
-          if (Array.isArray(salvo.timesAtivos)) {
-            state.timesAtivos = salvo.timesAtivos.filter((id) => TEAM_IDS.includes(id));
-          }
-          if (Array.isArray(salvo.golsDaPartida)) {
-            state.golsDaPartida = salvo.golsDaPartida.map((gol) => ({
-              time: normalizarNome(gol.time),
-              autor: normalizarNome(gol.autor),
-              assist: normalizarNome(gol.assist) || "Nenhum"
-            })).filter((gol) => gol.autor && !ehPlaceholderAntigo(gol.autor));
-          }
-
-          state.historico.forEach((linha) => {
-            if (isGolValido(linha.gol) && !ehPlaceholderAntigo(linha.gol)) state.jogadores.add(linha.gol);
-            if (isAssistenciaValida(linha.assist) && !ehPlaceholderAntigo(linha.assist)) state.jogadores.add(linha.assist);
+          if (Array.isArray(s.timesAtivos)) state.timesAtivos = s.timesAtivos.filter((id) => TEAM_IDS.includes(id));
+          if (Array.isArray(s.golsDaPartida)) state.golsDaPartida = s.golsDaPartida.map((g) => ({ time:normalizarNome(g.time), autor:normalizarNome(g.autor), assist:normalizarNome(g.assist)||"Nenhum" })).filter((g) => g.autor && !ehPlaceholderAntigo(g.autor));
+          state.historico.forEach((l) => {
+            if (isGolValido(l.gol) && !ehPlaceholderAntigo(l.gol)) state.jogadores.add(l.gol);
+            if (isAssistenciaValida(l.assist) && !ehPlaceholderAntigo(l.assist)) state.jogadores.add(l.assist);
           });
-
-          state.avaliacoes.forEach((avaliacao) => {
-            if (avaliacao.jogador && !ehPlaceholderAntigo(avaliacao.jogador)) state.jogadores.add(avaliacao.jogador);
-          });
-
-          state.timesAtivos = state.timesAtivos.filter((id) => {
-            const time = state.escalacao[id];
-            return time && (time.jogadores.length > 0 || time.nome !== `Time ${id}`);
-          });
-
-          if (salvo.config && typeof salvo.config === "object") {
-            state.config = {
-              data: normalizarNome(salvo.config.data),
-              nomeFut: normalizarNome(salvo.config.nomeFut)
-            };
-          }
-
-          if (salvo.notasJogadores && typeof salvo.notasJogadores === "object") {
-            state.notasJogadores = salvo.notasJogadores;
-          }
-        } catch (erro) {
-          console.warn("Falha ao carregar dados locais", erro);
+          state.avaliacoes.forEach((a) => { if (a.jogador && !ehPlaceholderAntigo(a.jogador)) state.jogadores.add(a.jogador); });
+          state.timesAtivos = state.timesAtivos.filter((id) => { const t = state.escalacao[id]; return t && (t.jogadores.length>0 || t.nome!==`Time ${id}`); });
+          if (s.config && typeof s.config === "object") state.config = { data: normalizarNome(s.config.data), nomeFut: normalizarNome(s.config.nomeFut) };
+          if (s.notasJogadores && typeof s.notasJogadores === "object") state.notasJogadores = s.notasJogadores;
+        } catch (err) {
+          console.warn("Falha ao carregar dados locais", err);
         }
       }
 
       function normalizarLinhaHistorico(d) {
-        const data = normalizarNome(d.data || d.Data) || hojeISO();
-        const nomeFut = normalizarNome(d.nomeFut || d["Nome do Fut"]) || "Fut Regular";
-        const t1 = normalizarNome(d.t1 || d["Time Mandante"]) || "A";
-        const nFantasia1 = normalizarNome(d.nFantasia1 || d["Nome Fantasia Mandante"]) || `Time ${t1}`;
-        const g1 = parseInt(d.g1 ?? d["Gols Mandante"], 10) || 0;
-        const t2 = normalizarNome(d.t2 || d["Time Visitante"]) || "B";
-        const nFantasia2 = normalizarNome(d.nFantasia2 || d["Nome Fantasia Visitante"]) || `Time ${t2}`;
-        const g2 = parseInt(d.g2 ?? d["Gols Visitante"], 10) || 0;
-        const tempo = normalizarNome(d.tempo || d["Tempo Jogo"]) || "10";
-        const baseSemId = [data, nomeFut, t1, nFantasia1, g1, t2, nFantasia2, g2, tempo].join("|");
-
+        const data = normalizarNome(d.data||d.Data)||hojeISO();
+        const nomeFut = normalizarNome(d.nomeFut||d["Nome do Fut"])||"Fut Regular";
+        const t1 = normalizarNome(d.t1||d["Time Mandante"])||"A";
+        const nF1 = normalizarNome(d.nFantasia1||d["Nome Fantasia Mandante"])||`Time ${t1}`;
+        const g1 = parseInt(d.g1??d["Gols Mandante"],10)||0;
+        const t2 = normalizarNome(d.t2||d["Time Visitante"])||"B";
+        const nF2 = normalizarNome(d.nFantasia2||d["Nome Fantasia Visitante"])||`Time ${t2}`;
+        const g2 = parseInt(d.g2??d["Gols Visitante"],10)||0;
+        const tempo = normalizarNome(d.tempo||d["Tempo Jogo"])||"10";
+        const baseSemId = [data,nomeFut,t1,nF1,g1,t2,nF2,g2,tempo].join("|");
         return {
-          idPartida: normalizarNome(d.idPartida || d.id || d["Id da Partida"]) || `AUTO-${hashString(baseSemId)}`,
-          data,
-          nomeFut,
-          t1,
-          nFantasia1,
-          g1,
-          t2,
-          nFantasia2,
-          g2,
-          tempo,
-          timeGol: normalizarNome(d.timeGol || d["Time do Gol"]),
-          gol: normalizarNome(d.gol || d["Autor do Gol"]) || "Nenhum",
-          assist: normalizarNome(d.assist || d["Assistencia"] || d["Assistência"]) || "Nenhum"
+          idPartida: normalizarNome(d.idPartida||d.id||d["Id da Partida"])||`AUTO-${hashString(baseSemId)}`,
+          data, nomeFut, t1, nFantasia1:nF1, g1, t2, nFantasia2:nF2, g2, tempo,
+          timeGol: normalizarNome(d.timeGol||d["Time do Gol"]),
+          gol: normalizarNome(d.gol||d["Autor do Gol"])||"Nenhum",
+          assist: normalizarNome(d.assist||d["Assistencia"]||d["Assistência"])||"Nenhum"
         };
       }
 
       function normalizarAvaliacao(a) {
-        const idPartida = normalizarNome(a.idPartida || a.id || a["Id da Partida"]);
-        const jogador = normalizarNome(a.jogador || a["Jogador Avaliado"] || a.Jogador).replace(/^👟\s*/, "");
-        const time = normalizarNome(a.time || a["Time do Jogador"] || a["Time Jogador"]);
-        const marcacao = notaValida(a.marcacao || a["Nota Marcacao"] || a["Nota Marcação"], true);
-        const passes = notaValida(a.passes || a["Nota Passes"], true);
-        const stamina = notaValida(a.stamina || a["Nota Stamina"], true);
-        const normalizada = {
-          idAvaliacao: normalizarNome(a.idAvaliacao || a["Id da Avaliacao"] || a["Id da Avaliação"]) || `AVL-${hashString(`${idPartida}|${time}|${jogador}`)}`,
-          idPartida,
-          data: normalizarNome(a.data || a.Data) || hojeISO(),
-          nomeFut: normalizarNome(a.nomeFut || a["Nome do Fut"]) || "Fut Regular",
-          jogador,
-          time,
-          nomeTime: normalizarNome(a.nomeTime || a["Nome Time do Jogador"] || a["Nome Time Jogador"]),
-          tempo: String(Math.max(0, parseInt(a.tempo || a["Tempo Jogador"] || a["Tempo Jogado"], 10) || 0)),
-          marcacao,
-          passes,
-          stamina,
-          avaliado: Boolean(a.avaliado) || [marcacao, passes, stamina].some(Boolean)
+        const idPartida = normalizarNome(a.idPartida||a.id||a["Id da Partida"]);
+        const jogador = normalizarNome(a.jogador||a["Jogador Avaliado"]||a.Jogador).replace(/^👟\s*/,"");
+        const time = normalizarNome(a.time||a["Time do Jogador"]||a["Time Jogador"]);
+        const marcacao = notaValida(a.marcacao||a["Nota Marcacao"]||a["Nota Marcação"],true);
+        const passes = notaValida(a.passes||a["Nota Passes"],true);
+        const stamina = notaValida(a.stamina||a["Nota Stamina"],true);
+        return {
+          idAvaliacao: normalizarNome(a.idAvaliacao||a["Id da Avaliacao"]||a["Id da Avaliação"])||`AVL-${hashString(`${idPartida}|${time}|${jogador}`)}`,
+          idPartida, data: normalizarNome(a.data||a.Data)||hojeISO(),
+          nomeFut: normalizarNome(a.nomeFut||a["Nome do Fut"])||"Fut Regular",
+          jogador, time, nomeTime: normalizarNome(a.nomeTime||a["Nome Time do Jogador"]||a["Nome Time Jogador"]),
+          tempo: String(Math.max(0, parseInt(a.tempo||a["Tempo Jogador"]||a["Tempo Jogado"],10)||0)),
+          marcacao, passes, stamina,
+          avaliado: Boolean(a.avaliado)||[marcacao,passes,stamina].some(Boolean)
         };
-        return normalizada;
       }
 
       function salvarLocalStorage() {
@@ -3824,31 +3106,56 @@
             data: byId("dataJogo")?.value || state.config.data || "",
             nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
           };
-
           localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
           salvarCloudStorageDebounced();
           atualizarStatusLocal();
-        } catch (erro) {
-          console.warn("Falha ao salvar no navegador", erro);
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva só no localStorage (sem acionar cloud) — para rascunhos/digitação
+      function salvarLocalSomente() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva localStorage + dispara cloud imediatamente — para ações críticas
+      function salvarComCloud() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+          salvarCloudStorageAgora();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
         }
       }
 
       function limparDadosLocais() {
         if (!confirm("Apagar histórico, jogadores, escalações e dados salvos neste navegador?")) return;
-        LEGACY_KEYS.forEach((key) => localStorage.removeItem(key));
-        state.historico = [];
-        state.avaliacoes = [];
-        state.jogadores = new Set();
-        state.notasJogadores = {};
-        state.escalacao = criarEscalacaoVazia();
-        state.timesAtivos = [];
-        state.golsDaPartida = [];
-        state.avaliacaoRascunho = {};
+        LEGACY_KEYS.forEach((k) => localStorage.removeItem(k));
+        state.historico = []; state.avaliacoes = [];
+        state.jogadores = new Set(); state.notasJogadores = {};
+        state.escalacao = criarEscalacaoVazia(); state.timesAtivos = [];
+        state.golsDaPartida = []; state.avaliacaoRascunho = {};
         state.config = { data: hojeISO(), nomeFut: nomePadraoFutPorData(hojeISO()) };
-        preencherCamposIniciais();
-        renderizarTudo();
+        preencherCamposIniciais(); renderizarTudo();
         mostrarToast("Dados locais apagados.");
       }
+
+      // ─── TOAST ───────────────────────────────────────────────────────────────
 
       function mostrarToast(mensagem, tipo = "ok") {
         const toast = byId("toast");
