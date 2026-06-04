@@ -1,0 +1,3170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sistema do Fut</title>
+  <style>
+    :root {
+      --bg: #07120d;
+      --card: #101f17;
+      --line: rgba(255, 255, 255, 0.11);
+      --line-strong: rgba(255, 255, 255, 0.20);
+      --text: #f3fff6;
+      --muted: #a8b9ad;
+      --muted-2: #718176;
+      --green: #36d16b;
+      --green-dark: #1b5e20;
+      --orange: #ffb84d;
+      --blue: #55b7ff;
+      --purple: #cf8cff;
+      --danger: #ff6b6b;
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
+      --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.25);
+      --tap: 48px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, Roboto, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(54, 209, 107, 0.25), transparent 32rem),
+        radial-gradient(circle at top right, rgba(85, 183, 255, 0.16), transparent 24rem),
+        linear-gradient(180deg, #07120d 0%, #09150f 50%, #06100b 100%);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button {
+      min-height: var(--tap);
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:disabled, select:disabled, input:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: var(--tap);
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      padding: 13px 14px;
+      color: var(--text);
+      color-scheme: dark;
+      background: rgba(255, 255, 255, 0.065);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(54, 209, 107, 0.78);
+      box-shadow: 0 0 0 4px rgba(54, 209, 107, 0.13);
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    input[type="file"] { padding: 12px; color: var(--muted); }
+
+    select option, select optgroup { color: #f3fff6; background: #101f17; }
+    select option:checked, select option:hover { color: #06130b; background: #36d16b; }
+
+    textarea {
+      min-height: 122px;
+      resize: vertical;
+      line-height: 1.35;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 7px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 850;
+      letter-spacing: 0.01em;
+    }
+
+    .app-shell {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 16px 12px 32px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 22px 18px;
+      background:
+        linear-gradient(135deg, rgba(54, 209, 107, 0.22), rgba(46, 125, 50, 0.12) 42%, rgba(255, 255, 255, 0.06)),
+        rgba(255, 255, 255, 0.05);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -56px;
+      top: -64px;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid rgba(54, 209, 107, 0.28);
+      border-radius: 999px;
+      color: #caffd6;
+      background: rgba(54, 209, 107, 0.12);
+      font-size: 0.82rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 8px;
+      font-size: clamp(2rem, 9vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .metric-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      min-height: 74px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .tabbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(112px, 1fr);
+      gap: 8px;
+      overflow-x: auto;
+      margin: 14px 0 16px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 22px;
+      background: rgba(7, 18, 13, 0.90);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-soft);
+      scrollbar-width: none;
+    }
+
+    .tabbar::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      color: #041007;
+      background: linear-gradient(135deg, #7dff9d, var(--green));
+      box-shadow: 0 12px 28px rgba(54, 209, 107, 0.26);
+    }
+
+    .tab-btn.locked-tab {
+      position: relative;
+    }
+
+    .tab-btn.locked-tab::after {
+      content: "🔒";
+      font-size: 0.65rem;
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      opacity: 0.6;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .stack { display: grid; gap: 14px; }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.045));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--green);
+      opacity: 0.95;
+    }
+
+    .card.accent-blue::before { background: var(--blue); }
+    .card.accent-purple::before { background: var(--purple); }
+    .card.accent-orange::before { background: var(--orange); }
+    .card.accent-danger::before { background: var(--danger); }
+    .card.no-accent::before { display: none; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: clamp(1.08rem, 4vw, 1.45rem);
+      letter-spacing: -0.03em;
+    }
+
+    .card-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.92rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      color: #dfffea;
+      background: rgba(54, 209, 107, 0.10);
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .input-combo, .bank-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: var(--tap);
+      padding: 0 18px;
+      color: #06130b;
+      background: linear-gradient(135deg, #7dff9d, var(--green));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(54, 209, 107, 0.23);
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--line-strong);
+      box-shadow: none;
+    }
+
+    .btn-blue {
+      color: #02101f;
+      background: linear-gradient(135deg, #b3e2ff, var(--blue));
+      box-shadow: 0 14px 30px rgba(85, 183, 255, 0.20);
+    }
+
+    .btn-orange {
+      color: #221100;
+      background: linear-gradient(135deg, #ffe0a8, var(--orange));
+      box-shadow: 0 14px 30px rgba(255, 184, 77, 0.18);
+    }
+
+    .btn-danger {
+      color: #250606;
+      background: linear-gradient(135deg, #ffb0b0, var(--danger));
+      box-shadow: 0 14px 30px rgba(255, 107, 107, 0.18);
+    }
+
+    .btn-full { width: 100%; }
+    .btn-large { min-height: 58px; font-size: 1.02rem; }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .helper {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .tags, .team-current-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.13);
+    }
+
+    .badge, .team-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      max-width: 100%;
+      padding: 6px 7px 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 999px;
+      color: #e9fff0;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    .badge.success { color: #041007; background: #7dff9d; }
+    .badge.assigned { color: #06130b; background: linear-gradient(135deg, #ffe0a8, var(--orange)); }
+
+    .badge-name, .chip-name {
+      max-width: min(58vw, 260px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge-remove, .chip-remove, .icon-button {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 999px;
+      color: #ffecec;
+      background: rgba(255, 107, 107, 0.22);
+      font-size: 1rem;
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: none;
+    }
+
+    .badge-edit {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 999px;
+      color: #b3e2ff;
+      background: rgba(85, 183, 255, 0.18);
+      font-size: 0.8rem;
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: none;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .team-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.13);
+    }
+
+    .team-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .team-letter {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      color: #06130b;
+      background: linear-gradient(135deg, #7dff9d, var(--green));
+      font-weight: 1000;
+      box-shadow: 0 12px 26px rgba(54, 209, 107, 0.18);
+    }
+
+    .field-gap { margin-top: 11px; }
+
+    .bank-box {
+      display: grid;
+      gap: 8px;
+      margin-top: 11px;
+      padding: 12px;
+      border: 1px solid rgba(54, 209, 107, 0.16);
+      border-radius: 18px;
+      background: rgba(54, 209, 107, 0.055);
+    }
+
+    .bank-add-button {
+      min-width: 126px;
+      padding-inline: 14px;
+      white-space: nowrap;
+    }
+
+    .team-players-preview {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(54, 209, 107, 0.22);
+      border-radius: 16px;
+      background: rgba(54, 209, 107, 0.06);
+      min-height: 48px;
+    }
+
+    .team-players-preview-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .team-players-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      color: #06130b;
+      background: var(--green);
+      font-size: 0.72rem;
+      font-weight: 1000;
+    }
+
+    .bank-box-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid rgba(54, 209, 107, 0.16);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(54, 209, 107, 0.04);
+      box-shadow: none;
+      font-size: 0.84rem;
+      font-weight: 950;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .bank-box-toggle:hover, .bank-box-toggle:focus-visible {
+      background: rgba(54, 209, 107, 0.10);
+    }
+
+    .bank-box-toggle-icon { transition: transform 0.2s ease; font-style: normal; }
+    .bank-box[data-open="true"] .bank-box-toggle-icon { transform: rotate(180deg); }
+
+    .bank-box-body { display: none; margin-top: 10px; }
+    .bank-box[data-open="true"] .bank-box-body {
+      display: grid;
+      gap: 8px;
+    }
+
+    .bank-results {
+      display: grid;
+      gap: 7px;
+      max-height: 174px;
+      overflow-y: auto;
+      padding: 2px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .bank-result {
+      justify-content: flex-start;
+      width: 100%;
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .bank-result:active, .bank-result:hover {
+      color: #06130b;
+      background: linear-gradient(135deg, #7dff9d, var(--green));
+    }
+
+    .mini-empty {
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(0, 0, 0, 0.12);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .rating-list { display: grid; gap: 10px; margin-top: 10px; }
+
+    .rating-card {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .rating-player {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .rating-player strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 1rem;
+    }
+
+    .rating-player span {
+      flex: 0 0 auto;
+      color: #06130b;
+      background: #7dff9d;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 0.74rem;
+      font-weight: 1000;
+    }
+
+    .rating-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .rating-control label, .mini-label { margin-bottom: 5px; font-size: 0.72rem; line-height: 1.2; }
+
+    .rating-control select, .rating-control input {
+      min-height: 44px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .overall-score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 34px;
+      border-radius: 999px;
+      color: #06130b;
+      background: linear-gradient(135deg, #7dff9d, var(--green));
+      font-weight: 1000;
+    }
+
+    .formula-box {
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(85, 183, 255, 0.18);
+      border-radius: 16px;
+      color: #dceeff;
+      background: rgba(85, 183, 255, 0.08);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: end;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .score-team {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.13);
+    }
+
+    .score-team small {
+      display: block;
+      min-height: 18px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      color: var(--muted);
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .score-team input {
+      min-height: 62px;
+      padding: 6px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 1000;
+      letter-spacing: -0.05em;
+    }
+
+    .score-x { padding-bottom: 24px; color: var(--muted); font-size: 1.6rem; font-weight: 1000; }
+
+    .goal-list { display: grid; gap: 8px; margin-top: 12px; }
+
+    .goal-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .goal-item strong, .goal-item span {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .goal-item span { margin-top: 3px; color: var(--muted); font-size: 0.84rem; }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      min-height: 76px;
+      width: 100%;
+      padding: 14px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 18px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(0, 0, 0, 0.10);
+    }
+
+    .scroll-table {
+      overflow-x: auto;
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.16);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #08140c;
+      background: linear-gradient(135deg, #92ffad, var(--green));
+      font-size: 0.76rem;
+      font-weight: 1000;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    td:not(:first-child), th:not(:first-child) { text-align: center; }
+
+    tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.035); }
+    tbody tr:hover { background: rgba(54, 209, 107, 0.08); }
+    tbody tr.leader { background: rgba(54, 209, 107, 0.16); }
+
+    .rank-cell {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      color: #07120d;
+      background: rgba(255, 255, 255, 0.82);
+      font-weight: 1000;
+    }
+
+    .leader .rank-cell { background: var(--orange); }
+    .empty-table { padding: 18px !important; color: var(--muted); text-align: center !important; }
+    .history-table { min-width: 760px; }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 99;
+      width: min(420px, calc(100% - 28px));
+      transform: translateY(22px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .toast-inner {
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      color: #06130b;
+      background: #88ffaa;
+      box-shadow: var(--shadow);
+      font-weight: 950;
+      line-height: 1.35;
+    }
+
+    .toast.error .toast-inner { background: #ffb0b0; }
+    .toast.warn .toast-inner { background: #ffe0a8; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .session-button {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      z-index: 2;
+      min-height: 40px;
+      padding: 0 14px;
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.26);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: none;
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    /* Login overlay */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(54, 209, 107, 0.22), transparent 32rem),
+        rgba(2, 8, 5, 0.86);
+      backdrop-filter: blur(18px);
+    }
+
+    .login-overlay[hidden] { display: none; }
+
+    .login-card {
+      width: min(440px, 100%);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.065));
+      box-shadow: var(--shadow);
+    }
+
+    .login-card h2 { margin: 0 0 8px; font-size: 1.55rem; letter-spacing: -0.04em; }
+    .login-card p { margin: 0 0 16px; color: var(--muted); line-height: 1.45; }
+
+    .auth-error {
+      min-height: 22px;
+      margin-top: 10px;
+      color: #ffd0d0;
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      display: grid;
+      align-items: end;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal-backdrop[hidden] { display: none; }
+
+    .modal-card {
+      width: min(920px, 100%);
+      max-height: calc(100vh - 24px);
+      margin: 0 auto;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 26px;
+      padding: 16px;
+      background: #0d1b13;
+      box-shadow: var(--shadow);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .modal-head h2 { margin: 0; font-size: 1.35rem; letter-spacing: -0.03em; }
+    .modal-head p { margin: 5px 0 0; color: var(--muted); line-height: 1.4; }
+
+    .modal-close {
+      width: 42px;
+      min-width: 42px;
+      min-height: 42px;
+      padding: 0;
+      border-radius: 14px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      font-size: 1.2rem;
+      font-weight: 1000;
+    }
+
+    /* Edit name modal */
+    .edit-name-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 950;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .edit-name-modal[hidden] { display: none; }
+
+    .edit-name-card {
+      width: min(400px, 100%);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      background: #0d1b13;
+      box-shadow: var(--shadow);
+    }
+
+    .edit-name-card h3 { margin: 0 0 14px; font-size: 1.2rem; letter-spacing: -0.03em; }
+
+    .edit-goals-list { display: grid; gap: 10px; margin-top: 10px; }
+
+    .edit-goal-row {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1.2fr auto;
+      gap: 8px;
+      align-items: end;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .table-actions {
+      display: inline-flex;
+      gap: 7px;
+      justify-content: center;
+      min-width: 156px;
+    }
+
+    .table-action {
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    .table-action.danger { color: #ffe5e5; background: rgba(255, 107, 107, 0.16); }
+
+    .player-ratings-grid { display: grid; gap: 8px; margin-top: 10px; }
+
+    .player-rating-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) repeat(3, 68px) 72px;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      transition: border-color 0.15s ease;
+    }
+
+    .player-rating-row.has-notes {
+      border-color: rgba(54, 209, 107, 0.22);
+      background: rgba(54, 209, 107, 0.04);
+    }
+
+    .player-rating-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .player-rating-select {
+      min-height: 40px;
+      padding: 6px 8px;
+      border-radius: 12px;
+      font-weight: 950;
+      text-align: center;
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 560px) {
+      .player-rating-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .player-rating-name { grid-column: 1 / -1; font-size: 0.88rem; }
+    }
+
+    /* Home screen — lineup cards */
+    .home-lineup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .home-team-card {
+      padding: 14px;
+      border: 1px solid rgba(54, 209, 107, 0.18);
+      border-radius: 20px;
+      background: rgba(54, 209, 107, 0.05);
+    }
+
+    .home-team-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      font-weight: 1000;
+    }
+
+    .home-team-name .team-letter { width: 30px; height: 30px; border-radius: 10px; font-size: 0.9rem; }
+
+    .home-player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .home-player-item {
+      padding: 6px 10px;
+      border-radius: 10px;
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      font-size: 0.84rem;
+      font-weight: 850;
+    }
+
+    .rating-status {
+      flex: 0 0 auto;
+      color: #06130b;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--orange);
+      font-size: 0.74rem;
+      font-weight: 1000;
+    }
+
+    .rating-status.done { background: #7dff9d; }
+    .rating-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .history-table { min-width: 920px; }
+
+    /* Auth wall */
+    .auth-wall {
+      display: grid;
+      place-items: center;
+      min-height: 300px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .auth-wall-card {
+      width: min(420px, 100%);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .auth-wall-card h2 { margin: 0 0 10px; font-size: 1.4rem; letter-spacing: -0.03em; }
+    .auth-wall-card p { margin: 0 0 18px; color: var(--muted); }
+
+    @media (min-width: 720px) {
+      .modal-backdrop { align-items: center; }
+      .modal-card { padding: 20px; }
+    }
+
+    @media (max-width: 640px) {
+      .session-button { position: relative; right: auto; top: auto; margin-top: 12px; }
+      .edit-goal-row { grid-template-columns: 1fr; }
+      .rating-controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 720px) {
+      .app-shell { padding: 24px 18px 44px; }
+      .hero { padding: 30px; }
+      .card { padding: 20px; }
+      .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1020px) {
+      .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(3, 150px); }
+    }
+
+    @media (max-width: 520px) {
+      .app-shell { padding-inline: 10px; }
+      .input-combo, .bank-row, .rating-controls { grid-template-columns: 1fr 1fr; }
+      .bank-add-button { width: 100%; }
+      .card-header { flex-direction: column; align-items: flex-start; }
+      .actions { grid-template-columns: 1fr; }
+      .metric { padding: 10px 8px; }
+      .metric strong { font-size: 1.2rem; }
+      .metric span { font-size: 0.72rem; }
+      .score-team { padding: 10px; }
+      .score-team input { font-size: 1.75rem; }
+      .score-x { padding-bottom: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login overlay (for protected tabs) -->
+  <div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="loginTitulo" hidden>
+    <form id="loginForm" class="login-card">
+      <h2 id="loginTitulo">🔐 Área restrita</h2>
+      <p>Digite a senha para acessar esta área.</p>
+      <label for="loginSenha">Senha</label>
+      <input id="loginSenha" type="password" autocomplete="current-password" placeholder="Senha da rodada" />
+      <button class="btn btn-full btn-large" type="submit" style="margin-top: 12px;">Entrar</button>
+      <div style="margin-top: 10px;">
+        <button id="btnVoltarHome" class="btn btn-secondary btn-full" type="button">← Voltar para o início</button>
+      </div>
+      <div id="loginErro" class="auth-error" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <!-- Edit player name modal -->
+  <div id="editNameModal" class="edit-name-modal" hidden>
+    <div class="edit-name-card">
+      <h3>✏️ Editar nome do jogador</h3>
+      <input id="editNameInput" type="hidden" data-old="" />
+      <div>
+        <label for="editNameValue">Novo nome</label>
+        <input id="editNameValue" type="text" autocomplete="off" />
+      </div>
+      <div class="actions" style="margin-top: 14px;">
+        <button id="btnSalvarEditNome" class="btn" type="button">💾 Salvar</button>
+        <button id="btnCancelarEditNome" class="btn btn-secondary" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="appShell" class="app-shell">
+    <header class="hero">
+      <div class="eyebrow">⚽ Controle rápido de quadra</div>
+      <button id="btnLogout" class="session-button" type="button">🔒 Sair</button>
+      <h1>Sistema do Fut</h1>
+      <p>Escalação da noite, estatísticas e gestão completa da pelada.</p>
+      <div class="metric-grid" aria-label="Resumo geral">
+        <div class="metric"><strong id="mTotalJogos">0</strong><span>Jogos salvos</span></div>
+        <div class="metric"><strong id="mTotalGols">0</strong><span>Gols no histórico</span></div>
+        <div class="metric"><strong id="mTotalJogadores">0</strong><span>Jogadores</span></div>
+      </div>
+    </header>
+
+    <nav class="tabbar" aria-label="Navegação principal">
+      <!-- PUBLIC -->
+      <button class="tab-btn active" type="button" data-tab="home" data-public="true">🏠 Início</button>
+      <button class="tab-btn" type="button" data-tab="stats" data-public="true">📊 Stats</button>
+      <!-- PRIVATE -->
+      <button class="tab-btn locked-tab" type="button" data-tab="notas" data-public="false">⭐ Notas</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="setup" data-public="false">📥 Setup</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="times" data-public="false">👥 Times</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="jogo" data-public="false">⚽ Jogo</button>
+      <button class="tab-btn locked-tab" type="button" data-tab="exportar" data-public="false">💾 CSV</button>
+    </nav>
+
+    <main>
+      <!-- ===== HOME (PUBLIC) ===== -->
+      <section id="tab-home" class="screen active">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🌙 Escalação da noite</h2>
+                <p class="card-subtitle" id="homeFutInfo">Carregando informações do fut...</p>
+              </div>
+              <span id="homeTimesAtivos" class="pill">0 times</span>
+            </div>
+            <div id="homeLineupGrid" class="home-lineup-grid">
+              <div class="empty-state">Nenhuma escalação travada ainda para esta noite.</div>
+            </div>
+          </article>
+
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📊 Resumo rápido</h2>
+                <p class="card-subtitle">Artilharia e classificação do fut mais recente.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaJogadoresHome">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== STATS (PUBLIC) ===== -->
+      <section id="tab-stats" class="screen">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📊 Painel estatístico</h2>
+                <p class="card-subtitle">Tudo atualiza automaticamente após importar CSV ou salvar jogo.</p>
+              </div>
+            </div>
+            <label for="filtroData">Filtrar por data/fut</label>
+            <select id="filtroData"></select>
+            <div class="status-line">
+              <span id="statusFiltro" class="pill">0 jogos</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">⭐ Overall dos jogadores</h2>
+                <p class="card-subtitle">Calculado pelas notas globais + participação em gols no histórico.</p>
+              </div>
+            </div>
+            <div class="formula-box">
+              Fórmula: 70% média das notas (marcação, passes, stamina) + 30% participação em gols e assistências. Notas: S=100, A=90, B=78, C=65, D=50, F=30.
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaOverall">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Overall</th><th>Jogos</th><th>Gols</th><th>Assist.</th><th>Média notas</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🏆 Artilharia dos jogadores</h2>
+                <p class="card-subtitle">Linhas em destaque indicam o líder do ranking filtrado.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaJogadores">
+                <thead>
+                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th><th>Jogos</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🛡️ Classificação dos times</h2>
+                <p class="card-subtitle">Pontuação: vitória 3 pts, empate 1 pt.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaTimes">
+                <thead>
+                  <tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">🕘 Histórico de jogos</h2>
+                <p class="card-subtitle">Rolagem horizontal ativa para leitura fácil no celular.</p>
+              </div>
+            </div>
+            <div class="scroll-table">
+              <table id="tabelaHistorico" class="history-table">
+                <thead>
+                  <tr><th>Data</th><th>Fut</th><th>Placar</th><th>Tempo</th><th>Gols anotados</th><th>Ações</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== NOTAS (PRIVATE) ===== -->
+      <section id="tab-notas" class="screen">
+        <div class="stack">
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">📝 Notas dos jogadores</h2>
+                <p class="card-subtitle">Atribua marcação, passes e stamina uma vez por jogador. Atualize só quando a performance mudar de verdade.</p>
+              </div>
+              <span class="pill">S A B C D F</span>
+            </div>
+            <div class="formula-box">Notas são globais por jogador — não por jogo. O overall recalcula na hora. Campos em branco contam como C.</div>
+            <div id="listaNotasJogadores" class="player-ratings-grid"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== SETUP (PRIVATE) ===== -->
+      <section id="tab-setup" class="screen">
+        <div class="stack">
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">1. Importar histórico antigo</h2>
+                <p class="card-subtitle">Aceita CSV com ponto e vírgula ou vírgula. O histórico importado entra no mesmo banco do app.</p>
+              </div>
+              <span class="pill">Opcional</span>
+            </div>
+            <label for="csvFileInput">Arquivo CSV</label>
+            <input id="csvFileInput" type="file" accept=".csv,text/csv" />
+            <p id="statusImportacao" class="helper">Nenhum arquivo importado nesta sessão.</p>
+          </article>
+
+          <article class="card accent-purple">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">2. Identificação do Fut</h2>
+                <p class="card-subtitle">Essas informações serão gravadas em todos os jogos salvos nesta rodada.</p>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="dataJogo">Data do jogo</label>
+                <input id="dataJogo" type="date" />
+              </div>
+              <div>
+                <label for="nomeFutDia">Nome do Fut do dia</label>
+                <input id="nomeFutDia" type="text" placeholder="Ex: Fut da Terça" autocomplete="off" />
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">3. Banco de jogadores</h2>
+                <p class="card-subtitle">Cadastre nomes rapidamente, edite ou remova jogadores quando precisar.</p>
+              </div>
+              <span class="pill"><span id="contadorJogadores">0</span> nomes</span>
+            </div>
+            <div class="input-combo">
+              <div>
+                <label for="novoJogadorNome">Novo jogador</label>
+                <input id="novoJogadorNome" type="text" placeholder="Nome do jogador..." autocomplete="off" />
+              </div>
+              <button id="btnCriarJogador" class="btn btn-blue" type="button">+ Criar</button>
+            </div>
+            <p class="helper">Dica: pressione Enter no campo para criar sem tirar o dedo do teclado.</p>
+            <div class="field-gap">
+              <label for="buscarJogadorNome">Buscar jogador cadastrado</label>
+              <input id="buscarJogadorNome" type="search" placeholder="Filtrar lista do banco..." autocomplete="off" />
+            </div>
+            <div id="listaTodosJogadores" class="tags" aria-label="Jogadores cadastrados"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== TIMES (PRIVATE) ===== -->
+      <section id="tab-times" class="screen">
+        <div class="stack">
+          <article class="card accent-orange">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">4. Escalação da noite</h2>
+                <p class="card-subtitle">Preencha só os times que vão jogar. Jogadores já alocados em outros times ficam ocultos no banco.</p>
+              </div>
+              <span class="pill">A–F</span>
+            </div>
+
+            <div id="teamGrid" class="team-grid"></div>
+
+            <div class="actions">
+              <button id="btnConfirmarEscalacao" class="btn btn-orange" type="button">🔒 Travar escalação da noite</button>
+              <button id="btnLimparEscalacao" class="btn btn-secondary" type="button">🧹 Limpar escalações</button>
+            </div>
+
+            <div class="status-line">
+              <span id="contadorTimesDetectados" class="pill">0 times detectados</span>
+              <span id="contadorEscalados" class="pill">0 jogadores escalados</span>
+            </div>
+            <div id="timesAtivosResumo" class="tags" style="margin-top: 10px;"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== JOGO (PRIVATE) ===== -->
+      <section id="tab-jogo" class="screen">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">5. Anotar jogo atual</h2>
+                <p class="card-subtitle">Escolha mandante e visitante, toque para adicionar gols e depois feche o jogo.</p>
+              </div>
+              <span id="statusTimesJogo" class="pill">Aguardando times</span>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="time1">Mandante</label>
+                <select id="time1"></select>
+              </div>
+              <div>
+                <label for="time2">Visitante</label>
+                <select id="time2"></select>
+              </div>
+            </div>
+
+            <div class="scoreboard" aria-label="Placar do jogo">
+              <div class="score-team">
+                <small id="placarNome1">Mandante</small>
+                <label class="sr-only" for="gols1">Gols do mandante</label>
+                <input id="gols1" type="number" min="0" value="0" inputmode="numeric" />
+              </div>
+              <div class="score-x">×</div>
+              <div class="score-team">
+                <small id="placarNome2">Visitante</small>
+                <label class="sr-only" for="gols2">Gols do visitante</label>
+                <input id="gols2" type="number" min="0" value="0" inputmode="numeric" />
+              </div>
+            </div>
+
+            <div class="field-gap">
+              <label for="tempo">Tempo de jogo em minutos</label>
+              <input id="tempo" type="number" min="1" value="10" inputmode="numeric" />
+            </div>
+          </article>
+
+          <article class="card accent-orange">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">⚽ Registrar gols</h2>
+                <p class="card-subtitle">O placar aumenta automaticamente quando um gol é adicionado.</p>
+              </div>
+              <span id="contadorGolsPartida" class="pill">0 gols</span>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="timeGol">Gol para</label>
+                <select id="timeGol"></select>
+              </div>
+              <div>
+                <label for="autorGol">Quem fez o gol</label>
+                <select id="autorGol"></select>
+              </div>
+              <div>
+                <label for="autorAssistencia">Quem deu assistência</label>
+                <select id="autorAssistencia"></select>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="btnAdicionarGol" class="btn btn-orange" type="button">+ Adicionar gol</button>
+              <button id="btnDesfazerGol" class="btn btn-secondary" type="button">↩️ Desfazer último</button>
+            </div>
+
+            <div id="listaGolsPartida" class="goal-list"></div>
+          </article>
+
+          <article class="card accent-blue">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">✅ Fechar jogo</h2>
+                <p class="card-subtitle">Salva o placar no histórico. As notas ficam na aba Notas.</p>
+              </div>
+              <span class="pill">Notas →</span>
+            </div>
+            <button id="btnSalvarJogo" class="btn btn-full btn-large" type="button">✔️ Fechar e guardar jogo</button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== EXPORTAR (PRIVATE) ===== -->
+      <section id="tab-exportar" class="screen">
+        <div class="stack">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">6. Exportar banco de dados</h2>
+                <p class="card-subtitle">Baixe todo o histórico acumulado em um CSV único e compatível com o importador.</p>
+              </div>
+              <span id="statusLocal" class="pill">Salvo no navegador</span>
+            </div>
+            <button id="btnExportarCSV" class="btn btn-full btn-large" type="button">💾 Baixar CSV atualizado</button>
+            <p class="helper">O app também salva os dados no armazenamento local deste navegador. Mesmo assim, faça o download do CSV ao final da rodada.</p>
+          </article>
+
+          <article class="card accent-danger">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Zona de limpeza</h2>
+                <p class="card-subtitle">Use apenas se quiser começar do zero neste aparelho.</p>
+              </div>
+            </div>
+            <button id="btnLimparDados" class="btn btn-danger btn-full" type="button">🗑️ Apagar dados locais</button>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit match modal -->
+  <div id="modalEditarJogo" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloEditarJogo">
+      <div class="modal-head">
+        <div>
+          <h2 id="tituloEditarJogo">✏️ Editar jogo</h2>
+          <p>Corrija data, placar, tempo e gols.</p>
+        </div>
+        <button id="btnFecharModalJogo" class="modal-close" type="button" aria-label="Fechar">×</button>
+      </div>
+
+      <input id="editIdPartida" type="hidden" />
+      <div class="form-grid">
+        <div><label for="editData">Data</label><input id="editData" type="date" /></div>
+        <div><label for="editNomeFut">Nome do Fut</label><input id="editNomeFut" type="text" autocomplete="off" /></div>
+        <div><label for="editTempo">Tempo em minutos</label><input id="editTempo" type="number" min="1" inputmode="numeric" /></div>
+      </div>
+
+      <div class="form-grid field-gap">
+        <div><label for="editT1">Código mandante</label><input id="editT1" type="text" maxlength="12" /></div>
+        <div><label for="editNomeTime1">Nome mandante</label><input id="editNomeTime1" type="text" /></div>
+        <div><label for="editGols1">Gols mandante</label><input id="editGols1" type="number" min="0" inputmode="numeric" /></div>
+      </div>
+
+      <div class="form-grid field-gap">
+        <div><label for="editT2">Código visitante</label><input id="editT2" type="text" maxlength="12" /></div>
+        <div><label for="editNomeTime2">Nome visitante</label><input id="editNomeTime2" type="text" /></div>
+        <div><label for="editGols2">Gols visitante</label><input id="editGols2" type="number" min="0" inputmode="numeric" /></div>
+      </div>
+
+      <datalist id="listaJogadoresDatalist"></datalist>
+
+      <div class="field-gap">
+        <label>Gols do jogo</label>
+        <div id="editGolsLista" class="edit-goals-list"></div>
+        <button id="btnAdicionarGolEdit" class="btn btn-secondary btn-full" type="button" style="margin-top: 10px;">+ Adicionar gol no editor</button>
+      </div>
+
+      <div class="actions">
+        <button id="btnSalvarEdicaoJogo" class="btn" type="button">💾 Salvar edição</button>
+        <button id="btnCancelarEdicaoJogo" class="btn btn-secondary" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite" aria-atomic="true">
+    <div id="toastTexto" class="toast-inner"></div>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "sistema_fut_mobile_v6";
+      const LEGACY_KEYS = ["sistema_fut_mobile_v6","sistema_fut_mobile_v5","sistema_fut_mobile_v4","sistema_fut_mobile_v3","sistema_fut_mobile_v2"];
+      const TEAM_IDS = ["A","B","C","D","E","F"];
+      const NOTAS = ["S","A","B","C","D","F"];
+      const NOTA_VALORES = { S:100, A:90, B:78, C:65, D:50, F:30 };
+      const LOGIN_PASSWORD = "OtavioGostoso69";
+      const AUTH_SESSION_KEY = "fut_manager_auth_plain_password";
+      const PUBLIC_TABS = ["home","stats"];
+      const ehPlaceholderAntigo = (nome) => /^Jogador\s+(1|2|3)$/i.test(normalizarNome(nome));
+
+      // Tab the user tried to open while not authenticated
+      let pendingTab = null;
+      let jogoEditandoId = null;
+
+      const state = {
+        historico: [],
+        avaliacoes: [],
+        jogadores: new Set(),
+        notasJogadores: {},
+        escalacao: criarEscalacaoVazia(),
+        timesAtivos: [],
+        golsDaPartida: [],
+        avaliacaoRascunho: {},
+        config: { data: "", nomeFut: "" }
+      };
+
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+      const byId = (id) => document.getElementById(id);
+
+      document.addEventListener("DOMContentLoaded", iniciarApp);
+
+      async function iniciarApp() {
+        conectarEventosLogin();
+        gerarCardsTimes();
+        await carregarCloudStorage();
+        if (!state.__cloudLoaded) carregarLocalStorage();
+        preencherCamposIniciais();
+        conectarEventos();
+        renderizarTudo();
+        // Show/hide logout button based on auth state
+        byId("btnLogout").style.display = usuarioAutenticado() ? "" : "none";
+      }
+
+      function criarEscalacaoVazia() {
+        return TEAM_IDS.reduce((acc, id) => {
+          acc[id] = { nome: `Time ${id}`, jogadores: [] };
+          return acc;
+        }, {});
+      }
+
+      function gerarCardsTimes() {
+        const grid = byId("teamGrid");
+        grid.innerHTML = TEAM_IDS.map((id) => `
+          <div class="team-card">
+            <div class="team-head">
+              <span class="team-letter">${id}</span>
+              <strong>Time ${id}</strong>
+            </div>
+            <label for="nomeFantasia${id}">Nome fantasia</label>
+            <input id="nomeFantasia${id}" type="text" value="Time ${id}" autocomplete="off" />
+
+            <div class="team-players-preview field-gap">
+              <div class="team-players-preview-label">
+                <span>Escalados</span>
+                <span id="chipsContador${id}" class="team-players-count">0</span>
+              </div>
+              <div id="chipsTime${id}" class="team-current-list" aria-label="Jogadores escalados no Time ${id}" style="max-height:none;border:none;background:none;padding:0;"></div>
+            </div>
+
+            <div id="bankBox${id}" class="bank-box field-gap" data-open="false">
+              <button class="bank-box-toggle" type="button" aria-expanded="false" aria-controls="bankBody${id}" data-bank-toggle="${id}">
+                <span>🔍 Buscar no banco de jogadores</span>
+                <i class="bank-box-toggle-icon">▾</i>
+              </button>
+              <div id="bankBody${id}" class="bank-box-body">
+                <input id="buscaBanco${id}" type="search" placeholder="Filtrar banco..." autocomplete="off" />
+                <div id="sugestoesBanco${id}" class="bank-results" aria-label="Sugestões do banco para o Time ${id}"></div>
+              </div>
+            </div>
+
+            <textarea id="esc${id}" style="display:none;" aria-hidden="true" tabindex="-1"></textarea>
+          </div>
+        `).join("");
+      }
+
+      // ─── AUTH ────────────────────────────────────────────────────────────────
+
+      function usuarioAutenticado() {
+        return sessionStorage.getItem(AUTH_SESSION_KEY) === LOGIN_PASSWORD;
+      }
+
+      function conectarEventosLogin() {
+        byId("loginForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const senha = byId("loginSenha").value;
+          if (senha === LOGIN_PASSWORD) {
+            sessionStorage.setItem(AUTH_SESSION_KEY, senha);
+            byId("loginSenha").value = "";
+            byId("loginErro").textContent = "";
+            byId("loginOverlay").hidden = true;
+            byId("btnLogout").style.display = "";
+            mostrarToast("Sessão liberada.");
+            if (pendingTab) {
+              const tab = pendingTab;
+              pendingTab = null;
+              ativarAba(tab);
+            }
+            return;
+          }
+          byId("loginErro").textContent = "Senha errada.";
+          byId("loginSenha").select();
+        });
+
+        byId("btnLogout").addEventListener("click", () => {
+          sessionStorage.removeItem(AUTH_SESSION_KEY);
+          byId("btnLogout").style.display = "none";
+          mostrarToast("Sessão bloqueada.", "warn");
+          ativarAba("home");
+        });
+
+        byId("btnVoltarHome").addEventListener("click", () => {
+          byId("loginOverlay").hidden = true;
+          pendingTab = null;
+          ativarAba("home");
+        });
+      }
+
+      function exigirLogin(tabDesejada) {
+        if (usuarioAutenticado()) return true;
+        pendingTab = tabDesejada || null;
+        byId("loginOverlay").hidden = false;
+        window.setTimeout(() => byId("loginSenha")?.focus(), 80);
+        return false;
+      }
+
+      // ─── TABS ────────────────────────────────────────────────────────────────
+
+      function ativarAba(nome) {
+        const isPublic = PUBLIC_TABS.includes(nome);
+        if (!isPublic && !usuarioAutenticado()) {
+          exigirLogin(nome);
+          return;
+        }
+        byId("loginOverlay").hidden = true;
+        $$(".tab-btn").forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === nome));
+        $$(".screen").forEach((s) => s.classList.toggle("active", s.id === `tab-${nome}`));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Re-render relevant panel when switching to it
+        if (nome === "stats") renderizarPainelEstatistico();
+        if (nome === "notas") renderizarNotasJogadores();
+        if (nome === "home") renderizarHome();
+      }
+
+      // ─── EVENTS ──────────────────────────────────────────────────────────────
+
+      function conectarEventos() {
+        $$(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => ativarAba(btn.dataset.tab));
+        });
+
+        byId("csvFileInput").addEventListener("change", importarCSV);
+        byId("btnCriarJogador").addEventListener("click", cadastrarNovoJogador);
+        byId("novoJogadorNome").addEventListener("keydown", (e) => { if (e.key === "Enter") cadastrarNovoJogador(); });
+        byId("buscarJogadorNome").addEventListener("input", renderizarJogadores);
+
+        byId("dataJogo").addEventListener("change", () => {
+          const nome = byId("nomeFutDia");
+          if (!nome.value.trim() || nome.dataset.auto === "true") {
+            nome.value = nomePadraoFutPorData(byId("dataJogo").value);
+            nome.dataset.auto = "true";
+          }
+          salvarLocalSomente();
+        });
+
+        byId("nomeFutDia").addEventListener("input", () => {
+          byId("nomeFutDia").dataset.auto = "false";
+          salvarLocalSomente();
+        });
+
+        TEAM_IDS.forEach((id) => {
+          byId(`nomeFantasia${id}`).addEventListener("input", () => {
+            salvarRascunhoEscalacao();
+            renderizarPreviewTimesFormulario();
+            renderizarBancoNosTimes();
+          });
+          byId(`esc${id}`).addEventListener("input", () => {
+            salvarRascunhoEscalacao();
+            renderizarPreviewTimesFormulario();
+            renderizarChipsDosTimes();
+            renderizarBancoNosTimes();
+            atualizarSeletoresGol();
+          });
+          byId(`buscaBanco${id}`).addEventListener("input", renderizarBancoNosTimes);
+          byId(`buscaBanco${id}`).addEventListener("keydown", (e) => {
+            if (e.key !== "Enter") return;
+            e.preventDefault();
+            const primeiro = byId(`sugestoesBanco${id}`).querySelector("[data-add-bank-player]");
+            if (primeiro) adicionarJogadorBancoAoTime(id, primeiro.dataset.addBankPlayer);
+          });
+        });
+
+        byId("btnConfirmarEscalacao").addEventListener("click", confirmarEscalacaoDaNoite);
+        byId("btnLimparEscalacao").addEventListener("click", limparEscalacoes);
+
+        $$("[data-bank-toggle]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.bankToggle;
+            const box = byId(`bankBox${id}`);
+            const aberto = box.dataset.open === "true";
+            box.dataset.open = aberto ? "false" : "true";
+            btn.setAttribute("aria-expanded", aberto ? "false" : "true");
+            if (!aberto) byId(`buscaBanco${id}`)?.focus();
+          });
+        });
+
+        ["time1","time2"].forEach((id) => {
+          byId(id).addEventListener("change", () => {
+            impedirTimesDuplicados();
+            atualizarNomesPlacar();
+            atualizarSeletoresGol();
+          });
+        });
+
+        ["gols1","gols2","tempo"].forEach((id) => {
+          byId(id).addEventListener("input", () => { salvarLocalSomente(); });
+        });
+
+        byId("timeGol").addEventListener("change", atualizarSeletoresGol);
+        byId("autorGol").addEventListener("change", atualizarSelectAssistencia);
+        byId("btnAdicionarGol").addEventListener("click", adicionarGolNaPartida);
+        byId("btnDesfazerGol").addEventListener("click", desfazerUltimoGol);
+        byId("btnSalvarJogo").addEventListener("click", salvarPartidaNoHistorico);
+        byId("filtroData").addEventListener("change", renderizarPainelEstatistico);
+        byId("btnExportarCSV").addEventListener("click", exportarParaCSV);
+        byId("btnLimparDados").addEventListener("click", limparDadosLocais);
+        byId("btnFecharModalJogo").addEventListener("click", fecharEditorJogo);
+        byId("btnCancelarEdicaoJogo").addEventListener("click", fecharEditorJogo);
+        byId("btnSalvarEdicaoJogo").addEventListener("click", salvarEdicaoJogo);
+        byId("btnAdicionarGolEdit").addEventListener("click", adicionarGolAoEditor);
+        byId("modalEditarJogo").addEventListener("click", (e) => { if (e.target.id === "modalEditarJogo") fecharEditorJogo(); });
+
+        // Edit player name modal
+        byId("btnSalvarEditNome").addEventListener("click", confirmarEdicaoNome);
+        byId("btnCancelarEditNome").addEventListener("click", () => { byId("editNameModal").hidden = true; });
+      }
+
+      // ─── PLAYER BANK ─────────────────────────────────────────────────────────
+
+      function preencherCamposIniciais() {
+        const hoje = hojeISO();
+        byId("dataJogo").value = state.config.data || hoje;
+        byId("nomeFutDia").value = state.config.nomeFut || nomePadraoFutPorData(byId("dataJogo").value);
+        byId("nomeFutDia").dataset.auto = state.config.nomeFut ? "false" : "true";
+        TEAM_IDS.forEach((id) => {
+          const time = state.escalacao[id] || { nome: `Time ${id}`, jogadores: [] };
+          byId(`nomeFantasia${id}`).value = time.nome || `Time ${id}`;
+          byId(`esc${id}`).value = Array.isArray(time.jogadores) ? time.jogadores.join("\n") : "";
+        });
+      }
+
+      function hojeISO() {
+        const h = new Date();
+        return `${h.getFullYear()}-${String(h.getMonth()+1).padStart(2,"0")}-${String(h.getDate()).padStart(2,"0")}`;
+      }
+
+      function nomePadraoFutPorData(dataISO) {
+        const d = dataISO ? new Date(`${dataISO}T12:00:00`) : new Date();
+        const dias = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+        return `Fut da ${dias[d.getDay()]}`;
+      }
+
+      function normalizarNome(v) { return String(v || "").trim().replace(/\s+/g," "); }
+      function chaveNome(v) { return normalizarNome(v).toLocaleLowerCase("pt-BR"); }
+      function mesmoNome(a,b) { return chaveNome(a) === chaveNome(b); }
+
+      function unicos(lista) {
+        const vistos = new Set(), saida = [];
+        lista.map(normalizarNome).filter(Boolean).forEach((n) => {
+          const c = chaveNome(n);
+          if (!vistos.has(c)) { vistos.add(c); saida.push(n); }
+        });
+        return saida;
+      }
+
+      function escaparHTML(v) {
+        const m = { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" };
+        return String(v ?? "").replace(/[&<>"']/g, (c) => m[c]);
+      }
+
+      function formatarData(d) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d || ""));
+        return m ? `${m[3]}/${m[2]}/${m[1]}` : (d || "Sem data");
+      }
+
+      function isGolValido(v) { const c = chaveNome(v); return c && c !== "nenhum" && c !== "sem gol" && c !== "-"; }
+      function isAssistenciaValida(v) { const c = chaveNome(v); return c && c !== "nenhum" && c !== "sem assistência" && c !== "sem assistencia" && c !== "-"; }
+
+      function getJogadoresBancoOrdenados() {
+        return Array.from(state.jogadores).map(normalizarNome).filter((n) => n && !ehPlaceholderAntigo(n))
+          .sort((a,b) => a.localeCompare(b,"pt-BR"));
+      }
+
+      // Returns set of all players assigned to ANY team (across all team textareas)
+      function getJogadoresJaEscaladosEmOutrosTimesParaId(idAtual) {
+        const escaladosEmOutros = new Set();
+        TEAM_IDS.forEach((id) => {
+          if (id === idAtual) return;
+          getJogadoresTimeFormulario(id).forEach((n) => {
+            if (n) escaladosEmOutros.add(chaveNome(n));
+          });
+        });
+        return escaladosEmOutros;
+      }
+
+      function getNomeTimeFormulario(id) {
+        return normalizarNome(byId(`nomeFantasia${id}`).value) || `Time ${id}`;
+      }
+
+      function getJogadoresTimeFormulario(id) {
+        return unicos(byId(`esc${id}`).value.split(/\r?\n/));
+      }
+
+      function timeEstaPreenchido(id, nome, jogadores) {
+        return jogadores.length > 0 || nome !== `Time ${id}`;
+      }
+
+      function salvarRascunhoEscalacao() {
+        TEAM_IDS.forEach((id) => {
+          state.escalacao[id] = {
+            nome: getNomeTimeFormulario(id),
+            jogadores: getJogadoresTimeFormulario(id)
+          };
+        });
+        salvarLocalSomente();
+      }
+
+      function cadastrarNovoJogador() {
+        const input = byId("novoJogadorNome");
+        const nome = normalizarNome(input.value);
+        if (!nome) { mostrarToast("Digite o nome do jogador antes de criar.", "warn"); return; }
+        const existente = getJogadoresBancoOrdenados().find((j) => mesmoNome(j, nome));
+        if (existente) {
+          mostrarToast(`${existente} já está no banco.`, "warn");
+          input.value = "";
+          return;
+        }
+        state.jogadores.add(nome);
+        input.value = "";
+        renderizarJogadores();
+        renderizarBancoNosTimes();
+        atualizarSeletoresGol();
+        atualizarResumoTopo();
+        salvarComCloud();
+        mostrarToast(`${nome} entrou no banco de jogadores.`);
+      }
+
+      function abrirEdicaoNome(nomeAntigo) {
+        byId("editNameInput").dataset.old = nomeAntigo;
+        byId("editNameValue").value = nomeAntigo;
+        byId("editNameModal").hidden = false;
+        window.setTimeout(() => byId("editNameValue")?.focus(), 60);
+      }
+
+      function confirmarEdicaoNome() {
+        const nomeAntigo = normalizarNome(byId("editNameInput").dataset.old);
+        const nomeNovo = normalizarNome(byId("editNameValue").value);
+        if (!nomeNovo) { mostrarToast("Digite um nome válido.", "warn"); return; }
+        if (mesmoNome(nomeAntigo, nomeNovo)) { byId("editNameModal").hidden = true; return; }
+
+        const existente = getJogadoresBancoOrdenados().find((j) => mesmoNome(j, nomeNovo));
+        if (existente && !mesmoNome(existente, nomeAntigo)) {
+          mostrarToast(`${nomeNovo} já existe no banco.`, "warn"); return;
+        }
+
+        // Update jogadores set
+        state.jogadores.forEach((n) => { if (mesmoNome(n, nomeAntigo)) state.jogadores.delete(n); });
+        state.jogadores.add(nomeNovo);
+
+        // Update historico
+        state.historico.forEach((linha) => {
+          if (isGolValido(linha.gol) && mesmoNome(linha.gol, nomeAntigo)) linha.gol = nomeNovo;
+          if (isAssistenciaValida(linha.assist) && mesmoNome(linha.assist, nomeAntigo)) linha.assist = nomeNovo;
+        });
+
+        // Update avaliacoes
+        state.avaliacoes.forEach((a) => { if (mesmoNome(a.jogador, nomeAntigo)) a.jogador = nomeNovo; });
+
+        // Update notasJogadores key
+        const chaveAntiga = chaveNome(nomeAntigo);
+        const chaveNova = chaveNome(nomeNovo);
+        if (state.notasJogadores[chaveAntiga]) {
+          state.notasJogadores[chaveNova] = state.notasJogadores[chaveAntiga];
+          delete state.notasJogadores[chaveAntiga];
+        }
+
+        // Update escalacao textareas
+        TEAM_IDS.forEach((id) => {
+          const textarea = byId(`esc${id}`);
+          textarea.value = getJogadoresTimeFormulario(id)
+            .map((n) => mesmoNome(n, nomeAntigo) ? nomeNovo : n).join("\n");
+          if (state.escalacao[id]) {
+            state.escalacao[id].jogadores = state.escalacao[id].jogadores
+              .map((n) => mesmoNome(n, nomeAntigo) ? nomeNovo : n);
+          }
+        });
+
+        byId("editNameModal").hidden = true;
+        renderizarTudo();
+        salvarComCloud();
+        mostrarToast(`Nome alterado para "${nomeNovo}".`);
+      }
+
+      function removerJogadorDoBanco(nome) {
+        const jogador = normalizarNome(nome);
+        if (!jogador) return;
+        if (!confirm(`Remover ${jogador} do banco e das escalações abertas? O histórico já salvo não será apagado.`)) return;
+        state.jogadores.forEach((n) => { if (mesmoNome(n, jogador)) state.jogadores.delete(n); });
+        TEAM_IDS.forEach((id) => {
+          const ta = byId(`esc${id}`);
+          ta.value = ta.value.split(/\r?\n/).filter((l) => !mesmoNome(l, jogador)).join("\n");
+        });
+        salvarRascunhoEscalacao();
+        salvarComCloud();
+        renderizarTudo();
+        mostrarToast(`${jogador} removido do cadastro.`);
+      }
+
+      function adicionarJogadorBancoAoTime(id, nomeEscolhido = "") {
+        const inputBusca = byId(`buscaBanco${id}`);
+        const jogador = normalizarNome(nomeEscolhido || inputBusca.value);
+        if (!jogador) { mostrarToast("Escolha um jogador do banco.", "warn"); return; }
+        const jogadorBanco = getJogadoresBancoOrdenados().find((n) => mesmoNome(n, jogador));
+        if (!jogadorBanco) { mostrarToast("Esse nome ainda não está no banco.", "warn"); return; }
+        const atuais = getJogadoresTimeFormulario(id);
+        if (atuais.some((n) => mesmoNome(n, jogadorBanco))) {
+          mostrarToast(`${jogadorBanco} já está no ${getNomeTimeFormulario(id)}.`, "warn"); return;
+        }
+        byId(`esc${id}`).value = [...atuais, jogadorBanco].join("\n");
+        inputBusca.value = "";
+        salvarRascunhoEscalacao();
+        renderizarPreviewTimesFormulario();
+        renderizarChipsDosTimes();
+        renderizarBancoNosTimes();
+        atualizarSeletoresGol();
+        mostrarToast(`${jogadorBanco} adicionado ao ${getNomeTimeFormulario(id)}.`);
+      }
+
+      function removerJogadorDoTime(id, nome) {
+        const ta = byId(`esc${id}`);
+        ta.value = getJogadoresTimeFormulario(id).filter((j) => !mesmoNome(j, nome)).join("\n");
+        salvarRascunhoEscalacao();
+        renderizarPreviewTimesFormulario();
+        renderizarChipsDosTimes();
+        renderizarBancoNosTimes();
+        atualizarSeletoresGol();
+      }
+
+      function confirmarEscalacaoDaNoite() {
+        const escalacao = criarEscalacaoVazia();
+        const ativos = [];
+        TEAM_IDS.forEach((id) => {
+          const nome = getNomeTimeFormulario(id);
+          const jogadores = getJogadoresTimeFormulario(id);
+          escalacao[id] = { nome, jogadores };
+          if (timeEstaPreenchido(id, nome, jogadores)) {
+            ativos.push(id);
+            jogadores.forEach((j) => state.jogadores.add(j));
+          }
+        });
+        state.escalacao = escalacao;
+        state.timesAtivos = ativos;
+        renderizarTudo();
+        salvarComCloud();
+        if (ativos.length < 2) { mostrarToast("Preencha pelo menos 2 times para anotar um jogo.", "warn"); return; }
+        mostrarToast("Escalação travada. Os times já aparecem no jogo.");
+        ativarAba("jogo");
+      }
+
+      function limparEscalacoes() {
+        if (!confirm("Limpar as escalações e times ativos da noite?")) return;
+        state.escalacao = criarEscalacaoVazia();
+        state.timesAtivos = [];
+        state.golsDaPartida = [];
+        TEAM_IDS.forEach((id) => {
+          byId(`nomeFantasia${id}`).value = `Time ${id}`;
+          byId(`esc${id}`).value = "";
+        });
+        byId("gols1").value = 0;
+        byId("gols2").value = 0;
+        renderizarTudo();
+        salvarComCloud();
+        mostrarToast("Escalações limpas.");
+      }
+
+      // ─── GAME ────────────────────────────────────────────────────────────────
+
+      function atualizarSeletoresDeTimes() {
+        const t1 = byId("time1"), t2 = byId("time2");
+        const ant1 = t1.value, ant2 = t2.value;
+        t1.innerHTML = ""; t2.innerHTML = "";
+        if (state.timesAtivos.length < 2) {
+          t1.innerHTML = '<option value="">Trave 2 times primeiro</option>';
+          t2.innerHTML = '<option value="">Trave 2 times primeiro</option>';
+          t1.disabled = t2.disabled = true;
+          byId("statusTimesJogo").textContent = "Aguardando times";
+          atualizarNomesPlacar(); atualizarSeletoresGol(); return;
+        }
+        t1.disabled = t2.disabled = false;
+        byId("statusTimesJogo").textContent = `${state.timesAtivos.length} times ativos`;
+        state.timesAtivos.forEach((id) => {
+          const nome = state.escalacao[id]?.nome || `Time ${id}`;
+          t1.add(new Option(nome, id)); t2.add(new Option(nome, id));
+        });
+        t1.value = state.timesAtivos.includes(ant1) ? ant1 : state.timesAtivos[0];
+        const sug = state.timesAtivos.find((id) => id !== t1.value) || state.timesAtivos[1];
+        t2.value = state.timesAtivos.includes(ant2) && ant2 !== t1.value ? ant2 : sug;
+        atualizarNomesPlacar(); atualizarSeletoresGol();
+      }
+
+      function impedirTimesDuplicados() {
+        const t1 = byId("time1"), t2 = byId("time2");
+        if (!t1.value || !t2.value || t1.value !== t2.value) return;
+        const outro = state.timesAtivos.find((id) => id !== t1.value);
+        if (outro) t2.value = outro;
+      }
+
+      function atualizarNomesPlacar() {
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        byId("placarNome1").textContent = t1 ? (state.escalacao[t1]?.nome || `Time ${t1}`) : "Mandante";
+        byId("placarNome2").textContent = t2 ? (state.escalacao[t2]?.nome || `Time ${t2}`) : "Visitante";
+      }
+
+      function getJogadoresDoTime(id) { return state.escalacao[id]?.jogadores || []; }
+
+      function getJogadoresDaPartida() {
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        const j = [...getJogadoresDoTime(t1), ...getJogadoresDoTime(t2)];
+        return unicos(j.length ? j : Object.values(state.escalacao).flatMap((t) => t.jogadores || []));
+      }
+
+      function atualizarSeletoresGol() {
+        const tg = byId("timeGol");
+        const antes = tg.value;
+        tg.innerHTML = "";
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        const times = [t1, t2].filter(Boolean);
+        if (times.length < 2) {
+          tg.innerHTML = '<option value="">Selecione os times</option>';
+          tg.disabled = true;
+          byId("autorGol").innerHTML = '<option value="">Sem jogadores</option>';
+          byId("autorAssistencia").innerHTML = '<option value="Nenhum">Sem assistência</option>';
+          byId("btnAdicionarGol").disabled = true;
+          return;
+        }
+        tg.disabled = false;
+        byId("btnAdicionarGol").disabled = false;
+        times.forEach((id) => { const n = state.escalacao[id]?.nome || `Time ${id}`; tg.add(new Option(n, id)); });
+        tg.value = times.includes(antes) ? antes : t1;
+        atualizarSelectAutorGol();
+        atualizarSelectAssistencia();
+      }
+
+      function atualizarSelectAutorGol() {
+        const sel = byId("autorGol");
+        const ant = sel.value;
+        const time = byId("timeGol").value;
+        let j = getJogadoresDoTime(time);
+        if (!j.length) j = getJogadoresDaPartida();
+        if (!j.length) j = getJogadoresBancoOrdenados();
+        sel.innerHTML = "";
+        if (!j.length) { sel.add(new Option("Nenhum jogador disponível","")); sel.disabled = true; byId("btnAdicionarGol").disabled = true; return; }
+        sel.disabled = false; byId("btnAdicionarGol").disabled = false;
+        j.forEach((p) => sel.add(new Option(p, p)));
+        sel.value = j.some((p) => mesmoNome(p, ant)) ? ant : j[0];
+      }
+
+      function atualizarSelectAssistencia() {
+        const sel = byId("autorAssistencia");
+        const ant = sel.value;
+        const autor = byId("autorGol").value;
+        const time = byId("timeGol").value;
+        let j = getJogadoresDoTime(time);
+        if (!j.length) j = getJogadoresDaPartida();
+        if (!j.length) j = getJogadoresBancoOrdenados();
+        sel.innerHTML = "";
+        sel.add(new Option("Sem assistência","Nenhum"));
+        j.filter((p) => !mesmoNome(p, autor)).forEach((p) => sel.add(new Option(p, p)));
+        sel.value = [...sel.options].some((o) => o.value === ant) ? ant : "Nenhum";
+      }
+
+      function adicionarGolNaPartida() {
+        const time = byId("timeGol").value;
+        const autor = normalizarNome(byId("autorGol").value);
+        const assist = normalizarNome(byId("autorAssistencia").value) || "Nenhum";
+        if (!time || !autor) { mostrarToast("Selecione o time e o autor do gol.", "warn"); return; }
+        state.golsDaPartida.push({ time, autor, assist });
+        state.jogadores.add(autor);
+        if (isAssistenciaValida(assist)) state.jogadores.add(assist);
+        if (time === byId("time1").value) byId("gols1").value = Math.max(0, parseInt(byId("gols1").value,10)||0)+1;
+        else if (time === byId("time2").value) byId("gols2").value = Math.max(0, parseInt(byId("gols2").value,10)||0)+1;
+        renderizarJogadores(); renderizarBancoNosTimes(); renderizarGolsPartida(); atualizarResumoTopo(); salvarLocalSomente();
+        mostrarToast("Gol adicionado ao jogo atual.");
+      }
+
+      function desfazerUltimoGol() {
+        if (!state.golsDaPartida.length) { mostrarToast("Nenhum gol para desfazer.", "warn"); return; }
+        const r = state.golsDaPartida.pop();
+        ajustarPlacarPorGolRemovido(r);
+        renderizarGolsPartida(); salvarLocalSomente();
+        mostrarToast("Último gol removido.");
+      }
+
+      function ajustarPlacarPorGolRemovido(g) {
+        if (g.time === byId("time1").value) byId("gols1").value = Math.max(0,(parseInt(byId("gols1").value,10)||0)-1);
+        else if (g.time === byId("time2").value) byId("gols2").value = Math.max(0,(parseInt(byId("gols2").value,10)||0)-1);
+      }
+
+      function removerGolPorIndice(i) {
+        if (i < 0 || i >= state.golsDaPartida.length) return;
+        const [r] = state.golsDaPartida.splice(i,1);
+        ajustarPlacarPorGolRemovido(r);
+        renderizarGolsPartida(); salvarLocalSomente();
+      }
+
+      function notaValida(nota, permitirVazio = false) {
+        const n = String(nota || "").trim().toUpperCase();
+        if (!n && permitirVazio) return "";
+        return NOTAS.includes(n) ? n : (permitirVazio ? "" : "C");
+      }
+
+      function opcoesNotas(valorAtual = "C", permitirVazio = false) {
+        const atual = notaValida(valorAtual, permitirVazio);
+        const vazio = permitirVazio ? `<option value="" ${atual===""?"selected":""}>—</option>` : "";
+        return vazio + NOTAS.map((n) => `<option value="${n}" ${n===atual?"selected":""}>${n}</option>`).join("");
+      }
+
+      function tempoAtualPartida() { return Math.max(1, parseInt(byId("tempo")?.value,10)||10); }
+      function chaveAvaliacao(jogador, time) { return `${chaveNome(time)}__${chaveNome(jogador)}`; }
+
+      function salvarPartidaNoHistorico() {
+        const data = byId("dataJogo").value || hojeISO();
+        const nomeFut = normalizarNome(byId("nomeFutDia").value) || "Fut Regular";
+        const t1 = byId("time1").value, t2 = byId("time2").value;
+        const g1 = Math.max(0, parseInt(byId("gols1").value,10)||0);
+        const g2 = Math.max(0, parseInt(byId("gols2").value,10)||0);
+        const tempo = Math.max(1, parseInt(byId("tempo").value,10)||10);
+        if (!t1 || !t2 || t1 === t2) { mostrarToast("Escolha dois times diferentes para salvar o jogo.", "warn"); return; }
+        const idPartida = `JOGO-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+        const base = { idPartida, data, nomeFut, t1, nFantasia1: state.escalacao[t1]?.nome||`Time ${t1}`, g1, t2, nFantasia2: state.escalacao[t2]?.nome||`Time ${t2}`, g2, tempo: String(tempo) };
+        const gols = state.golsDaPartida.length ? state.golsDaPartida : [{ time:"", autor:"Nenhum", assist:"Nenhum" }];
+        gols.forEach((g) => { state.historico.push({ ...base, timeGol: g.time||"", gol: normalizarNome(g.autor)||"Nenhum", assist: normalizarNome(g.assist)||"Nenhum" }); });
+        state.golsDaPartida = []; state.avaliacaoRascunho = {};
+        byId("gols1").value = 0; byId("gols2").value = 0;
+        renderizarTudo(); salvarComCloud();
+        mostrarToast("Jogo salvo! Veja os stats na aba Stats.");
+        ativarAba("stats");
+      }
+
+      // ─── IMPORT/EXPORT ───────────────────────────────────────────────────────
+
+      function importarCSV(e) {
+        const arquivo = e.target.files?.[0];
+        if (!arquivo) return;
+        const leitor = new FileReader();
+        leitor.onload = (ev) => {
+          try {
+            const imp = parseCSV(String(ev.target.result||""));
+            const linhas = imp.historico||[], avs = imp.avaliacoes||[];
+            if (!linhas.length && !avs.length) { mostrarToast("Não encontrei linhas válidas no CSV.", "warn"); return; }
+            linhas.forEach((l) => {
+              state.historico.push(l);
+              if (isGolValido(l.gol)) state.jogadores.add(l.gol);
+              if (isAssistenciaValida(l.assist)) state.jogadores.add(l.assist);
+            });
+            avs.forEach((a) => { state.avaliacoes.push(a); if (a.jogador) state.jogadores.add(a.jogador); });
+            byId("statusImportacao").textContent = `${linhas.length} linha(s) de jogo e ${avs.length} avaliação(ões) importadas de ${arquivo.name}.`;
+            e.target.value = "";
+            renderizarTudo(); salvarComCloud();
+            mostrarToast("Histórico importado e mesclado com sucesso.");
+          } catch (err) {
+            console.error(err);
+            mostrarToast("Não consegui ler este CSV. Confira o formato do arquivo.", "error");
+          }
+        };
+        leitor.readAsText(arquivo, "UTF-8");
+      }
+
+      function parseCSV(texto) {
+        const conteudo = texto.replace(/^\uFEFF/,"").trim();
+        const resultado = { historico:[], avaliacoes:[] };
+        if (!conteudo) return resultado;
+        const lb = conteudo.split(/\r?\n/).filter((l) => l.trim() !== "");
+        if (!lb.length) return resultado;
+        const del = detectarDelimitador(lb[0]);
+        const pL = parseLinhaCSV(lb[0], del).map(normalizarChave);
+        const temCab = pL.includes("data")||pL.includes("nomedofut")||pL.includes("timemandante")||pL.includes("tiporegistro")||pL.includes("tipo");
+        const cab = temCab ? pL : null;
+        const ld = temCab ? lb.slice(1) : lb;
+        ld.forEach((raw) => {
+          const cols = parseLinhaCSV(raw, del);
+          if (cols.every((c) => !normalizarNome(c))) return;
+          const get = (aliases, fi) => getValorCSV(cols, cab, aliases, fi);
+          const tipo = normalizarChave(get(["Tipo Registro","Tipo","Registro"],-1));
+          const data = normalizarNome(get(["Data"], cab ? -1 : 0))||hojeISO();
+          const nomeFut = normalizarNome(get(["Nome do Fut","NomeFut","Fut"], cab ? -1 : 1))||"Fut Regular";
+          const t1 = normalizarNome(get(["Time Mandante","Time 1","Mandante"], cab ? -1 : 2))||"A";
+          const nF1 = normalizarNome(get(["Nome Fantasia Mandante","Fantasia Mandante","Nome Time Mandante"], cab ? -1 : 3))||`Time ${t1}`;
+          const g1 = parseInt(get(["Gols Mandante","Gols 1","Gols Time 1"], cab ? -1 : 4),10)||0;
+          const t2 = normalizarNome(get(["Time Visitante","Time 2","Visitante"], cab ? -1 : 5))||"B";
+          const nF2 = normalizarNome(get(["Nome Fantasia Visitante","Fantasia Visitante","Nome Time Visitante"], cab ? -1 : 6))||`Time ${t2}`;
+          const g2 = parseInt(get(["Gols Visitante","Gols 2","Gols Time 2"], cab ? -1 : 7),10)||0;
+          const tempo = normalizarNome(get(["Tempo Jogo","Tempo","Minutos"], cab ? -1 : 8))||"10";
+          const idCSV = normalizarNome(get(["Id da Partida","ID Partida","idPartida"], cab ? -1 : 12));
+          const baseSemId = [data,nomeFut,t1,nF1,g1,t2,nF2,g2,tempo].join("|");
+          const idPartida = idCSV||`CSV-${hashString(baseSemId)}`;
+          if (tipo==="avaliacao"||tipo==="avaliação") {
+            const jog = normalizarNome(get(["Jogador Avaliado","Jogador","Atleta"],-1));
+            if (!jog||ehPlaceholderAntigo(jog)) return;
+            const time = normalizarNome(get(["Time do Jogador","Time Jogador","Time Avaliado"],-1));
+            resultado.avaliacoes.push(normalizarAvaliacao({ idPartida,data,nomeFut,jogador:jog,time:time||"",nomeTime:normalizarNome(get(["Nome Time do Jogador","Nome Time Jogador","Nome do Time"],-1))||(time?`Time ${time}`:""),tempo:normalizarNome(get(["Tempo Jogador","Minutos Jogador","Tempo Jogado"],-1))||tempo,marcacao:normalizarNome(get(["Nota Marcacao","Nota Marcação","Marcacao","Marcação"],-1)),passes:normalizarNome(get(["Nota Passes","Passes","Passe"],-1)),stamina:normalizarNome(get(["Nota Stamina","Stamina","Folego","Fôlego"],-1)) }));
+            return;
+          }
+          if (tipo==="avaliacoes"||tipo==="ratings") return;
+          if (!data&&!t1&&!t2) return;
+          const gol = normalizarNome(get(["Autor do Gol","Autor Gol","Gol","Artilheiro"], cab ? -1 : 9))||"Nenhum";
+          const assist = normalizarNome(get(["Assistencia","Assistência","Autor Assistencia","Autor Assistência"], cab ? -1 : 10))||"Nenhum";
+          const timeGol = normalizarNome(get(["Time do Gol","Time Gol"], cab ? -1 : 11));
+          resultado.historico.push({ idPartida,data,nomeFut,t1,nFantasia1:nF1,g1,t2,nFantasia2:nF2,g2,tempo,timeGol,gol,assist });
+        });
+        return resultado;
+      }
+
+      function detectarDelimitador(linha) {
+        return parseLinhaCSV(linha,";").length >= parseLinhaCSV(linha,",").length ? ";" : ",";
+      }
+
+      function parseLinhaCSV(linha, del) {
+        const cols = []; let atual = "", dentroAspas = false;
+        for (let i = 0; i < linha.length; i++) {
+          const c = linha[i], prox = linha[i+1];
+          if (c === '"') { if (dentroAspas && prox === '"') { atual += '"'; i++; } else dentroAspas = !dentroAspas; }
+          else if (c === del && !dentroAspas) { cols.push(atual.trim()); atual = ""; }
+          else atual += c;
+        }
+        cols.push(atual.trim()); return cols;
+      }
+
+      function normalizarChave(v) { return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,""); }
+      function getValorCSV(cols, cab, aliases, fi) {
+        if (cab) { for (const a of aliases) { const i = cab.indexOf(normalizarChave(a)); if (i>=0) return cols[i]||""; } }
+        if (Number.isInteger(fi) && fi>=0) return cols[fi]||"";
+        return "";
+      }
+      function hashString(v) {
+        let h = 0; const t = String(v||"");
+        for (let i=0;i<t.length;i++) { h=((h<<5)-h)+t.charCodeAt(i); h|=0; }
+        return Math.abs(h).toString(36);
+      }
+
+      function exportarParaCSV() {
+        if (!state.historico.length && !state.avaliacoes.length) { mostrarToast("Sem dados para exportar.", "warn"); return; }
+        const cab = ["Tipo Registro","Id da Partida","Data","Nome do Fut","Time Mandante","Nome Fantasia Mandante","Gols Mandante","Time Visitante","Nome Fantasia Visitante","Gols Visitante","Tempo Jogo","Time do Gol","Autor do Gol","Assistencia","Jogador Avaliado","Time do Jogador","Nome Time do Jogador","Tempo Jogador","Nota Marcacao","Nota Passes","Nota Stamina"];
+        const linhas = [cab.map(valorCSV).join(";")];
+        state.historico.forEach((d) => {
+          linhas.push([isGolValido(d.gol)?"GOL":"JOGO",d.idPartida,d.data,d.nomeFut,d.t1,d.nFantasia1,d.g1,d.t2,d.nFantasia2,d.g2,d.tempo,d.timeGol,d.gol,d.assist,"","","","","","",""].map(valorCSV).join(";"));
+        });
+        state.avaliacoes.forEach((a) => {
+          const p = getPartidaPorId(a.idPartida);
+          linhas.push(["AVALIACAO",a.idPartida,a.data,a.nomeFut,p?.t1||"",p?.nFantasia1||"",p?.g1??"",p?.t2||"",p?.nFantasia2||"",p?.g2??"",p?.tempo||"","","",a.jogador,a.time,a.nomeTime,a.tempo,a.marcacao,a.passes,a.stamina].map(valorCSV).join(";"));
+        });
+        const blob = new Blob(["\uFEFF"+linhas.join("\n")], { type:"text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url; link.download = `historico_fut_com_avaliacoes_${hojeISO().replaceAll("-","")}.csv`;
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        mostrarToast("CSV baixado com jogos e avaliações.");
+      }
+
+      function getPartidaPorId(idPartida) { return montarPartidas(state.historico).find((p) => p.id === idPartida)||null; }
+      function valorCSV(v) { const t = String(v??""); return /[;"\n\r]/.test(t) ? `"${t.replace(/"/g,'""')}"` : t; }
+
+      // ─── RENDER ──────────────────────────────────────────────────────────────
+
+      function renderizarTudo() {
+        renderizarJogadores();
+        renderizarDatalistJogadores();
+        renderizarPreviewTimesFormulario();
+        renderizarChipsDosTimes();
+        renderizarBancoNosTimes();
+        atualizarSeletoresDeTimes();
+        atualizarFiltrosData();
+        renderizarPainelEstatistico();
+        renderizarGolsPartida();
+        atualizarResumoTopo();
+        atualizarStatusLocal();
+        renderizarHome();
+      }
+
+      function renderizarHome() {
+        // Escalação da noite
+        const ativos = state.timesAtivos.filter((id) => {
+          const t = state.escalacao[id];
+          return t && (t.jogadores.length > 0 || t.nome !== `Time ${id}`);
+        });
+        const nomeFut = state.config.nomeFut || nomePadraoFutPorData(state.config.data || hojeISO());
+        const dataStr = state.config.data ? formatarData(state.config.data) : "hoje";
+        const infoEl = byId("homeFutInfo");
+        if (infoEl) infoEl.textContent = `${nomeFut} • ${dataStr}`;
+        byId("homeTimesAtivos").textContent = `${ativos.length} time${ativos.length===1?"":"s"}`;
+        const grid = byId("homeLineupGrid");
+        if (grid) {
+          if (!ativos.length) {
+            grid.innerHTML = '<div class="empty-state">Nenhuma escalação travada ainda para esta noite.</div>';
+          } else {
+            grid.innerHTML = ativos.map((id) => {
+              const t = state.escalacao[id];
+              const jogadores = t.jogadores || [];
+              return `<div class="home-team-card">
+                <div class="home-team-name">
+                  <span class="team-letter">${id}</span>
+                  <span>${escaparHTML(t.nome || `Time ${id}`)}</span>
+                </div>
+                <div class="home-player-list">
+                  ${jogadores.length ? jogadores.map((j) => `<div class="home-player-item">👟 ${escaparHTML(j)}</div>`).join("") : '<div class="mini-empty">Sem jogadores</div>'}
+                </div>
+              </div>`;
+            }).join("");
+          }
+        }
+
+        // Resumo rápido — artilharia do fut mais recente (ou todas as datas)
+        const linhas = state.historico;
+        const stats = new Map();
+        linhas.forEach((d) => {
+          if (isGolValido(d.gol)) {
+            if (!stats.has(d.gol)) stats.set(d.gol, { gols:0, assist:0 });
+            stats.get(d.gol).gols++;
+          }
+          if (isAssistenciaValida(d.assist)) {
+            if (!stats.has(d.assist)) stats.set(d.assist, { gols:0, assist:0 });
+            stats.get(d.assist).assist++;
+          }
+        });
+        const lista = Array.from(stats.entries()).map(([nome, s]) => ({ nome, ...s }))
+          .sort((a,b) => b.gols-a.gols || b.assist-a.assist || a.nome.localeCompare(b.nome,"pt-BR"))
+          .slice(0, 10);
+        const tbody = byId("tabelaJogadoresHome")?.querySelector("tbody");
+        if (tbody) {
+          if (!lista.length) {
+            tbody.innerHTML = '<tr><td class="empty-table" colspan="4">Nenhum gol registrado ainda.</td></tr>';
+          } else {
+            const maxG = lista[0].gols;
+            tbody.innerHTML = lista.map((item, i) => `
+              <tr class="${item.gols===maxG&&maxG>0?"leader":""}">
+                <td><span class="rank-cell">${i+1}</span></td>
+                <td><strong>${escaparHTML(item.nome)}</strong></td>
+                <td>${item.gols}</td>
+                <td>${item.assist}</td>
+              </tr>
+            `).join("");
+          }
+        }
+      }
+
+      function renderizarJogadores() {
+        const container = byId("listaTodosJogadores");
+        const busca = chaveNome(byId("buscarJogadorNome")?.value||"");
+        const jogadores = getJogadoresBancoOrdenados();
+        const filtrados = busca ? jogadores.filter((j) => chaveNome(j).includes(busca)) : jogadores;
+        byId("contadorJogadores").textContent = jogadores.length;
+
+        // Get all assigned players for badge highlighting
+        const escaladosSet = new Set();
+        TEAM_IDS.forEach((id) => {
+          (state.escalacao[id]?.jogadores || []).forEach((n) => escaladosSet.add(chaveNome(n)));
+          getJogadoresTimeFormulario(id).forEach((n) => escaladosSet.add(chaveNome(n)));
+        });
+
+        if (!jogadores.length) {
+          container.innerHTML = '<div class="empty-state">Banco vazio. Cadastre o primeiro jogador acima ou importe um CSV.</div>'; return;
+        }
+        if (!filtrados.length) {
+          container.innerHTML = '<div class="empty-state">Nenhum jogador encontrado nesse filtro.</div>'; return;
+        }
+
+        container.innerHTML = filtrados.map((jogador) => {
+          const escalado = escaladosSet.has(chaveNome(jogador));
+          return `<span class="badge ${escalado?"assigned":""}">
+            <span class="badge-name">👟 ${escaparHTML(jogador)}</span>
+            <button class="badge-edit" type="button" aria-label="Editar ${escaparHTML(jogador)}" data-edit-player="${escaparHTML(jogador)}" title="Editar nome">✏</button>
+            <button class="badge-remove" type="button" aria-label="Remover ${escaparHTML(jogador)}" data-remove-player="${escaparHTML(jogador)}">×</button>
+          </span>`;
+        }).join("");
+
+        container.querySelectorAll("[data-remove-player]").forEach((btn) => {
+          btn.addEventListener("click", () => removerJogadorDoBanco(btn.dataset.removePlayer));
+        });
+        container.querySelectorAll("[data-edit-player]").forEach((btn) => {
+          btn.addEventListener("click", () => abrirEdicaoNome(btn.dataset.editPlayer));
+        });
+      }
+
+      function renderizarDatalistJogadores() {
+        const dl = byId("listaJogadoresDatalist");
+        if (!dl) return;
+        dl.innerHTML = getJogadoresBancoOrdenados().map((j) => `<option value="${escaparHTML(j)}"></option>`).join("");
+      }
+
+      function renderizarBancoNosTimes() {
+        const banco = getJogadoresBancoOrdenados();
+        TEAM_IDS.forEach((id) => {
+          const input = byId(`buscaBanco${id}`);
+          const container = byId(`sugestoesBanco${id}`);
+          if (!input || !container) return;
+          const termo = chaveNome(input.value);
+          const noTime = getJogadoresTimeFormulario(id);
+          // Hide players assigned to other teams
+          const emOutros = getJogadoresJaEscaladosEmOutrosTimesParaId(id);
+          let disp = banco.filter((j) => {
+            if (noTime.some((n) => mesmoNome(n, j))) return false; // already in this team
+            if (emOutros.has(chaveNome(j))) return false; // in another team
+            return true;
+          });
+          if (termo) disp = disp.filter((j) => chaveNome(j).includes(termo));
+          if (!banco.length) { container.innerHTML = '<div class="mini-empty">Banco vazio. Cadastre jogadores na aba Setup.</div>'; return; }
+          if (!disp.length) {
+            container.innerHTML = termo ? '<div class="mini-empty">Nenhum jogador encontrado nesse filtro.</div>' : '<div class="mini-empty">Todos os jogadores disponíveis já estão escalados.</div>';
+            return;
+          }
+          container.innerHTML = disp.slice(0,8).map((j) => `<button class="bank-result" type="button" data-add-bank-player="${escaparHTML(j)}">+ ${escaparHTML(j)}</button>`).join("")
+            + (disp.length > 8 ? `<div class="mini-empty">Mostrando 8 de ${disp.length}. Digite mais letras para filtrar.</div>` : "");
+          container.querySelectorAll("[data-add-bank-player]").forEach((btn) => {
+            btn.addEventListener("click", () => adicionarJogadorBancoAoTime(id, btn.dataset.addBankPlayer));
+          });
+        });
+      }
+
+      function renderizarChipsDosTimes() {
+        TEAM_IDS.forEach((id) => {
+          const container = byId(`chipsTime${id}`);
+          const contador = byId(`chipsContador${id}`);
+          const jogadores = getJogadoresTimeFormulario(id);
+          if (contador) contador.textContent = jogadores.length;
+          if (!jogadores.length) {
+            container.innerHTML = '<div class="empty-state" style="min-height:36px;font-size:0.82rem;">Nenhum jogador neste time ainda.</div>'; return;
+          }
+          container.innerHTML = jogadores.map((j) => `<span class="team-chip">
+            <span class="chip-name">${escaparHTML(j)}</span>
+            <button class="chip-remove" type="button" aria-label="Remover ${escaparHTML(j)} do Time ${id}" data-remove-team-player="${id}" data-player="${escaparHTML(j)}">×</button>
+          </span>`).join("");
+          container.querySelectorAll("[data-remove-team-player]").forEach((btn) => {
+            btn.addEventListener("click", () => removerJogadorDoTime(btn.dataset.removeTeamPlayer, btn.dataset.player));
+          });
+        });
+      }
+
+      function renderizarPreviewTimesFormulario() {
+        const ativos = [];
+        let totalEsc = 0;
+        TEAM_IDS.forEach((id) => {
+          const nome = getNomeTimeFormulario(id);
+          const j = getJogadoresTimeFormulario(id);
+          if (timeEstaPreenchido(id, nome, j)) { ativos.push({ id, nome, jogadores:j }); totalEsc += j.length; }
+        });
+        byId("contadorTimesDetectados").textContent = `${ativos.length} time${ativos.length===1?"":"s"} detectado${ativos.length===1?"":"s"}`;
+        byId("contadorEscalados").textContent = `${totalEsc} jogador${totalEsc===1?"":"es"} escalado${totalEsc===1?"":"s"}`;
+        const resumo = byId("timesAtivosResumo");
+        if (!ativos.length) { resumo.innerHTML = '<div class="empty-state">Preencha nome fantasia ou jogadores para ativar um time.</div>'; return; }
+        resumo.innerHTML = ativos.map((t) => {
+          const travado = state.timesAtivos.includes(t.id) ? "success" : "";
+          return `<span class="badge ${travado}">Time ${t.id}: ${escaparHTML(t.nome)} • ${t.jogadores.length} jogador${t.jogadores.length===1?"":"es"}</span>`;
+        }).join("");
+      }
+
+      function renderizarGolsPartida() {
+        const lista = byId("listaGolsPartida");
+        const total = state.golsDaPartida.length;
+        byId("contadorGolsPartida").textContent = `${total} gol${total===1?"":"s"}`;
+        byId("btnDesfazerGol").disabled = total === 0;
+        if (!total) { lista.innerHTML = '<div class="empty-state">Nenhum gol anotado neste jogo. Você ainda pode salvar 0 × 0 ou preencher o placar manualmente.</div>'; return; }
+        lista.innerHTML = state.golsDaPartida.map((g, i) => {
+          const nomeTime = state.escalacao[g.time]?.nome || `Time ${g.time}`;
+          const assist = isAssistenciaValida(g.assist) ? `Assistência: ${g.assist}` : "Sem assistência";
+          return `<div class="goal-item">
+            <div>
+              <strong>⚽ ${i+1}. ${escaparHTML(g.autor)}</strong>
+              <span>${escaparHTML(nomeTime)} • ${escaparHTML(assist)}</span>
+            </div>
+            <button class="icon-button" type="button" aria-label="Remover gol ${i+1}" data-remove-goal="${i}">×</button>
+          </div>`;
+        }).join("");
+        lista.querySelectorAll("[data-remove-goal]").forEach((btn) => {
+          btn.addEventListener("click", () => removerGolPorIndice(Number(btn.dataset.removeGoal)));
+        });
+      }
+
+      function atualizarFiltrosData() {
+        const sel = byId("filtroData");
+        const atual = sel.value || "TODAS";
+        const chaves = Array.from(new Set(state.historico.map((d) => `${d.data} | ${d.nomeFut||"Fut Regular"}`)))
+          .sort((a,b) => b.localeCompare(a,"pt-BR"));
+        sel.innerHTML = '<option value="TODAS">Todas as datas e futs</option>';
+        chaves.forEach((c) => sel.add(new Option(c, c)));
+        sel.value = chaves.includes(atual) ? atual : "TODAS";
+      }
+
+      function obterHistoricoFiltrado() {
+        const f = byId("filtroData").value || "TODAS";
+        if (f === "TODAS") return state.historico;
+        return state.historico.filter((d) => `${d.data} | ${d.nomeFut||"Fut Regular"}` === f);
+      }
+
+      function montarPartidas(linhas) {
+        const mapa = new Map();
+        linhas.forEach((d, i) => {
+          const chave = d.idPartida || chavePartida(d);
+          if (!mapa.has(chave)) mapa.set(chave, { id:chave, ordem:i, data:d.data, nomeFut:d.nomeFut||"Fut Regular", t1:d.t1, t2:d.t2, nFantasia1:d.nFantasia1||`Time ${d.t1}`, nFantasia2:d.nFantasia2||`Time ${d.t2}`, g1:parseInt(d.g1,10)||0, g2:parseInt(d.g2,10)||0, tempo:d.tempo||"10", linhas:[] });
+          mapa.get(chave).linhas.push(d);
+        });
+        return Array.from(mapa.values()).reverse();
+      }
+
+      function chavePartida(d) { return [d.data,d.nomeFut,d.t1,d.nFantasia1,d.g1,d.t2,d.nFantasia2,d.g2,d.tempo].join("|"); }
+
+      function renderizarPainelEstatistico() {
+        const linhas = obterHistoricoFiltrado();
+        const partidas = montarPartidas(linhas);
+        const totalGols = partidas.reduce((s,j) => s+j.g1+j.g2, 0);
+        byId("statusFiltro").textContent = `${partidas.length} jogo${partidas.length===1?"":"s"} • ${totalGols} gol${totalGols===1?"":"s"}`;
+        renderizarTabelaOverall(linhas);
+        renderizarTabelaJogadores(linhas);
+        renderizarTabelaTimes(partidas);
+        renderizarTabelaHistorico(partidas);
+      }
+
+      function renderizarNotasJogadores() {
+        const container = byId("listaNotasJogadores");
+        if (!container) return;
+        const jogadores = getJogadoresBancoOrdenados();
+        if (!jogadores.length) {
+          container.innerHTML = '<div class="empty-state">Nenhum jogador cadastrado ainda. Cadastre na aba Setup.</div>'; return;
+        }
+        container.innerHTML = `<div class="player-rating-row" style="background:transparent;border-color:transparent;font-size:0.72rem;font-weight:1000;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;padding:4px 12px;">
+          <span>Jogador</span><span style="text-align:center;">Marc.</span><span style="text-align:center;">Passes</span><span style="text-align:center;">Stam.</span>
+        </div>` + jogadores.map((jogador) => {
+          const chave = chaveNome(jogador);
+          const notas = state.notasJogadores[chave] || {};
+          const temNotas = NOTAS.includes(notas.marcacao)||NOTAS.includes(notas.passes)||NOTAS.includes(notas.stamina);
+          return `<div class="player-rating-row ${temNotas?"has-notes":""}" data-player-rating-key="${escaparHTML(chave)}">
+            <span class="player-rating-name">👟 ${escaparHTML(jogador)}</span>
+            <select class="player-rating-select" data-nota-field="marcacao" aria-label="Marcação de ${escaparHTML(jogador)}">${opcoesNotas(notas.marcacao||"",true)}</select>
+            <select class="player-rating-select" data-nota-field="passes" aria-label="Passes de ${escaparHTML(jogador)}">${opcoesNotas(notas.passes||"",true)}</select>
+            <select class="player-rating-select" data-nota-field="stamina" aria-label="Stamina de ${escaparHTML(jogador)}">${opcoesNotas(notas.stamina||"",true)}</select>
+          </div>`;
+        }).join("");
+        container.querySelectorAll("[data-player-rating-key]").forEach((row) => {
+          row.querySelectorAll("[data-nota-field]").forEach((sel) => {
+            sel.addEventListener("change", () => salvarNotaJogador(row));
+          });
+        });
+      }
+
+      function salvarNotaJogador(row) {
+        if (!usuarioAutenticado()) return;
+        const chave = row.dataset.playerRatingKey;
+        if (!chave) return;
+        const m = notaValida(row.querySelector('[data-nota-field="marcacao"]')?.value, true);
+        const p = notaValida(row.querySelector('[data-nota-field="passes"]')?.value, true);
+        const s = notaValida(row.querySelector('[data-nota-field="stamina"]')?.value, true);
+        state.notasJogadores[chave] = { marcacao:m, passes:p, stamina:s };
+        const temNotas = NOTAS.includes(m)||NOTAS.includes(p)||NOTAS.includes(s);
+        row.classList.toggle("has-notes", temNotas);
+        salvarComCloud();
+        renderizarTabelaOverall(obterHistoricoFiltrado());
+        mostrarToast("Notas salvas. Overall atualizado.");
+      }
+
+      function getNotasJogador(nome) { return state.notasJogadores[chaveNome(nome)]||{}; }
+
+      function calcularOverallJogador(nomeJogador, linhas) {
+        const notas = getNotasJogador(nomeJogador);
+        const marcacao = NOTA_VALORES[notaValida(notas.marcacao)]||NOTA_VALORES.C;
+        const passes = NOTA_VALORES[notaValida(notas.passes)]||NOTA_VALORES.C;
+        const stamina = NOTA_VALORES[notaValida(notas.stamina)]||NOTA_VALORES.C;
+        const mediaN = (marcacao+passes+stamina)/3;
+        const nc = chaveNome(nomeJogador);
+        let gols=0, assist=0;
+        const pSet = new Set();
+        linhas.forEach((l) => {
+          if (isGolValido(l.gol)&&chaveNome(l.gol)===nc) { gols++; if (l.idPartida) pSet.add(l.idPartida); }
+          if (isAssistenciaValida(l.assist)&&chaveNome(l.assist)===nc) { assist++; if (l.idPartida) pSet.add(l.idPartida); }
+        });
+        const contrib = Math.min(100, gols*12+assist*8);
+        return { overall: Math.round(mediaN*0.70+contrib*0.30), mediaNotas: Math.round(mediaN), gols, assist, jogos: pSet.size };
+      }
+
+      function renderizarTabelaOverall(linhas) {
+        const tbody = byId("tabelaOverall")?.querySelector("tbody");
+        if (!tbody) return;
+        const jogadores = getJogadoresBancoOrdenados();
+        if (!jogadores.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="7">Nenhum jogador cadastrado ainda.</td></tr>'; return; }
+        const lista = jogadores.map((n) => ({ nome:n, ...calcularOverallJogador(n, linhas) }))
+          .sort((a,b) => b.overall-a.overall||b.gols-a.gols||b.assist-a.assist||a.nome.localeCompare(b.nome,"pt-BR"));
+        const maxO = lista[0].overall;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.overall===maxO&&maxO>65?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td><span class="overall-score">${item.overall}</span></td>
+          <td>${item.jogos}</td><td>${item.gols}</td><td>${item.assist}</td><td>${item.mediaNotas}</td>
+        </tr>`).join("");
+      }
+
+      function renderizarTabelaJogadores(linhas) {
+        const stats = new Map();
+        linhas.forEach((d) => {
+          if (isGolValido(d.gol)) { if (!stats.has(d.gol)) stats.set(d.gol,{gols:0,assist:0,jogos:new Set()}); stats.get(d.gol).gols++; }
+          if (isAssistenciaValida(d.assist)) { if (!stats.has(d.assist)) stats.set(d.assist,{gols:0,assist:0,jogos:new Set()}); stats.get(d.assist).assist++; }
+        });
+        const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,gols:s.gols||0,assist:s.assist||0,jogos:s.jogos?s.jogos.size:0}))
+          .sort((a,b) => b.gols-a.gols||b.assist-a.assist||b.jogos-a.jogos||a.nome.localeCompare(b.nome,"pt-BR"));
+        const tbody = byId("tabelaJogadores").querySelector("tbody");
+        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="5">Nenhum gol ou assistência registrado neste filtro.</td></tr>'; return; }
+        const maxG = lista[0].gols;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.gols===maxG&&maxG>0?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td>${item.gols}</td><td>${item.assist}</td><td>${item.jogos||"—"}</td>
+        </tr>`).join("");
+      }
+
+      function renderizarTabelaTimes(partidas) {
+        const stats = new Map();
+        const ini = () => ({pts:0,j:0,v:0,e:0,d:0,gp:0,gc:0,sg:0});
+        partidas.forEach((j) => {
+          const a = j.nFantasia1||`Time ${j.t1}`, b = j.nFantasia2||`Time ${j.t2}`;
+          if (!stats.has(a)) stats.set(a,ini()); if (!stats.has(b)) stats.set(b,ini());
+          const sA=stats.get(a), sB=stats.get(b);
+          sA.j++; sB.j++; sA.gp+=j.g1; sA.gc+=j.g2; sB.gp+=j.g2; sB.gc+=j.g1;
+          if (j.g1>j.g2) { sA.v++; sA.pts+=3; sB.d++; }
+          else if (j.g2>j.g1) { sB.v++; sB.pts+=3; sA.d++; }
+          else { sA.e++; sB.e++; sA.pts++; sB.pts++; }
+        });
+        const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,...s,sg:s.gp-s.gc}))
+          .sort((a,b) => b.pts-a.pts||b.v-a.v||b.sg-a.sg||b.gp-a.gp||a.nome.localeCompare(b.nome,"pt-BR"));
+        const tbody = byId("tabelaTimes").querySelector("tbody");
+        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="10">Nenhum time com jogo salvo neste filtro.</td></tr>'; return; }
+        const maxP = lista[0].pts;
+        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.pts===maxP&&maxP>0?"leader":""}">
+          <td><span class="rank-cell">${i+1}</span></td>
+          <td><strong>${escaparHTML(item.nome)}</strong></td>
+          <td>${item.pts}</td><td>${item.j}</td><td>${item.v}</td><td>${item.e}</td><td>${item.d}</td><td>${item.gp}</td><td>${item.gc}</td><td>${item.sg}</td>
+        </tr>`).join("");
+      }
+
+      function renderizarTabelaHistorico(partidas) {
+        const tbody = byId("tabelaHistorico").querySelector("tbody");
+        if (!partidas.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="6">Nenhum jogo salvo ainda.</td></tr>'; return; }
+        tbody.innerHTML = partidas.map((j) => {
+          const gols = j.linhas.filter((l) => isGolValido(l.gol))
+            .map((l) => `${l.gol}${isAssistenciaValida(l.assist)?` (${l.assist})`:""}`).join(", ") || "—";
+          const podeEditar = usuarioAutenticado();
+          return `<tr>
+            <td>${escaparHTML(formatarData(j.data))}</td>
+            <td>${escaparHTML(j.nomeFut)}</td>
+            <td><strong>${escaparHTML(j.nFantasia1)} ${j.g1} × ${j.g2} ${escaparHTML(j.nFantasia2)}</strong></td>
+            <td>${escaparHTML(j.tempo)} min</td>
+            <td>${escaparHTML(gols)}</td>
+            <td>
+              <div class="table-actions">
+                <button class="table-action" type="button" data-edit-match="${escaparHTML(j.id)}" ${podeEditar?"":"disabled"}>Editar</button>
+                <button class="table-action danger" type="button" data-delete-match="${escaparHTML(j.id)}" ${podeEditar?"":"disabled"}>Apagar</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join("");
+        tbody.querySelectorAll("[data-edit-match]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            if (!usuarioAutenticado()) { exigirLogin(); return; }
+            abrirEditorJogo(btn.dataset.editMatch);
+          });
+        });
+        tbody.querySelectorAll("[data-delete-match]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            if (!usuarioAutenticado()) { exigirLogin(); return; }
+            apagarJogo(btn.dataset.deleteMatch);
+          });
+        });
+      }
+
+      // ─── EDIT MATCH ──────────────────────────────────────────────────────────
+
+      function getIdLinha(l) { return l.idPartida || chavePartida(l); }
+
+      function abrirEditorJogo(idPartida) {
+        const partida = getPartidaPorId(idPartida);
+        if (!partida) { mostrarToast("Não encontrei esse jogo para editar.", "warn"); return; }
+        jogoEditandoId = partida.id;
+        byId("editIdPartida").value = partida.id;
+        byId("editData").value = partida.data || hojeISO();
+        byId("editNomeFut").value = partida.nomeFut || "Fut Regular";
+        byId("editTempo").value = Math.max(1, parseInt(partida.tempo,10)||10);
+        byId("editT1").value = partida.t1||"A";
+        byId("editNomeTime1").value = partida.nFantasia1||`Time ${partida.t1||"A"}`;
+        byId("editGols1").value = Math.max(0, parseInt(partida.g1,10)||0);
+        byId("editT2").value = partida.t2||"B";
+        byId("editNomeTime2").value = partida.nFantasia2||`Time ${partida.t2||"B"}`;
+        byId("editGols2").value = Math.max(0, parseInt(partida.g2,10)||0);
+        const gols = partida.linhas.filter((l) => isGolValido(l.gol))
+          .map((l) => ({ timeGol:l.timeGol||"", gol:l.gol||"", assist:isAssistenciaValida(l.assist)?l.assist:"" }));
+        renderizarGolsEditor(gols);
+        byId("modalEditarJogo").hidden = false;
+        document.body.style.overflow = "hidden";
+      }
+
+      function fecharEditorJogo() {
+        jogoEditandoId = null;
+        byId("modalEditarJogo").hidden = true;
+        document.body.style.overflow = "";
+      }
+
+      function opcoesTimesEditor(va = "") {
+        const t1 = normalizarNome(byId("editT1")?.value)||"A";
+        const t2 = normalizarNome(byId("editT2")?.value)||"B";
+        const n1 = normalizarNome(byId("editNomeTime1")?.value)||`Time ${t1}`;
+        const n2 = normalizarNome(byId("editNomeTime2")?.value)||`Time ${t2}`;
+        return [{ valor:t1, nome:n1 },{ valor:t2, nome:n2 }]
+          .map((t) => `<option value="${escaparHTML(t.valor)}" ${t.valor===va?"selected":""}>${escaparHTML(t.nome)}</option>`).join("");
+      }
+
+      function renderizarGolsEditor(gols = []) {
+        const container = byId("editGolsLista");
+        if (!container) return;
+        if (!gols.length) { container.innerHTML = '<div class="empty-state">Nenhum gol cadastrado. Use "Adicionar gol" se o jogo teve gols.</div>'; return; }
+        container.innerHTML = gols.map((g, i) => `<div class="edit-goal-row" data-edit-goal-row="${i}">
+          <div><label>Gol para</label><select data-edit-goal-field="timeGol">${opcoesTimesEditor(g.timeGol)}</select></div>
+          <div><label>Autor do gol</label><input type="text" list="listaJogadoresDatalist" value="${escaparHTML(g.gol||"")}" data-edit-goal-field="gol" placeholder="Nome do jogador" /></div>
+          <div><label>Assistência</label><input type="text" list="listaJogadoresDatalist" value="${escaparHTML(g.assist||"")}" data-edit-goal-field="assist" placeholder="Sem assistência" /></div>
+          <button class="icon-button" type="button" aria-label="Remover gol" data-remove-edit-goal="${i}">×</button>
+        </div>`).join("");
+        container.querySelectorAll("[data-remove-edit-goal]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const ga = coletarGolsEditor();
+            ga.splice(Number(btn.dataset.removeEditGoal), 1);
+            renderizarGolsEditor(ga);
+          });
+        });
+      }
+
+      function coletarGolsEditor() {
+        return Array.from(byId("editGolsLista").querySelectorAll(".edit-goal-row")).map((row) => ({
+          timeGol: normalizarNome(row.querySelector('[data-edit-goal-field="timeGol"]')?.value),
+          gol: normalizarNome(row.querySelector('[data-edit-goal-field="gol"]')?.value),
+          assist: normalizarNome(row.querySelector('[data-edit-goal-field="assist"]')?.value)||"Nenhum"
+        })).filter((g) => isGolValido(g.gol));
+      }
+
+      function adicionarGolAoEditor() {
+        const ga = coletarGolsEditor();
+        ga.push({ timeGol: normalizarNome(byId("editT1").value)||"A", gol:"", assist:"" });
+        renderizarGolsEditor(ga);
+      }
+
+      function salvarEdicaoJogo() {
+        const idPartida = jogoEditandoId || byId("editIdPartida").value;
+        const partidaAnt = getPartidaPorId(idPartida);
+        if (!partidaAnt) { mostrarToast("Não encontrei esse jogo para salvar.", "warn"); return; }
+        const data = byId("editData").value || hojeISO();
+        const nomeFut = normalizarNome(byId("editNomeFut").value)||"Fut Regular";
+        const t1 = normalizarNome(byId("editT1").value)||partidaAnt.t1||"A";
+        const nF1 = normalizarNome(byId("editNomeTime1").value)||`Time ${t1}`;
+        const g1 = Math.max(0, parseInt(byId("editGols1").value,10)||0);
+        const t2 = normalizarNome(byId("editT2").value)||partidaAnt.t2||"B";
+        const nF2 = normalizarNome(byId("editNomeTime2").value)||`Time ${t2}`;
+        const g2 = Math.max(0, parseInt(byId("editGols2").value,10)||0);
+        const tempo = String(Math.max(1, parseInt(byId("editTempo").value,10)||10));
+        const gols = coletarGolsEditor();
+        const base = { idPartida, data, nomeFut, t1, nFantasia1:nF1, g1, t2, nFantasia2:nF2, g2, tempo };
+        state.historico = state.historico.filter((l) => getIdLinha(l) !== idPartida);
+        const novasL = gols.length ? gols : [{ timeGol:"", gol:"Nenhum", assist:"Nenhum" }];
+        novasL.forEach((g) => {
+          state.historico.push({ ...base, timeGol:g.timeGol||"", gol:normalizarNome(g.gol)||"Nenhum", assist:normalizarNome(g.assist)||"Nenhum" });
+          if (isGolValido(g.gol)) state.jogadores.add(g.gol);
+          if (isAssistenciaValida(g.assist)) state.jogadores.add(g.assist);
+        });
+        state.avaliacoes.forEach((a) => {
+          if (a.idPartida !== idPartida) return;
+          a.data = data; a.nomeFut = nomeFut; a.tempo = String(Math.max(0, parseInt(a.tempo||tempo,10)||parseInt(tempo,10)||0));
+          if (chaveNome(a.time) === chaveNome(t1)) a.nomeTime = nF1;
+          if (chaveNome(a.time) === chaveNome(t2)) a.nomeTime = nF2;
+        });
+        fecharEditorJogo(); atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
+        mostrarToast("Jogo editado com sucesso.");
+      }
+
+      function apagarJogo(idPartida) {
+        const partida = getPartidaPorId(idPartida);
+        if (!partida) return;
+        if (!confirm(`Apagar o jogo ${partida.nFantasia1} ${partida.g1} × ${partida.g2} ${partida.nFantasia2}? As avaliações desse jogo também serão removidas.`)) return;
+        state.historico = state.historico.filter((l) => getIdLinha(l) !== idPartida);
+        state.avaliacoes = state.avaliacoes.filter((a) => a.idPartida !== idPartida);
+        atualizarFiltrosData(); renderizarTudo(); salvarComCloud();
+        mostrarToast("Jogo apagado.");
+      }
+
+      // ─── METRICS ─────────────────────────────────────────────────────────────
+
+      function atualizarResumoTopo() {
+        const partidas = montarPartidas(state.historico);
+        const totalGols = partidas.reduce((s,j) => s+j.g1+j.g2, 0);
+        byId("mTotalJogos").textContent = partidas.length;
+        byId("mTotalGols").textContent = totalGols;
+        byId("mTotalJogadores").textContent = getJogadoresBancoOrdenados().length;
+      }
+
+      function atualizarStatusLocal() {
+        const totalAv = state.avaliacoes.length;
+        const origem = state.__cloudLoaded ? " • Vercel Blob" : " • cache local";
+        byId("statusLocal").textContent = state.historico.length || totalAv
+          ? `${state.historico.length} linha(s) de jogo • ${totalAv} avaliação(ões)${origem}`
+          : `Banco vazio${origem}`;
+      }
+
+      // ─── PERSISTENCE ─────────────────────────────────────────────────────────
+
+      function criarSnapshotPersistencia() {
+        state.config = {
+          data: byId("dataJogo")?.value || state.config.data || "",
+          nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+        };
+        return {
+          historico: state.historico,
+          avaliacoes: state.avaliacoes,
+          jogadores: getJogadoresBancoOrdenados(),
+          notasJogadores: state.notasJogadores,
+          escalacao: state.escalacao,
+          timesAtivos: state.timesAtivos,
+          golsDaPartida: state.golsDaPartida,
+          avaliacaoRascunho: state.avaliacaoRascunho,
+          config: state.config
+        };
+      }
+
+      async function carregarCloudStorage() {
+        try {
+          const r = await fetch("/api/state", { method:"GET", headers:{"Accept":"application/json"}, cache:"no-store" });
+          if (r.status === 404) return;
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const payload = await r.json();
+          if (!payload || !payload.data) return;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.data));
+          carregarLocalStorage();
+          state.__cloudLoaded = true;
+        } catch (err) {
+          console.warn("Vercel Blob indisponível; usando cache local.", err);
+        }
+      }
+
+      let salvarCloudTimer = null;
+      function salvarCloudStorageDebounced() {
+        window.clearTimeout(salvarCloudTimer);
+        salvarCloudTimer = window.setTimeout(salvarCloudStorageAgora, 15000);
+      }
+
+      async function salvarCloudStorageAgora() {
+        try {
+          const r = await fetch("/api/state", { method:"PUT", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ data: criarSnapshotPersistencia() }) });
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          state.__cloudLoaded = true; atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao sincronizar com Vercel Blob.", err);
+        }
+      }
+
+      function carregarLocalStorage() {
+        try {
+          let bruto = null;
+          for (const k of LEGACY_KEYS) { bruto = localStorage.getItem(k); if (bruto) break; }
+          if (!bruto) return;
+          const s = JSON.parse(bruto);
+          if (Array.isArray(s.historico)) state.historico = s.historico.map(normalizarLinhaHistorico);
+          if (Array.isArray(s.avaliacoes)) state.avaliacoes = s.avaliacoes.map(normalizarAvaliacao).filter((a) => a.jogador && !ehPlaceholderAntigo(a.jogador));
+          if (s.avaliacaoRascunho && typeof s.avaliacaoRascunho === "object") state.avaliacaoRascunho = s.avaliacaoRascunho;
+          if (Array.isArray(s.jogadores)) {
+            const jj = s.jogadores.map(normalizarNome).filter((n) => n && !ehPlaceholderAntigo(n));
+            state.jogadores = new Set(jj);
+          }
+          if (s.escalacao && typeof s.escalacao === "object") {
+            state.escalacao = criarEscalacaoVazia();
+            TEAM_IDS.forEach((id) => {
+              const t = s.escalacao[id]||{};
+              state.escalacao[id] = { nome: normalizarNome(t.nome)||`Time ${id}`, jogadores: Array.isArray(t.jogadores) ? unicos(t.jogadores).filter((n) => !ehPlaceholderAntigo(n)) : [] };
+            });
+          }
+          if (Array.isArray(s.timesAtivos)) state.timesAtivos = s.timesAtivos.filter((id) => TEAM_IDS.includes(id));
+          if (Array.isArray(s.golsDaPartida)) state.golsDaPartida = s.golsDaPartida.map((g) => ({ time:normalizarNome(g.time), autor:normalizarNome(g.autor), assist:normalizarNome(g.assist)||"Nenhum" })).filter((g) => g.autor && !ehPlaceholderAntigo(g.autor));
+          state.historico.forEach((l) => {
+            if (isGolValido(l.gol) && !ehPlaceholderAntigo(l.gol)) state.jogadores.add(l.gol);
+            if (isAssistenciaValida(l.assist) && !ehPlaceholderAntigo(l.assist)) state.jogadores.add(l.assist);
+          });
+          state.avaliacoes.forEach((a) => { if (a.jogador && !ehPlaceholderAntigo(a.jogador)) state.jogadores.add(a.jogador); });
+          state.timesAtivos = state.timesAtivos.filter((id) => { const t = state.escalacao[id]; return t && (t.jogadores.length>0 || t.nome!==`Time ${id}`); });
+          if (s.config && typeof s.config === "object") state.config = { data: normalizarNome(s.config.data), nomeFut: normalizarNome(s.config.nomeFut) };
+          if (s.notasJogadores && typeof s.notasJogadores === "object") state.notasJogadores = s.notasJogadores;
+        } catch (err) {
+          console.warn("Falha ao carregar dados locais", err);
+        }
+      }
+
+      function normalizarLinhaHistorico(d) {
+        const data = normalizarNome(d.data||d.Data)||hojeISO();
+        const nomeFut = normalizarNome(d.nomeFut||d["Nome do Fut"])||"Fut Regular";
+        const t1 = normalizarNome(d.t1||d["Time Mandante"])||"A";
+        const nF1 = normalizarNome(d.nFantasia1||d["Nome Fantasia Mandante"])||`Time ${t1}`;
+        const g1 = parseInt(d.g1??d["Gols Mandante"],10)||0;
+        const t2 = normalizarNome(d.t2||d["Time Visitante"])||"B";
+        const nF2 = normalizarNome(d.nFantasia2||d["Nome Fantasia Visitante"])||`Time ${t2}`;
+        const g2 = parseInt(d.g2??d["Gols Visitante"],10)||0;
+        const tempo = normalizarNome(d.tempo||d["Tempo Jogo"])||"10";
+        const baseSemId = [data,nomeFut,t1,nF1,g1,t2,nF2,g2,tempo].join("|");
+        return {
+          idPartida: normalizarNome(d.idPartida||d.id||d["Id da Partida"])||`AUTO-${hashString(baseSemId)}`,
+          data, nomeFut, t1, nFantasia1:nF1, g1, t2, nFantasia2:nF2, g2, tempo,
+          timeGol: normalizarNome(d.timeGol||d["Time do Gol"]),
+          gol: normalizarNome(d.gol||d["Autor do Gol"])||"Nenhum",
+          assist: normalizarNome(d.assist||d["Assistencia"]||d["Assistência"])||"Nenhum"
+        };
+      }
+
+      function normalizarAvaliacao(a) {
+        const idPartida = normalizarNome(a.idPartida||a.id||a["Id da Partida"]);
+        const jogador = normalizarNome(a.jogador||a["Jogador Avaliado"]||a.Jogador).replace(/^👟\s*/,"");
+        const time = normalizarNome(a.time||a["Time do Jogador"]||a["Time Jogador"]);
+        const marcacao = notaValida(a.marcacao||a["Nota Marcacao"]||a["Nota Marcação"],true);
+        const passes = notaValida(a.passes||a["Nota Passes"],true);
+        const stamina = notaValida(a.stamina||a["Nota Stamina"],true);
+        return {
+          idAvaliacao: normalizarNome(a.idAvaliacao||a["Id da Avaliacao"]||a["Id da Avaliação"])||`AVL-${hashString(`${idPartida}|${time}|${jogador}`)}`,
+          idPartida, data: normalizarNome(a.data||a.Data)||hojeISO(),
+          nomeFut: normalizarNome(a.nomeFut||a["Nome do Fut"])||"Fut Regular",
+          jogador, time, nomeTime: normalizarNome(a.nomeTime||a["Nome Time do Jogador"]||a["Nome Time Jogador"]),
+          tempo: String(Math.max(0, parseInt(a.tempo||a["Tempo Jogador"]||a["Tempo Jogado"],10)||0)),
+          marcacao, passes, stamina,
+          avaliado: Boolean(a.avaliado)||[marcacao,passes,stamina].some(Boolean)
+        };
+      }
+
+      function salvarLocalStorage() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          salvarCloudStorageDebounced();
+          atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva só no localStorage (sem acionar cloud) — para rascunhos/digitação
+      function salvarLocalSomente() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      // Salva localStorage + dispara cloud imediatamente — para ações críticas
+      function salvarComCloud() {
+        try {
+          state.config = {
+            data: byId("dataJogo")?.value || state.config.data || "",
+            nomeFut: normalizarNome(byId("nomeFutDia")?.value || state.config.nomeFut || "")
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(criarSnapshotPersistencia()));
+          atualizarStatusLocal();
+          salvarCloudStorageAgora();
+        } catch (err) {
+          console.warn("Falha ao salvar no navegador", err);
+        }
+      }
+
+      function limparDadosLocais() {
+        if (!confirm("Apagar histórico, jogadores, escalações e dados salvos neste navegador?")) return;
+        LEGACY_KEYS.forEach((k) => localStorage.removeItem(k));
+        state.historico = []; state.avaliacoes = [];
+        state.jogadores = new Set(); state.notasJogadores = {};
+        state.escalacao = criarEscalacaoVazia(); state.timesAtivos = [];
+        state.golsDaPartida = []; state.avaliacaoRascunho = {};
+        state.config = { data: hojeISO(), nomeFut: nomePadraoFutPorData(hojeISO()) };
+        preencherCamposIniciais(); renderizarTudo();
+        mostrarToast("Dados locais apagados.");
+      }
+
+      // ─── TOAST ───────────────────────────────────────────────────────────────
+
+      function mostrarToast(mensagem, tipo = "ok") {
+        const toast = byId("toast");
+        byId("toastTexto").textContent = mensagem;
+        toast.className = `toast show ${tipo}`;
+        window.clearTimeout(mostrarToast.timer);
+        mostrarToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2800);
+      }
+    })();
+  </script>
+</body>
+</html>
