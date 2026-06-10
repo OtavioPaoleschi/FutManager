@@ -1136,7 +1136,107 @@
 
     .history-table { min-width: 920px; }
 
-    /* Auth wall */
+    /* ── Mobile ranking cards (replaces tables for player/team lists) ── */
+    .rank-list { display: grid; gap: 8px; margin-top: 10px; }
+
+    .rank-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      min-width: 0;
+    }
+
+    .rank-row.is-leader {
+      border-color: rgba(54, 209, 107, 0.30);
+      background: rgba(54, 209, 107, 0.10);
+    }
+
+    .rank-row .rank-num {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 28px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      color: #07120d;
+      background: rgba(255, 255, 255, 0.82);
+      font-weight: 1000;
+      font-size: 0.82rem;
+    }
+
+    .rank-row.is-leader .rank-num { background: var(--orange); }
+
+    .rank-row .rank-name {
+      flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    .rank-chips {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .rank-chip {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 38px;
+      padding: 4px 7px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      font-size: 0.72rem;
+      line-height: 1.2;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .rank-chip strong {
+      font-size: 0.92rem;
+      font-weight: 1000;
+      letter-spacing: -0.03em;
+    }
+
+    .rank-chip.highlight {
+      background: rgba(54, 209, 107, 0.15);
+      border-color: rgba(54, 209, 107, 0.30);
+      color: #caffd6;
+    }
+
+    .rank-chip.highlight strong { color: #7dff9d; }
+
+    .rank-chip.overall-chip {
+      background: linear-gradient(135deg, rgba(54,209,107,0.25), rgba(54,209,107,0.10));
+      border-color: rgba(54, 209, 107, 0.40);
+      color: #caffd6;
+    }
+
+    .rank-chip.overall-chip strong { color: #7dff9d; font-size: 1rem; }
+
+    .rank-empty {
+      display: grid;
+      place-items: center;
+      min-height: 64px;
+      padding: 14px;
+      border: 1px dashed rgba(255,255,255,0.16);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.88rem;
+      margin-top: 10px;
+    }
     .auth-wall {
       display: grid;
       place-items: center;
@@ -1272,17 +1372,10 @@
             <div class="card-header">
               <div>
                 <h2 class="card-title">📊 Resumo rápido</h2>
-                <p class="card-subtitle">Artilharia e classificação do fut mais recente.</p>
+                <p class="card-subtitle">Artilharia acumulada de todos os futs.</p>
               </div>
             </div>
-            <div class="scroll-table">
-              <table id="tabelaJogadoresHome">
-                <thead>
-                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <div id="tabelaJogadoresHome"></div>
           </article>
         </div>
       </section>
@@ -1314,14 +1407,7 @@
             <div class="formula-box">
               Fórmula: 70% média das notas (marcação, passes, stamina) + 30% participação em gols e assistências. Notas: S=100, A=90, B=78, C=65, D=50, F=30.
             </div>
-            <div class="scroll-table">
-              <table id="tabelaOverall">
-                <thead>
-                  <tr><th>#</th><th>Jogador</th><th>Overall</th><th>Jogos</th><th>Gols</th><th>Assist.</th><th>Média notas</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <div id="tabelaOverall"></div>
           </article>
 
           <article class="card">
@@ -1331,14 +1417,7 @@
                 <p class="card-subtitle">Linhas em destaque indicam o líder do ranking filtrado.</p>
               </div>
             </div>
-            <div class="scroll-table">
-              <table id="tabelaJogadores">
-                <thead>
-                  <tr><th>#</th><th>Jogador</th><th>Gols</th><th>Assist.</th><th>Jogos</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <div id="tabelaJogadores"></div>
           </article>
 
           <article class="card">
@@ -1348,14 +1427,7 @@
                 <p class="card-subtitle">Pontuação: vitória 3 pts, empate 1 pt.</p>
               </div>
             </div>
-            <div class="scroll-table">
-              <table id="tabelaTimes">
-                <thead>
-                  <tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <div id="tabelaTimes"></div>
           </article>
 
           <article class="card">
@@ -2484,7 +2556,7 @@
           }
         }
 
-        // Resumo rápido — artilharia do fut mais recente (ou todas as datas)
+        // Resumo rápido — artilharia acumulada
         const linhas = state.historico;
         const stats = new Map();
         linhas.forEach((d) => {
@@ -2500,20 +2572,21 @@
         const lista = Array.from(stats.entries()).map(([nome, s]) => ({ nome, ...s }))
           .sort((a,b) => b.gols-a.gols || b.assist-a.assist || a.nome.localeCompare(b.nome,"pt-BR"))
           .slice(0, 10);
-        const tbody = byId("tabelaJogadoresHome")?.querySelector("tbody");
-        if (tbody) {
+        const homeEl = byId("tabelaJogadoresHome");
+        if (homeEl) {
           if (!lista.length) {
-            tbody.innerHTML = '<tr><td class="empty-table" colspan="4">Nenhum gol registrado ainda.</td></tr>';
+            homeEl.innerHTML = '<div class="rank-empty">Nenhum gol registrado ainda.</div>';
           } else {
             const maxG = lista[0].gols;
-            tbody.innerHTML = lista.map((item, i) => `
-              <tr class="${item.gols===maxG&&maxG>0?"leader":""}">
-                <td><span class="rank-cell">${i+1}</span></td>
-                <td><strong>${escaparHTML(item.nome)}</strong></td>
-                <td>${item.gols}</td>
-                <td>${item.assist}</td>
-              </tr>
-            `).join("");
+            homeEl.innerHTML = `<div class="rank-list">${lista.map((item, i) => `
+              <div class="rank-row ${item.gols===maxG&&maxG>0?"is-leader":""}">
+                <span class="rank-num">${i+1}</span>
+                <span class="rank-name">${escaparHTML(item.nome)}</span>
+                <div class="rank-chips">
+                  <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
+                  <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
+                </div>
+              </div>`).join("")}</div>`;
           }
         }
       }
@@ -2751,37 +2824,48 @@
       }
 
       function renderizarTabelaOverall(linhas) {
-        const tbody = byId("tabelaOverall")?.querySelector("tbody");
-        if (!tbody) return;
+        const el = byId("tabelaOverall");
+        if (!el) return;
         const jogadores = getJogadoresBancoOrdenados();
-        if (!jogadores.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="7">Nenhum jogador cadastrado ainda.</td></tr>'; return; }
+        if (!jogadores.length) { el.innerHTML = '<div class="rank-empty">Nenhum jogador cadastrado ainda.</div>'; return; }
         const lista = jogadores.map((n) => ({ nome:n, ...calcularOverallJogador(n, linhas) }))
           .sort((a,b) => b.overall-a.overall||b.gols-a.gols||b.assist-a.assist||a.nome.localeCompare(b.nome,"pt-BR"));
         const maxO = lista[0].overall;
-        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.overall===maxO&&maxO>65?"leader":""}">
-          <td><span class="rank-cell">${i+1}</span></td>
-          <td><strong>${escaparHTML(item.nome)}</strong></td>
-          <td><span class="overall-score">${item.overall}</span></td>
-          <td>${item.jogos}</td><td>${item.gols}</td><td>${item.assist}</td><td>${item.mediaNotas}</td>
-        </tr>`).join("");
+        el.innerHTML = `<div class="rank-list">${lista.map((item, i) => `
+          <div class="rank-row ${item.overall===maxO&&maxO>65?"is-leader":""}">
+            <span class="rank-num">${i+1}</span>
+            <span class="rank-name">${escaparHTML(item.nome)}</span>
+            <div class="rank-chips">
+              <div class="rank-chip overall-chip"><strong>${item.overall}</strong>overall</div>
+              <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
+              <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
+              <div class="rank-chip"><strong>${item.jogos}</strong>jogos</div>
+              <div class="rank-chip"><strong>${item.mediaNotas}</strong>notas</div>
+            </div>
+          </div>`).join("")}</div>`;
       }
 
       function renderizarTabelaJogadores(linhas) {
         const stats = new Map();
         linhas.forEach((d) => {
-          if (isGolValido(d.gol)) { if (!stats.has(d.gol)) stats.set(d.gol,{gols:0,assist:0,jogos:new Set()}); stats.get(d.gol).gols++; }
+          if (isGolValido(d.gol)) { if (!stats.has(d.gol)) stats.set(d.gol,{gols:0,assist:0,jogos:new Set()}); stats.get(d.gol).gols++; if (d.idPartida) stats.get(d.gol).jogos.add(d.idPartida); }
           if (isAssistenciaValida(d.assist)) { if (!stats.has(d.assist)) stats.set(d.assist,{gols:0,assist:0,jogos:new Set()}); stats.get(d.assist).assist++; }
         });
         const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,gols:s.gols||0,assist:s.assist||0,jogos:s.jogos?s.jogos.size:0}))
           .sort((a,b) => b.gols-a.gols||b.assist-a.assist||b.jogos-a.jogos||a.nome.localeCompare(b.nome,"pt-BR"));
-        const tbody = byId("tabelaJogadores").querySelector("tbody");
-        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="5">Nenhum gol ou assistência registrado neste filtro.</td></tr>'; return; }
+        const el = byId("tabelaJogadores");
+        if (!lista.length) { el.innerHTML = '<div class="rank-empty">Nenhum gol ou assistência registrado neste filtro.</div>'; return; }
         const maxG = lista[0].gols;
-        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.gols===maxG&&maxG>0?"leader":""}">
-          <td><span class="rank-cell">${i+1}</span></td>
-          <td><strong>${escaparHTML(item.nome)}</strong></td>
-          <td>${item.gols}</td><td>${item.assist}</td><td>${item.jogos||"—"}</td>
-        </tr>`).join("");
+        el.innerHTML = `<div class="rank-list">${lista.map((item, i) => `
+          <div class="rank-row ${item.gols===maxG&&maxG>0?"is-leader":""}">
+            <span class="rank-num">${i+1}</span>
+            <span class="rank-name">${escaparHTML(item.nome)}</span>
+            <div class="rank-chips">
+              <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
+              <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
+              <div class="rank-chip"><strong>${item.jogos||"—"}</strong>jogos</div>
+            </div>
+          </div>`).join("")}</div>`;
       }
 
       function renderizarTabelaTimes(partidas) {
@@ -2798,14 +2882,22 @@
         });
         const lista = Array.from(stats.entries()).map(([n,s]) => ({nome:n,...s,sg:s.gp-s.gc}))
           .sort((a,b) => b.pts-a.pts||b.v-a.v||b.sg-a.sg||b.gp-a.gp||a.nome.localeCompare(b.nome,"pt-BR"));
-        const tbody = byId("tabelaTimes").querySelector("tbody");
-        if (!lista.length) { tbody.innerHTML = '<tr><td class="empty-table" colspan="10">Nenhum time com jogo salvo neste filtro.</td></tr>'; return; }
+        const el = byId("tabelaTimes");
+        if (!lista.length) { el.innerHTML = '<div class="rank-empty">Nenhum time com jogo salvo neste filtro.</div>'; return; }
         const maxP = lista[0].pts;
-        tbody.innerHTML = lista.map((item, i) => `<tr class="${item.pts===maxP&&maxP>0?"leader":""}">
-          <td><span class="rank-cell">${i+1}</span></td>
-          <td><strong>${escaparHTML(item.nome)}</strong></td>
-          <td>${item.pts}</td><td>${item.j}</td><td>${item.v}</td><td>${item.e}</td><td>${item.d}</td><td>${item.gp}</td><td>${item.gc}</td><td>${item.sg}</td>
-        </tr>`).join("");
+        el.innerHTML = `<div class="rank-list">${lista.map((item, i) => `
+          <div class="rank-row ${item.pts===maxP&&maxP>0?"is-leader":""}">
+            <span class="rank-num">${i+1}</span>
+            <span class="rank-name">${escaparHTML(item.nome)}</span>
+            <div class="rank-chips">
+              <div class="rank-chip overall-chip"><strong>${item.pts}</strong>pts</div>
+              <div class="rank-chip"><strong>${item.j}</strong>J</div>
+              <div class="rank-chip highlight"><strong>${item.v}</strong>V</div>
+              <div class="rank-chip"><strong>${item.e}</strong>E</div>
+              <div class="rank-chip"><strong>${item.d}</strong>D</div>
+              <div class="rank-chip"><strong>${item.sg>0?"+":""+(item.sg)}</strong>SG</div>
+            </div>
+          </div>`).join("")}</div>`;
       }
 
       function renderizarTabelaHistorico(partidas) {
