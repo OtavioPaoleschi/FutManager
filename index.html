@@ -1142,10 +1142,10 @@
     .rank-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap: 8px;
+      padding: 8px 10px;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.05);
       min-width: 0;
     }
@@ -1158,14 +1158,14 @@
     .rank-row .rank-num {
       display: inline-grid;
       place-items: center;
-      flex: 0 0 28px;
-      width: 28px;
-      height: 28px;
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
       border-radius: 999px;
       color: #07120d;
       background: rgba(255, 255, 255, 0.82);
       font-weight: 1000;
-      font-size: 0.82rem;
+      font-size: 0.74rem;
     }
 
     .rank-row.is-leader .rank-num { background: var(--orange); }
@@ -1177,53 +1177,51 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       font-weight: 900;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
     }
 
     .rank-chips {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       flex-shrink: 0;
-      flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
     .rank-chip {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
-      min-width: 38px;
-      padding: 4px 7px;
-      border-radius: 12px;
+      width: 36px;
+      padding: 3px 2px;
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.09);
       border: 1px solid rgba(255, 255, 255, 0.10);
-      font-size: 0.72rem;
+      font-size: 0.60rem;
       line-height: 1.2;
       font-weight: 950;
       text-align: center;
+      color: var(--muted);
     }
 
     .rank-chip strong {
-      font-size: 0.92rem;
+      font-size: 0.82rem;
       font-weight: 1000;
       letter-spacing: -0.03em;
+      color: var(--text);
     }
 
     .rank-chip.highlight {
-      background: rgba(54, 209, 107, 0.15);
-      border-color: rgba(54, 209, 107, 0.30);
-      color: #caffd6;
+      background: rgba(54, 209, 107, 0.13);
+      border-color: rgba(54, 209, 107, 0.28);
     }
 
     .rank-chip.highlight strong { color: #7dff9d; }
 
     .rank-chip.overall-chip {
-      background: linear-gradient(135deg, rgba(54,209,107,0.25), rgba(54,209,107,0.10));
-      border-color: rgba(54, 209, 107, 0.40);
-      color: #caffd6;
+      background: linear-gradient(135deg, rgba(54,209,107,0.22), rgba(54,209,107,0.08));
+      border-color: rgba(54, 209, 107, 0.38);
     }
 
-    .rank-chip.overall-chip strong { color: #7dff9d; font-size: 1rem; }
+    .rank-chip.overall-chip strong { color: #7dff9d; font-size: 0.88rem; }
 
     .rank-empty {
       display: grid;
@@ -2583,8 +2581,8 @@
                 <span class="rank-num">${i+1}</span>
                 <span class="rank-name">${escaparHTML(item.nome)}</span>
                 <div class="rank-chips">
-                  <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
-                  <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
+                  <div class="rank-chip highlight"><strong>${item.gols}</strong>G</div>
+                  <div class="rank-chip"><strong>${item.assist}</strong>A</div>
                 </div>
               </div>`).join("")}</div>`;
           }
@@ -2836,11 +2834,10 @@
             <span class="rank-num">${i+1}</span>
             <span class="rank-name">${escaparHTML(item.nome)}</span>
             <div class="rank-chips">
-              <div class="rank-chip overall-chip"><strong>${item.overall}</strong>overall</div>
-              <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
-              <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
-              <div class="rank-chip"><strong>${item.jogos}</strong>jogos</div>
-              <div class="rank-chip"><strong>${item.mediaNotas}</strong>notas</div>
+              <div class="rank-chip overall-chip"><strong>${item.overall}</strong>O</div>
+              <div class="rank-chip highlight"><strong>${item.gols}</strong>G</div>
+              <div class="rank-chip"><strong>${item.assist}</strong>A</div>
+              <div class="rank-chip"><strong>${item.jogos}</strong>J</div>
             </div>
           </div>`).join("")}</div>`;
       }
@@ -2861,9 +2858,9 @@
             <span class="rank-num">${i+1}</span>
             <span class="rank-name">${escaparHTML(item.nome)}</span>
             <div class="rank-chips">
-              <div class="rank-chip highlight"><strong>${item.gols}</strong>gols</div>
-              <div class="rank-chip"><strong>${item.assist}</strong>ast.</div>
-              <div class="rank-chip"><strong>${item.jogos||"—"}</strong>jogos</div>
+              <div class="rank-chip highlight"><strong>${item.gols}</strong>G</div>
+              <div class="rank-chip"><strong>${item.assist}</strong>A</div>
+              <div class="rank-chip"><strong>${item.jogos||"—"}</strong>J</div>
             </div>
           </div>`).join("")}</div>`;
       }
@@ -2893,9 +2890,7 @@
               <div class="rank-chip overall-chip"><strong>${item.pts}</strong>pts</div>
               <div class="rank-chip"><strong>${item.j}</strong>J</div>
               <div class="rank-chip highlight"><strong>${item.v}</strong>V</div>
-              <div class="rank-chip"><strong>${item.e}</strong>E</div>
-              <div class="rank-chip"><strong>${item.d}</strong>D</div>
-              <div class="rank-chip"><strong>${item.sg>0?"+":""+(item.sg)}</strong>SG</div>
+              <div class="rank-chip"><strong>${item.sg>0?"+"+item.sg:item.sg}</strong>SG</div>
             </div>
           </div>`).join("")}</div>`;
       }
